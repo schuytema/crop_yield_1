@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
 <meta name="description" content="Helping America's farmers make better decisions, one field at a time." />
 <meta name="keywords" content="yield, crop, corn, beans, soybeans, field, agriculture" />
-<title>CropYield</title>
+<title>Grow Your Farm</title>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/style.css" />
 </head>
 

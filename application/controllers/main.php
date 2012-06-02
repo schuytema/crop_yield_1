@@ -80,12 +80,34 @@ class Main extends CI_Controller {
         $this->load->view('about');
         $this->load->view('footer');
     }
+    
+    function login()
+    {
+        $this->load->view('header');
+        $this->load->view('login');
+        $this->load->view('footer');
+    }
+    
+    function lost()
+    {
+        $this->load->view('header');
+        $this->load->view('lost');
+        $this->load->view('footer');
+    }
+    
+    function signup()
+    {
+        $this->load->view('header');
+        $this->load->view('signup');
+        $this->load->view('footer');
+    }
 
     function error(){
         $this->load->view('header');
         $this->load->view('error');
         $this->load->view('footer');
     }
+    
 
 }
 
