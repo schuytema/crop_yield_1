@@ -24,6 +24,8 @@
           <input type="password" name="Password">
           <label>Password (again)</label>
           <input type="password" name="Password2">
+          <label>Terms of Use</label>
+          &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="Terms">&nbsp;&nbspI have read and accepted the <a href="<?php echo base_url(); ?>main/terms" target="_blank">Terms of Use</a>
 	</fieldset>
 	<footer>
 	  <input type="submit" class="btnLogin" value="Sign Up" tabindex="4">

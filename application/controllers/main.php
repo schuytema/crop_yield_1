@@ -15,15 +15,16 @@ class Main extends CI_Controller {
 
     public function index()
     {
-        
+        $data['member'] = false;
         $this->load->view('header');
         $this->load->view('home');
-        $this->load->view('footer');
+        $this->load->view('footer',$data);
     }
 
 
     function contact()
     {
+        $data['member'] = false;
         $this->load->library('mail');
         $this->config->load('contact_data');
         $data['content'] = '';
@@ -63,53 +64,67 @@ class Main extends CI_Controller {
 
         $this->load->view('header');
         $this->load->view('contact',$data);
-        $this->load->view('footer');
+        $this->load->view('footer',$data);
 
     }
 
     function privacy()
     {
+        $data['member'] = false;
         $this->load->view('header');
         $this->load->view('privacy');
-        $this->load->view('footer');
+        $this->load->view('footer',$data);
+    }
+    
+    function terms()
+    {
+        $data['member'] = false;
+        $this->load->view('header');
+        $this->load->view('terms');
+        $this->load->view('footer',$data);
     }
 
     function about()
     {
+        $data['member'] = false;
         $this->load->view('header');
         $this->load->view('about');
-        $this->load->view('footer');
+        $this->load->view('footer',$data);
     }
     
     function login()
     {
+        $data['member'] = false;
         $this->load->view('header');
         $this->load->view('login');
-        $this->load->view('footer');
+        $this->load->view('footer',$data);
     }
     
     function lost()
     {
+        $data['member'] = false;
         $this->load->view('header');
         $this->load->view('lost');
-        $this->load->view('footer');
+        $this->load->view('footer',$data);
     }
     
     function signup()
     {
+        $data['member'] = false;
         $this->load->view('header');
         $this->load->view('signup');
-        $this->load->view('footer');
+        $this->load->view('footer',$data);
     }
 
     function error(){
+        $data['member'] = false;
         $this->load->view('header');
         $this->load->view('error');
-        $this->load->view('footer');
+        $this->load->view('footer',$data);
     }
     
 
 }
 
 /* End of file main.php */
-/* Location: ./system/application/controllers/main.php */
+/* Location: ./application/controllers/main.php */
