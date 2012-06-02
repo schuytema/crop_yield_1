@@ -1,7 +1,7 @@
 <div class="splitleft">
     <p><span class="style4">Login to Grow Your Farm 0.1a</span></p>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/reset.css" /> 
-    <form class="box login">
+    <form class="box login" action="<?php echo base_url(); ?>member/farm" method="POST">
 	<fieldset class="boxBody">
 	  <label>Username</label>
 	  <input type="text" tabindex="1" placeholder="Enter Your Username" required name="username">
