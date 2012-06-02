@@ -12,7 +12,7 @@
         <h3>My Farm</h3>
         <ul>
                 <li><a href="<?php echo base_url(); ?>member/farm">Overview</a></li>
-                <li><a href="#">Add Field</a></li>
+                <li><a href="<?php echo base_url(); ?>member/editfield">Add Field</a></li>
         </ul>
        <?php } ?>
 <br />

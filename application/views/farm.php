@@ -52,7 +52,7 @@
             <td width="150"><a href="#">details</a></td>
         </tr>
     </table>
-    <a href="#">{add new field}</a>
+    <a href="<?php echo base_url(); ?>member/editfield">{add new field}</a>
     <br><br>
 </div>
 

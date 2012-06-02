@@ -28,6 +28,14 @@ class Member extends CI_Controller {
         $this->load->view('farm');
         $this->load->view('footer',$data);
     }
+    
+    public function editfield($action='new')
+    {
+        $data['member'] = true;
+        $this->load->view('header');
+        $this->load->view('editfield');
+        $this->load->view('footer',$data);
+    }
 
 
     
