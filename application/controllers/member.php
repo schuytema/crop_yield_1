@@ -20,6 +20,14 @@ class Member extends CI_Controller {
         $this->load->view('home');
         $this->load->view('footer',$data);
     }
+    
+    public function farm()
+    {
+        $data['member'] = true;
+        $this->load->view('header');
+        $this->load->view('farm');
+        $this->load->view('footer',$data);
+    }
 
 
     

@@ -1,7 +1,7 @@
 <div class="splitleft">
     <p><span class="style4">Sign up to access Grow Your Farm 0.1a</span></p>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/reset.css" /> 
-    <form class="box signup">
+    <form class="box signup" action="<?php echo base_url(); ?>member/farm" method="POST">
 	<fieldset class="boxBody">
 	  <label>Name</label>
           <table border="0" align="center" cellspacing="0" cellpadding="0" width="420">
