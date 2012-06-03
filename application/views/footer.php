@@ -2,19 +2,27 @@
 <!-- Begin Page Menu  -->
 
    <div id="introduction"><br />
-       <h3>Account Access</h3>
-        <ul>
-                <li><a href="<?php echo base_url(); ?>main/login">Login</a></li>
-                <li><a href="<?php echo base_url(); ?>main/signup">Sign Up</a></li>
-        </ul>
-       <br>
-       <?php if ($member) {?>
-        <h3>My Farm</h3>
-        <ul>
-                <li><a href="<?php echo base_url(); ?>member/farm">Overview</a></li>
-                <li><a href="<?php echo base_url(); ?>member/editfield">Add Field</a></li>
-        </ul>
-       <?php } ?>
+   <?php    if ($member) 
+            {
+                echo '<h3>Account Access</h3>';
+                echo '<ul>';
+                echo '<li><a href="'.base_url().'">Logout</a></li>';
+                echo '</ul>';
+                echo '<br>';
+                echo '<h3>My Farm</h3>';
+                echo '<ul>';
+                echo '<li><a href="'.base_url().'member/farm">Overview</a></li>';
+                echo '<li><a href="'.base_url().'member/editfield">Add Field</a></li>';
+                echo '</ul>';
+            } else {
+                echo '<h3>Account Access</h3>';
+                echo '<ul>';
+                echo '<li><a href="'.base_url().'main/login">Login</a></li>';
+                echo '<li><a href="'.base_url().'main/signup">Sign Up</a></li>';
+                echo '</ul>';
+                
+            }
+    ?>
 <br />
 <br />
    <img src="<?php echo base_url(); ?>css/images/sm_logo2.jpg" alt="logo" width="165" height="97" /></div>

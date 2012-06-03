@@ -21,7 +21,7 @@ class Member extends CI_Controller {
         $this->load->view('footer',$data);
     }
     
-    public function farm()
+    public function farm($farm_id = 1)
     {
         $data['member'] = true;
         $this->load->view('header');
@@ -29,7 +29,47 @@ class Member extends CI_Controller {
         $this->load->view('footer',$data);
     }
     
-    public function editfield($action='new')
+    public function field($field_id = 1)
+    {
+        $data['member'] = true;
+        $this->load->view('header');
+        $this->load->view('field');
+        $this->load->view('footer',$data);
+    }
+    
+    public function event($event_id = 1)
+    {
+        $data['member'] = true;
+        $this->load->view('header');
+        $this->load->view('event');
+        $this->load->view('footer',$data);
+    }
+    
+    public function editaccount($user_id=1)
+    {
+        $data['member'] = true;
+        $this->load->view('header');
+        $this->load->view('editaccount');
+        $this->load->view('footer',$data);
+    }
+    
+    public function editfarm($farm_id=1)
+    {
+        $data['member'] = true;
+        $this->load->view('header');
+        $this->load->view('editfarm');
+        $this->load->view('footer',$data);
+    }
+    
+    public function editfield($farm_id=1, $action='new')
+    {
+        $data['member'] = true;
+        $this->load->view('header');
+        $this->load->view('editfield');
+        $this->load->view('footer',$data);
+    }
+    
+    public function editevent($field_id=1, $action='new')
     {
         $data['member'] = true;
         $this->load->view('header');
@@ -37,9 +77,6 @@ class Member extends CI_Controller {
         $this->load->view('footer',$data);
     }
 
-
-    
-    
 
 }
 

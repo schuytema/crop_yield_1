@@ -1,5 +1,5 @@
 <div class="splitleft">
-    <p><span class="style4">Sign up to access Grow Your Farm 0.1a</span></p>
+    <h1>Edit Your Basic Account Information</span</h3>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/reset.css" /> 
     <form class="box signup" action="<?php echo base_url(); ?>member/farm" method="POST">
 	<fieldset class="boxBody">
@@ -20,17 +20,15 @@
           <input type="text" name="Email">
           <label>Username</label>
           <input type="text" name="Username">
-          <label>Password</label>
+          <label>Existing Password</label>
           <input type="password" name="Password">
-          <label>Password (again)</label>
-          <input type="password" name="Password2">
-          <label>Invitation Key</label>
-          <input type="text" name="Key">
-          <label>Terms of Use</label>
-          &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="Terms">&nbsp;&nbspI have read and accepted the <a href="<?php echo base_url(); ?>main/terms" target="_blank">Terms of Use</a>
+          &nbsp;&nbsp;&nbsp;&nbsp;<label>New Password</label>
+          &nbsp;&nbsp;&nbsp;&nbsp;<input type="password" name="Password">
+          &nbsp;&nbsp;&nbsp;&nbsp;<label>New Password (again)</label>
+          &nbsp;&nbsp;&nbsp;&nbsp;<input type="password" name="Password2">
 	</fieldset>
 	<footer>
-	  <input type="submit" class="btnLogin" value="Sign Up" tabindex="4">
+	  <input type="submit" class="btnLogin" value="Submit" tabindex="4">
 	</footer>
     </form>
     
