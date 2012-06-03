@@ -1,5 +1,5 @@
 <div class="splitleft">
-    <p><span class="style4">Contact Us</span><br>
+    <h1>Contact Us</h1>
     <?php echo $content; ?>
     </p>
     <br>

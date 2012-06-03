@@ -1,5 +1,5 @@
 <div class="splitleft">
-    <p><span class="style4">Login to Grow Your Farm 0.1a</span></p>
+    <p><span class="style4">Login to Grow Your Fields 0.1a</span></p>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/reset.css" /> 
     <form class="box login" action="<?php echo base_url(); ?>member/farm" method="POST">
 	<fieldset class="boxBody">

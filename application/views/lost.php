@@ -1,5 +1,5 @@
 <div class="splitleft">
-    <p><span class="style4">Grow Your Farm 0.1a Password Reset</span></p>
+    <p><span class="style4">Grow Your Fields 0.1a Password Reset</span></p>
     <p>Forgot your password? Please enter your username and click Submit. A new password will be generated and sent to your contact email address.</p>
     <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/reset.css" /> 
     <form class="box lost">
