@@ -27,7 +27,7 @@
                       <b>Units:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left">
-                    <select>
+                    <select name="UserSizeUnit">
                         <option value="acres">acres</option>
                         <option value="sq. miles">sq. miles</option>
                     </select>

@@ -49,11 +49,11 @@ $active_group = 'default';
 $active_record = TRUE;
 
 if(ENVIRONMENT == 'development'){
-    $db['default']['hostname'] = "";
-    $db['default']['username'] = "";
-    $db['default']['password'] = "";
-    $db['default']['database'] = "";
-    $db['default']['dbdriver'] = "";
+    $db['default']['hostname'] = "localhost";
+    $db['default']['username'] = "cropyld";
+    $db['default']['password'] = "crop2012";
+    $db['default']['database'] = "cropyld_db";
+    $db['default']['dbdriver'] = "mysql";
     $db['default']['dbprefix'] = "";
     $db['default']['pconnect'] = TRUE;
     $db['default']['db_debug'] = TRUE;
@@ -67,11 +67,11 @@ if(ENVIRONMENT == 'development'){
     $db['default']['stricton'] = FALSE;    
 }
 elseif(ENVIRONMENT == 'production') {
-    $db['default']['hostname'] = "";
-    $db['default']['username'] = "";
-    $db['default']['password'] = "";
-    $db['default']['database'] = "";
-    $db['default']['dbdriver'] = "";
+    $db['default']['hostname'] = "localhost";
+    $db['default']['username'] = "cropyld";
+    $db['default']['password'] = "crop2012";
+    $db['default']['database'] = "cropyld_db";
+    $db['default']['dbdriver'] = "mysql";
     $db['default']['dbprefix'] = "";
     $db['default']['pconnect'] = TRUE;
     $db['default']['db_debug'] = FALSE;

@@ -13,7 +13,8 @@
 | path to your installation.
 |
 */
-$config['base_url'] = "http://63.247.138.178/~cropyld/";
+//$config['base_url'] = "http://63.247.138.178/~cropyld/";
+$config['base_url'] = "http://growyourfields.com/";
 
 //cookie
 $config['cookie_domain'] = '63.247.138.178';

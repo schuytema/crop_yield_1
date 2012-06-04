@@ -9,6 +9,7 @@ class Member extends CI_Controller {
         session_start();
         
         $this->load->helper('url');
+        $this->load->model('grow_fields');
     }
 
 
@@ -72,8 +73,11 @@ class Member extends CI_Controller {
     public function editevent($field_id=1, $action='new')
     {
         $data['member'] = true;
+        //this stuff is just for a first pass demo
+        $data['brands'] = $this->grow_fields->get_chemical_brands('Herbicide');
+        $data['products'] = $this->grow_fields->get_chemical_products('ACETO AGRI. CHEMICALS CORP.');
         $this->load->view('header');
-        $this->load->view('editfield');
+        $this->load->view('editevent',$data);
         $this->load->view('footer',$data);
     }
 
