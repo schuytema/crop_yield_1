@@ -21,16 +21,14 @@ polygon = new google.maps.Polygon({
     new google.maps.LatLng(40.885665,-90.700743),
     new google.maps.LatLng(40.885681,-90.696001),
     new google.maps.LatLng(40.878543,-90.696237),
-    new google.maps.LatLng(40.878672,-90.700786),
+    new google.maps.LatLng(40.878672,-90.700786)
     ],
     fillColor: '#ffff00',
     fillOpacity: .3,
     strokeWeight: 5,
     clickable: false,
     zIndex: 1,
-    editable: false,
+    editable: false
   });
   
 polygon.setMap(map);
-
-
