@@ -2,7 +2,7 @@
 <div class="splitleft">
     <h1>Edit Field (New)</h1>
     <h3>Field location</h3>
-    <p>Nick puts his Google polygon demo here.</p>
+    <div id="map_canvas"></div>
     <h3>Basic Field Data</h3>
     <form action="<?php echo base_url(); ?>member/farm" method="POST">
         <table  style="float:left;" width="510">
@@ -50,3 +50,5 @@
     <br><br>
 </div>
 
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=drawing"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>js/map_polygon.js"></script>
