@@ -2,7 +2,7 @@
 <div class="splitleft">
     <h1>Field Overview</h1>
     <h3>Field Map</h3>
-    Field polygon map goes here
+    <div id="map_canvas"></div>
     <h3>Field Information</h3>
         <blockquote>
             <b>Swallow Hills East</b><br>
@@ -41,4 +41,7 @@
     <a href="<?php echo base_url(); ?>member/editevent">{add new event}</a>
     <br><br>
 </div>
+
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="<?php echo base_url(); ?>js/load_map_polygon.js"></script>
 

@@ -25,7 +25,7 @@
     ?>
 <br />
 <br />
-   <img src="<?php echo base_url(); ?>css/images/sm_logo3.jpg" alt="logo" width="165" height="97" /></div>
+   <img src="<?php echo base_url(); ?>css/images/sm_logo4.jpg" alt="logo" width="165" height="97" /></div>
 
   
 </div>
@@ -35,7 +35,7 @@
 
 </div>
 <div id="footer">
-<span class="style5">copyright 2012 GrowYourFields.com | <a href="<?php echo base_url(); ?>main/privacy">Privacy Policy</a> | <a href="<?php echo base_url(); ?>main/terms">Terms of Use</a></span><br />
+<span class="style5">copyright 2012 GrowOurYields.com | <a href="<?php echo base_url(); ?>main/privacy">Privacy Policy</a> | <a href="<?php echo base_url(); ?>main/terms">Terms of Use</a></span><br />
 <br />
 </div>
 </div>
