@@ -23,19 +23,19 @@
             <td width="100">2012-03-12</td>
             <td width="100">Tillage</td>
             <td width="200">Dry soil and winds out of...</td>
-            <td width="150"><a href="<?php echo base_url(); ?>member/event">details</a></td>
+            <td width="150"><a href="<?php echo base_url(); ?>member/event">details</a>&nbsp;|&nbsp;<a href="#">delete</a></td>
         </tr>
         <tr>
             <td>2012-03-27</td>
             <td>Application</td>
             <td>Done a week later than...</td>
-            <td><a href="<?php echo base_url(); ?>member/event">details</a></td>
+            <td><a href="<?php echo base_url(); ?>member/event">details</a>&nbsp;|&nbsp;<a href="#">delete</a></td>
         </tr>
         <tr>
             <td>2012-05-18</td>
             <td>Planting</td>
             <td>Planter froze up on row...</td>
-            <td><a href="<?php echo base_url(); ?>member/event">details</a></td>
+            <td><a href="<?php echo base_url(); ?>member/event">details</a>&nbsp;|&nbsp;<a href="#">delete</a></td>
         </tr>
     </table>
     <a href="<?php echo base_url(); ?>member/editevent">{add new event}</a>

@@ -37,19 +37,19 @@
             <td width="250">Hartz Seven</td>
             <td width="100">7.5</td>
             <td width="100">3</td>
-            <td width="150"><a href="<?php echo base_url(); ?>member/field">details</a></td>
+            <td width="150"><a href="<?php echo base_url(); ?>member/field">details</a>&nbsp;|&nbsp;<a href="#">delete</a></td>
         </tr>
         <tr>
             <td>Swallow Hills back</td>
             <td>20</td>
             <td>3</td>
-            <td><a href="<?php echo base_url(); ?>member/field">details</a></td>
+            <td><a href="<?php echo base_url(); ?>member/field">details</a>&nbsp;|&nbsp;<a href="#">delete</a></td>
         </tr>
         <tr>
             <td>Swallow Hills east</td>
             <td>73</td>
             <td>2</td>
-            <td><a href="<?php echo base_url(); ?>member/field">details</a></td>
+            <td><a href="<?php echo base_url(); ?>member/field">details</a>&nbsp;|&nbsp;<a href="#">delete</a></td>
         </tr>
     </table>
     <a href="<?php echo base_url(); ?>member/editfield">{add new field}</a>

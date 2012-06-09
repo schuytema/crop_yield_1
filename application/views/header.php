@@ -16,7 +16,7 @@ if(isset($link_content)){
     echo $link_content;
 }
 ?>
-<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/style.css" />
+
 </head>
 
 <!-- Begin Body -->
