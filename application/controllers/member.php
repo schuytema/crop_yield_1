@@ -81,6 +81,8 @@ class Member extends CI_Controller {
     
     //example
     function linked_list(){
+        $data['member'] = true;
+        
         //@TODO: load all meta data (i.e. meta description & meta keywords, when applicable), css and js by the following methods:
         
         //utilize helpers to dynamically load css & js files (i.e. load only the resources we need)
