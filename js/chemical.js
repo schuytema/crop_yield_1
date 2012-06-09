@@ -48,6 +48,3 @@ $(document).ready(function(){
     });
     
 });
-
-
-
