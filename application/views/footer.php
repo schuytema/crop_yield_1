@@ -39,7 +39,16 @@
 <br />
 </div>
 </div>
-
+<?php
+//load js objects
+if(isset($js_object)){
+    echo $js_object;
+}
+//load javascript files
+if(isset($js)){
+    echo $js;
+}
+?>
 </body>
 
 </html>

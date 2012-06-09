@@ -4,10 +4,18 @@
 
 <head>
 <meta http-equiv="Content-Language" content="en-gb" />
-<meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
-<meta name="description" content="Helping America's farmers make better decisions, one field at a time." />
-<meta name="keywords" content="grow our yields, yield, crop, corn, beans, soybeans, field, agriculture" />
-<title>Grow Our Yields</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<?php
+if(isset($meta_content)){
+    echo $meta_content;
+}
+?>
+<title><?php if(isset($title)) { echo $title; } else { echo 'Grow Our Yields';} //@TODO: give each page a title ?></title>
+<?php
+if(isset($link_content)){
+    echo $link_content;
+}
+?>
 <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/style.css" />
 </head>
 

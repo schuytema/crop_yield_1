@@ -5,10 +5,7 @@ class Main extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-
-        session_start();
         
-        $this->load->helper('url');
     }
 
 
@@ -16,7 +13,15 @@ class Main extends CI_Controller {
     public function index()
     {
         $data['member'] = false;
-        $this->load->view('header');
+        
+        $data['meta_content'] = meta_content(
+            array(
+                array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
+                array('name'=>'keywords','content'=>'grow our yields, yield, crop, corn, beans, soybeans, field, agriculture')
+            )
+        );
+        
+        $this->load->view('header',$data);
         $this->load->view('home');
         $this->load->view('footer',$data);
     }
@@ -123,7 +128,7 @@ class Main extends CI_Controller {
         $this->load->view('footer',$data);
     }
     
-
+    
 }
 
 /* End of file main.php */
