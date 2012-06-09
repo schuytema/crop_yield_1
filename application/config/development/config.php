@@ -13,8 +13,9 @@
 | path to your installation.
 |
 */
-$config['base_url'] = "http://63.247.138.178/~cropyld/";
+//$config['base_url'] = "http://63.247.138.178/~cropyld/";
 //$config['base_url'] = "http://growyourfields.com/";
+$config['base_url'] = "http://growouryields.com/";
 
 //cookie
 $config['cookie_domain'] = '63.247.138.178';
@@ -23,8 +24,6 @@ $config['cookie_domain'] = '63.247.138.178';
 $config['jquery_js'] = 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js';
 $config['jquery_ui_js'] = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js';
 $config['jquery_ui_css'] = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css';
-$config['google_maps_api'] = 'http://maps.googleapis.com/maps/api/js?sensor=false';
-$config['google_maps_api_drawing'] = 'http://maps.googleapis.com/maps/api/js?sensor=true&libraries=drawing';
 
 //system email
 $config['alert_email'] = '';
