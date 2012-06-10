@@ -1,6 +1,11 @@
 <div class="splitleft">
     <p><span class="style4">Login to Grow Your Fields 0.1a</span></p>
-    <form class="box login" action="<?php echo base_url(); ?>member/farm" method="POST">
+    <?php
+    if($msg){
+        echo '<div class="error_msg">'.$msg.'</div>';
+    }
+    ?>
+    <form class="box login" action="<?php echo base_url(); ?>main/login" method="POST">
 	<fieldset class="boxBody">
 	  <label>Username</label>
 	  <input type="text" tabindex="1" placeholder="Enter Your Username" required name="username">

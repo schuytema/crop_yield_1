@@ -24,7 +24,7 @@ class m_user extends CI_Model{
     //update visit log; increase visit count by 1
     function update_visit($id,$count){
         //update record
-        $data = array('LastVisit' => now(),
+        $data = array('LastVisit' => date('Y-m-d H:i:s'),
             'VisitCount' => $count + 1,
             'FailedLoginCount' => 0
         );
@@ -68,6 +68,8 @@ class m_user extends CI_Model{
     //data cleaned from auth lib
     function create_user($data){
         $data['FirstVisit'] = date('Y-m-d H:i:s');
+        $data['FailedLoginCount'] = 0;
+        $data['IsEnabled'] = 1;
         if($this->db->insert('User',$data)) {
             return array('id' => $this->db->insert_id());
         }

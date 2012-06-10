@@ -28,6 +28,8 @@ class Auth {
     function Auth(){
         // Set the super object to a local variable for use throughout the class
         $this->CI =& get_instance();
+        
+        $this->CI->load->model('m_user');
     }
     
     // ------------------------------------------------------------------------
@@ -40,32 +42,34 @@ class Auth {
     * @return boolean
     */
     public function login($user,$pass){
-        $query = $this->CI->user->get_by_username($user);
-        if($query->num_rows()){
-            $row = $query->row();
-            //verify account is enabled
-            if(!$row->IsEnabled){
-                $this->error[] = 'The username or password you entered is not valid'; //Account locked!
-                return FALSE;
+        if((strlen($user) > 0) && (strlen($pass) > 0)){
+            $query = $this->CI->m_user->get_by_username($user);
+            if($query->num_rows()){
+                $row = $query->row();
+                //verify account is enabled
+                if(!$row->IsEnabled){
+                    $this->error[] = 'The username or password you entered is not valid'; //Account locked!
+                    return FALSE;
+                }
+
+                //verify password
+                if($this->check_password($pass,$row->Password)){
+                    //initialize data
+                    $arr = array();
+                    $arr['Auth'] = TRUE;
+                    $arr['FarmId'] = $row->FK_FarmId;
+                    $arr['UserId'] = $row->PK_UserId;
+                    $this->CI->php_session->set('AUTH_DATA',$arr);
+                    $this->CI->m_user->update_visit($row->PK_UserId,$row->VisitCount);
+                    return TRUE;
+                }
             }
-            
-            //verify password
-            if($this->check_password($pass,$row->Password)){
-                //initialize data
-                $arr = array();
-                $arr['Auth'] = TRUE;
-                $arr['FarmId'] = $row->FK_FarmId;
-                $arr['UserId'] = $row->PK_UserId;
-                $this->CI->php_session->set('AUTH_DATA',$arr);
-                $this->CI->user->update_visit($row->PK_UserId,$row->VisitCount);
-                return TRUE;
-            }
+            //failed login
+            $this->CI->m_user->failed_login($user,$this->lock_account);
+            $this->error[] = 'The username or password you entered is not valid';
+            return FALSE;
         }
-        //failed login
-        $this->CI->user->failed_login($user,$this->lock_account);
-        $this->error[] = 'The username or password you entered is not valid';
-        return FALSE;
-         
+        return FALSE; 
     }
     
     // ------------------------------------------------------------------------
@@ -83,8 +87,8 @@ class Auth {
     // ------------------------------------------------------------------------
     
     function check_password($password,$stored_hash){
-        $hash = crypt($password, $stored_hash);
-        $hash = hash_hmac('sha512',$hash,$this->CI->config->item('encryption_key'));
+        $hash = hash_hmac('sha512',$password,$this->CI->config->item('encryption_key'));
+        $hash = crypt($hash,$stored_hash);
         return $hash == $stored_hash;
     }
     
@@ -92,31 +96,29 @@ class Auth {
     
     function create_account(){
         //verify username, email do not exist
-        if($this->CI->m_user->does_username_exist($this->CI->input->item('Username'))){
+        if($this->CI->m_user->does_username_exist($this->CI->input->post('Username'))){
             $this->error[] = 'Username already exists. Please choose another username.';
             return FALSE;
         }
         
-        if($this->CI->m_user->does_email_exist($this->CI->input->item('Email'))){
+        if($this->CI->m_user->does_email_exist($this->CI->input->post('Email'))){
             $this->error[] = 'Email already exists. Please choose another email.';
             return FALSE;
         }
                 
         //generate password hash
-        $pass = $this->hash_password(db_clean($this->CI->input->item('Password')));
+        $pass = $this->hash_password(db_clean($this->CI->input->post('Password')));
         
         //create account
         $data = array(
             'FirstName' => db_clean($this->CI->input->post('First'),25),
             'LastName' => db_clean($this->CI->input->post('Last'),50),
             'Email' => db_clean($this->CI->input->post('Email'),100),
-            'FirstVisit' => date(),
-            'FailedLoginCount' => 0,
-            'IsEnabled' => 1,
             'Username' => db_clean($this->CI->input->post('Username'),100),
             'Password' => $pass
         );
-        if($this->CI->m_user->create_user($data)){
+        
+        if($arr = $this->CI->m_user->create_user($data)){
             //do something here
             return TRUE;
         }
@@ -142,11 +144,9 @@ class Auth {
     * @return string
     */
     function hash_password($password){
-        $hash = crypt($password, $this->gensalt_blowfish($this->get_random_bytes(16)));
-        
+        $hash = hash_hmac('sha512',$password,$this->CI->config->item('encryption_key'));
         //@TODO: check hash length??
-        
-        return hash_hmac('sha512',$hash,$this->CI->config->item('encryption_key'));
+        return crypt($hash, $this->gensalt_blowfish($this->random_byte_generator(16)));
     }
         
     // ------------------------------------------------------------------------
