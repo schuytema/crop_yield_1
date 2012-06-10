@@ -48,25 +48,21 @@ class Auth {
                 $row = $query->row();
                 //verify account is enabled
                 if(!$row->IsEnabled){
-                    $this->error[] = 'The username or password you entered is not valid'; //Account locked!
+                    $this->error[] = lang('auth_login_failed'); //Account locked!
                     return FALSE;
                 }
 
                 //verify password
                 if($this->check_password($pass,$row->Password)){
-                    //initialize data
-                    $arr = array();
-                    $arr['Auth'] = TRUE;
-                    $arr['FarmId'] = $row->FK_FarmId;
-                    $arr['UserId'] = $row->PK_UserId;
-                    $this->CI->php_session->set('AUTH_DATA',$arr);
+                    //set session for direct access to member's area
+                    $this->_set_session(array('PK_UserId' => $row->PK_UserId,'FK_FarmId' => $row->FK_FarmId));
                     $this->CI->m_user->update_visit($row->PK_UserId,$row->VisitCount);
                     return TRUE;
                 }
             }
             //failed login
             $this->CI->m_user->failed_login($user,$this->lock_account);
-            $this->error[] = 'The username or password you entered is not valid';
+            $this->error[] = lang('auth_login_failed');
             return FALSE;
         }
         return FALSE; 
@@ -97,12 +93,12 @@ class Auth {
     function create_account(){
         //verify username, email do not exist
         if($this->CI->m_user->does_username_exist($this->CI->input->post('Username'))){
-            $this->error[] = 'Username already exists. Please choose another username.';
+            $this->error[] = lang('auth_user_exists');
             return FALSE;
         }
         
         if($this->CI->m_user->does_email_exist($this->CI->input->post('Email'))){
-            $this->error[] = 'Email already exists. Please choose another email.';
+            $this->error[] = lang('auth_email_exists');
             return FALSE;
         }
                 
@@ -118,14 +114,20 @@ class Auth {
             'Password' => $pass
         );
         
-        if($arr = $this->CI->m_user->create_user($data)){
-            //do something here
+        if($val = $this->CI->m_user->create_user($data)){
+            //set session for direct access to member's area
+            $this->_set_session(array('PK_UserId' => $val,'FK_FarmId' => NULL));
+            
+            //send welcome message
+            $this->CI->load->library('mail');
+            $this->CI->mail->send_mail(array('message' => lang('auth_welcome_msg'),'subject' => lang('auth_welcome_subject'),'to_address' => $data['Email']));
+            
             return TRUE;
         }
         
         //something bad happened... log error
         log_message('error','Account creation failed!');
-        $this->error[] = 'Account creation failed. Please try again.';
+        $this->error[] = lang('auth_acct_failed');
         return FALSE;
     }
     
@@ -237,6 +239,15 @@ class Auth {
             }
         }
         return $error;
+    }
+    
+    function _set_session($data){
+        //initialize data
+        $arr = array();
+        $arr['Auth'] = TRUE;
+        $arr['UserId'] = $data['PK_UserId'];
+        $arr['FarmId'] = $data['FK_FarmId'];
+        $this->CI->php_session->set('AUTH',$arr);
     }
     
 }

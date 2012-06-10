@@ -6,9 +6,9 @@ class Main extends CI_Controller {
     {
         parent::__construct();
         
+        $this->lang->load('main');
+        $this->load->helper('language');
     }
-
-
 
     public function index()
     {
@@ -228,6 +228,11 @@ class Main extends CI_Controller {
     
     function signup()
     {
+        if($this->php_session->get('AUTH')){
+            //user is logged in; send to member's area
+            redirect('member/farm','refresh');
+        }
+        
         $data['msg'] = NULL;
         if($this->input->post('submit')){
             $this->load->library('Form_validation');

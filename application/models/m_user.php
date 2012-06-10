@@ -71,7 +71,7 @@ class m_user extends CI_Model{
         $data['FailedLoginCount'] = 0;
         $data['IsEnabled'] = 1;
         if($this->db->insert('User',$data)) {
-            return array('id' => $this->db->insert_id());
+            return $this->db->insert_id();
         }
         return FALSE;
     }
