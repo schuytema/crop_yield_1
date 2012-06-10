@@ -9,6 +9,9 @@ if ($_SERVER['SERVER_NAME'] == '63.247.138.178') {
 //software version
 $config['version'] = '0.0.1';
 
+//invitation key
+$config['invitation_key'] = 'CROP_2012';
+
 //load site environment config variables
 include(ENVIRONMENT.'/config.php');
 

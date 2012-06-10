@@ -17,7 +17,8 @@
 
 class Auth {
     var $lock_account = 5; //lock account at 5 consecutive, unsuccessful attempts
-    var $cost_param = 13; //two digit cost parameter (valid range: 04-31); base-2 logarithm of the iteration count for the underlying Blowfish-based hashing algorithm
+    private $cost_param = 13; //two digit cost parameter (valid range: 04-31); base-2 logarithm of the iteration count for the underlying Blowfish-based hashing algorithm
+    private $error = array();
     var $CI;
 
     /**
@@ -44,7 +45,7 @@ class Auth {
             $row = $query->row();
             //verify account is enabled
             if(!$row->IsEnabled){
-                $this->CI->cookie->set_flashdata('error','The username or password you entered is not valid'); //Account locked!
+                $this->error[] = 'The username or password you entered is not valid'; //Account locked!
                 return FALSE;
             }
             
@@ -62,7 +63,7 @@ class Auth {
         }
         //failed login
         $this->CI->user->failed_login($user,$this->lock_account);
-        $this->CI->cookie->set_flashdata('error','The username or password you entered is not valid');
+        $this->error[] = 'The username or password you entered is not valid';
         return FALSE;
          
     }
@@ -92,15 +93,15 @@ class Auth {
     function create_account(){
         //verify username, email do not exist
         if($this->CI->m_user->does_username_exist($this->CI->input->item('Username'))){
-            $this->CI->cookie->set_flashdata('error','Username already exists. Please choose another username.');
+            $this->error[] = 'Username already exists. Please choose another username.';
             return FALSE;
         }
         
         if($this->CI->m_user->does_email_exist($this->CI->input->item('Email'))){
-            $this->CI->cookie->set_flashdata('error','Email already exists. Please choose another email.');
+            $this->error[] = 'Email already exists. Please choose another email.';
             return FALSE;
         }
-        
+                
         //generate password hash
         $pass = $this->hash_password(db_clean($this->CI->input->item('Password')));
         
@@ -122,7 +123,7 @@ class Auth {
         
         //something bad happened... log error
         log_message('error','Account creation failed!');
-        $this->CI->cookie->set_flashdata('error','Account creation failed. Please try again.');
+        $this->error[] = 'Account creation failed. Please try again.';
         return FALSE;
     }
     
@@ -142,6 +143,9 @@ class Auth {
     */
     function hash_password($password){
         $hash = crypt($password, $this->gensalt_blowfish($this->get_random_bytes(16)));
+        
+        //@TODO: check hash length??
+        
         return hash_hmac('sha512',$hash,$this->CI->config->item('encryption_key'));
     }
         
@@ -221,6 +225,18 @@ class Auth {
         } while (1);
 
         return $output;
+    }
+    
+    function get_errors(){
+        $error = NULL;
+        if(count($this->error)){
+            foreach($this->error as $val){
+                if($val != ''){
+                    $error .= '<p>'.$val.'</p>';
+                }
+            }
+        }
+        return $error;
     }
     
 }

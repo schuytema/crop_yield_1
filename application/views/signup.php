@@ -1,7 +1,11 @@
 <div class="splitleft">
     <p><span class="style4">Sign up to access Grow Your Fields 0.1a</span></p>
-    <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>css/reset.css" /> 
-    <form class="box signup" action="<?php echo base_url(); ?>member/farm" method="POST">
+    <?php
+    if($msg){
+        echo '<div class="error_msg">'.$msg.'</div>';
+    }
+    ?>
+    <form class="box signup" action="<?php echo base_url(); ?>main/signup" method="POST">
 	<fieldset class="boxBody">
 	  <label>Name</label>
           <table border="0" align="center" cellspacing="0" cellpadding="0" width="420">
@@ -30,7 +34,7 @@
           &nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="Terms">&nbsp;&nbspI have read and accepted the <a href="<?php echo base_url(); ?>main/terms" target="_blank">Terms of Use</a>
 	</fieldset>
 	<footer>
-	  <input type="submit" class="btnLogin" value="Sign Up" tabindex="4">
+	  <input type="submit" name="submit" class="btnLogin" value="Sign Up" tabindex="4">
 	</footer>
     </form>
     
