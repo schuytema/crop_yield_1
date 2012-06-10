@@ -6,9 +6,6 @@ if ($_SERVER['SERVER_NAME'] == '63.247.138.178') {
     define('ENVIRONMENT', 'production');
 }
 
-//software version
-$config['version'] = '0.0.1';
-
 //invitation key
 $config['invitation_key'] = 'CROP_2012';
 

@@ -302,7 +302,6 @@ class Main extends CI_Controller {
         $this->load->view('footer',$data);
     }
     
-    
 }
 
 /* End of file main.php */

@@ -24,7 +24,7 @@ $config['jquery_ui_js'] = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/
 $config['jquery_ui_css'] = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css';
 
 //system email
-$config['alert_email'] = '';
+$config['sys_email'] = 'paul@schuytema.com';
 
 /*
 |---------------------------------------------------------------

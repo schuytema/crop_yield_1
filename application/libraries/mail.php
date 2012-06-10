@@ -1,7 +1,50 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
- 
 class Mail {
+    var $CI;
+    /**
+    * Constructor
+    *
+    * @access	public
+    */
+    public function __construct(){
+        // Set the super object to a local variable for use throughout the class
+        $this->CI =& get_instance();
+    }
+    
+    // --------------------------------------------------------------------
+
+    /**
+    * Send mail
+    *
+    * required attr: message,subject,to_address
+    *
+    * @access public
+    * @param array
+    * @return void
+    */
+    function send_mail($arr){
+        $this->CI->load->library('email');
+
+        //clear email vars
+        $this->CI->email->clear();
+        
+        if(isset($arr['message']) && isset($arr['subject']) && isset($arr['to_address'])){
+            $this->CI->email->from($this->CI->config->item('sys_email'), 'Grow Our Yields');
+            $this->CI->email->subject($arr['subject']);
+            $this->CI->email->message($arr['message']);
+            $this->CI->email->to($arr['to_address']);
+            
+            //send message; log errors
+            if(!$this->CI->email->send()){
+                //error occurred
+                log_message('error','Email transmission error: '.$this->CI->email->print_debugger());
+                return $this->CI->email->print_debugger();
+            }
+        } else {
+            log_message('error','Failed to send message: Message, Subject & To address required for valid email message.');
+        }
+    }
 
     function send_contact_email($sender_email, $sender_name, $sender_msg)
     {
