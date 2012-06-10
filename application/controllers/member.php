@@ -181,7 +181,230 @@ class Member extends CI_Controller {
         $this->load->view('footer',$data);
     }
     
-    public function editevent($field_id=1, $action='new')
+    public function editevent()
+    {
+        $data['member'] = true;
+        
+        $data['meta_content'] = meta_content(
+            array(
+                array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
+                array('name'=>'keywords','content'=>'grow our yields, yield, crop, corn, beans, soybeans, field, agriculture')
+            )
+        );
+        
+        $data['link_content'] = link_content(
+            array(
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
+            )
+        );
+        
+        $data['title'] = 'Grow Our Yields - Edit Event';
+        
+
+        $this->load->view('header',$data);
+        $this->load->view('editevent',$data);
+        $this->load->view('footer',$data);
+    }
+    
+    public function editevent_application()
+    {
+        $data['member'] = true;
+        
+        $data['meta_content'] = meta_content(
+            array(
+                array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
+                array('name'=>'keywords','content'=>'grow our yields, yield, crop, corn, beans, soybeans, field, agriculture')
+            )
+        );
+        
+        $data['link_content'] = link_content(
+            array(
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
+            )
+        );
+        
+        $data['title'] = 'Grow Our Yields - Edit Event Application';
+        
+        //this stuff is just for a first pass demo
+
+        $this->load->view('header',$data);
+        $this->load->view('editevent_application',$data);
+        $this->load->view('footer',$data);
+    }
+    
+    public function editevent_chemical()
+    {
+        $data['member'] = true;
+        
+        $data['meta_content'] = meta_content(
+            array(
+                array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
+                array('name'=>'keywords','content'=>'grow our yields, yield, crop, corn, beans, soybeans, field, agriculture')
+            )
+        );
+        
+        $data['link_content'] = link_content(
+            array(
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
+            )
+        );
+        
+        $data['title'] = 'Grow Our Yields - Edit Event Chemical';
+        
+        //js object builder
+        $data['js_object'] = js_object(
+            array(
+                'CI' => array('base_url' => base_url())
+            )
+        );
+                  
+        //js_helper: dynamically build <script> tags
+        $data['js'] = js_load(
+            array(
+                $this->config->item('jquery_js'),
+                base_url().'js/chemical.js'
+            )
+        );
+        
+        //get chemical type
+        $data['types'] = $this->m_chemical->get_type();
+
+        $this->load->view('header',$data);
+        $this->load->view('editevent_chemical',$data);
+        $this->load->view('footer',$data);
+    }
+    
+    public function editevent_fertilizer()
+    {
+        $data['member'] = true;
+        
+        $data['meta_content'] = meta_content(
+            array(
+                array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
+                array('name'=>'keywords','content'=>'grow our yields, yield, crop, corn, beans, soybeans, field, agriculture')
+            )
+        );
+        
+        $data['link_content'] = link_content(
+            array(
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
+            )
+        );
+        
+        $data['title'] = 'Grow Our Yields - Edit Event Fertilizer';
+        
+        //this stuff is just for a first pass demo
+
+        $this->load->view('header',$data);
+        $this->load->view('editevent_fertilizer',$data);
+        $this->load->view('footer',$data);
+    }
+    
+    public function editevent_harvest()
+    {
+        $data['member'] = true;
+        
+        $data['meta_content'] = meta_content(
+            array(
+                array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
+                array('name'=>'keywords','content'=>'grow our yields, yield, crop, corn, beans, soybeans, field, agriculture')
+            )
+        );
+        
+        $data['link_content'] = link_content(
+            array(
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
+            )
+        );
+        
+        $data['title'] = 'Grow Our Yields - Edit Event Harvest';
+        
+        //this stuff is just for a first pass demo
+
+        $this->load->view('header',$data);
+        $this->load->view('editevent_harvest',$data);
+        $this->load->view('footer',$data);
+    }
+    
+    public function editevent_plant()
+    {
+        $data['member'] = true;
+        
+        $data['meta_content'] = meta_content(
+            array(
+                array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
+                array('name'=>'keywords','content'=>'grow our yields, yield, crop, corn, beans, soybeans, field, agriculture')
+            )
+        );
+        
+        $data['link_content'] = link_content(
+            array(
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
+            )
+        );
+        
+        $data['title'] = 'Grow Our Yields - Edit Event Plant';
+        
+        //this stuff is just for a first pass demo
+
+        $this->load->view('header',$data);
+        $this->load->view('editevent_plant',$data);
+        $this->load->view('footer',$data);
+    }
+    
+    public function editevent_tillage()
+    {
+        $data['member'] = true;
+        
+        $data['meta_content'] = meta_content(
+            array(
+                array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
+                array('name'=>'keywords','content'=>'grow our yields, yield, crop, corn, beans, soybeans, field, agriculture')
+            )
+        );
+        
+        $data['link_content'] = link_content(
+            array(
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
+            )
+        );
+        
+        $data['title'] = 'Grow Our Yields - Edit Event Tillage';
+        
+        //this stuff is just for a first pass demo
+
+        $this->load->view('header',$data);
+        $this->load->view('editevent_tillage',$data);
+        $this->load->view('footer',$data);
+    }
+    
+    public function editevent_weather()
+    {
+        $data['member'] = true;
+        
+        $data['meta_content'] = meta_content(
+            array(
+                array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
+                array('name'=>'keywords','content'=>'grow our yields, yield, crop, corn, beans, soybeans, field, agriculture')
+            )
+        );
+        
+        $data['link_content'] = link_content(
+            array(
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
+            )
+        );
+        
+        $data['title'] = 'Grow Our Yields - Edit Event Weather';
+        
+        //this stuff is just for a first pass demo
+
+        $this->load->view('header',$data);
+        $this->load->view('editevent_weather',$data);
+        $this->load->view('footer',$data);
+    }
+    
+    public function editevent_org($field_id=1, $action='new')
     {
         $data['member'] = true;
         
@@ -204,7 +427,7 @@ class Member extends CI_Controller {
         $data['brands'] = $this->grow_fields->get_chemical_brands('Herbicide');
         $data['products'] = $this->grow_fields->get_chemical_products('ACETO AGRI. CHEMICALS CORP.');
         $this->load->view('header',$data);
-        $this->load->view('editevent',$data);
+        $this->load->view('editevent_org',$data);
         $this->load->view('footer',$data);
     }
     
