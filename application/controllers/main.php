@@ -204,7 +204,25 @@ class Main extends CI_Controller {
     
     function lost()
     {
+        if($this->php_session->get('AUTH')){
+            //user is logged in; send to member's area
+            redirect('member/farm','refresh');
+        }
+        
         $data['member'] = false;
+        
+        $data['msg'] = NULL;
+        $data['reset'] = NULL;
+        if($this->input->post('submit')){
+            $this->load->library('Form_validation');
+            $this->form_validation->set_rules('Email', 'Email', 'trim|required|max_length[100]|valid_email');
+            if($this->form_validation->run()){
+                $this->auth->forgot_password(trim($this->input->post('Email')));
+                $data['reset'] = TRUE;
+            } else {
+                $data['msg'] = validation_errors();
+            }
+        }
         
         $data['meta_content'] = meta_content(
             array(
@@ -215,11 +233,12 @@ class Main extends CI_Controller {
         
         $data['link_content'] = link_content(
             array(
-                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/reset.css')
             )
         );
         
-        $data['title'] = 'Grow Our Yields - Not Found';
+        $data['title'] = 'Grow Our Yields - Password Change';
         
         $this->load->view('header',$data);
         $this->load->view('lost');
@@ -284,6 +303,33 @@ class Main extends CI_Controller {
         $this->load->view('footer',$data);
     }
 
+    function pwr(){
+        $data['link_content'] = link_content(
+            array(
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/reset.css')
+            )
+        );
+        
+        //js object builder
+        $data['js_object'] = js_object(
+            array(
+                'CI' => array('base_url' => base_url())
+            )
+        );
+                  
+        //js_helper: dynamically build <script> tags
+        $data['js'] = js_load(
+            array(
+                $this->config->item('jquery_js')
+            )
+        );
+        
+        $data['member'] = false;
+        $this->load->view('header',$data);
+        $this->load->view('footer',$data);
+    }
+    
     function error(){
         $data['member'] = false;
         

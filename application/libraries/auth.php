@@ -133,6 +133,25 @@ class Auth {
     
     // ------------------------------------------------------------------------
     
+    function forgot_password($email){
+        //create password reset key
+        $key = md5(rand().microtime());
+        
+        $user_id = $this->CI->m_user->set_new_password_key($email,$key);
+        
+        //if email exists, continue
+        if($user_id){
+            $link = base_url().'main/pwr/'.$user_id.'/'.$key;
+
+            //send message
+            $this->CI->load->library('mail');
+            $msg = sprintf(lang('auth_forgot_pass_msg'),$link);
+            $this->CI->mail->send_mail(array('message' => $msg,'subject' => lang('auth_forgot_pass_subject'),'to_address' => $email));
+        }  
+    }
+    
+    // ------------------------------------------------------------------------
+    
     /**
     * Generate a password hash
     * - each user will have a unique salt

@@ -76,6 +76,25 @@ class m_user extends CI_Model{
         return FALSE;
     }
     
+    function set_new_password_key($email,$key){
+        //verify email address exists
+        $this->db->select('PK_UserId');
+        $this->db->where('LOWER(Email)=', strtolower(db_clean($email,100)));
+        $query = $this->db->get('User');
+        if(($query->num_rows())){
+            $row = $query->row();
+            //update record
+            $data = array(
+                'NewPasswordKey' => $key,
+                'NewPasswordRequest' => date('Y-m-d H:i:s')
+            );
+            $this->db->set($data);
+            $this->db->where('PK_UserId',$row->PK_UserId);
+            $this->db->update('User');
+            return $row->PK_UserId;
+        }
+        return FALSE;
+    }
 }
 /* End of file m_user.php */
 /* Location: ./application/models/m_user.php */
