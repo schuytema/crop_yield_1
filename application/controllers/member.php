@@ -5,7 +5,6 @@ class Member extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('grow_fields');
         
         $this->load->model('m_chemical');
     }
@@ -135,6 +134,40 @@ class Member extends CI_Controller {
     
     public function editfarm($farm_id=1)
     {
+        $this->load->helper('form');
+
+        $this->load->library('form_validation');
+        
+        $rules = array(
+            array(
+                    'field'   => 'Name', 
+                    'label'   => 'Farm Name', 
+                    'rules'   => 'required'
+                ),
+            array(
+                    'field'   => 'Address', 
+                    'label'   => 'Farm Address', 
+                    'rules'   => 'required'
+                ),
+            array(
+                    'field'   => 'City', 
+                    'label'   => 'City', 
+                    'rules'   => 'required'
+                ),   
+            array(
+                    'field'   => 'State', 
+                    'label'   => 'State', 
+                    'rules'   => 'required'
+                ),
+            array(
+                    'field'   => 'Zip', 
+                    'label'   => 'Zipcode', 
+                    'rules'   => 'required'
+                )
+        );
+
+        $this->form_validation->set_rules($rules);
+        
         $data['member'] = true;
         
         $data['meta_content'] = meta_content(
@@ -152,9 +185,23 @@ class Member extends CI_Controller {
         
         $data['title'] = 'Grow Our Yields - Edit Farm';
         
-        $this->load->view('header',$data);
-        $this->load->view('editfarm');
-        $this->load->view('footer',$data);
+        $data['action'] = current_url();
+        
+        if ($this->form_validation->run() == FALSE)
+        {
+            $this->load->view('header',$data);
+            $this->load->view('editfarm');
+            $this->load->view('footer',$data);
+        }
+        else
+        {
+            //handle the add or edit here
+            $this->load->view('header',$data);
+            $this->load->view('farm');
+            $this->load->view('footer',$data);
+        }
+        
+        
     }
     
     public function editfield($farm_id=1, $action='new')
@@ -219,15 +266,26 @@ class Member extends CI_Controller {
         
         $data['link_content'] = link_content(
             array(
-                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/calendar.css')
             )
         );
         
         $data['title'] = 'Grow Our Yields - Edit Event Application';
         
+        $data['event_type'] = 'Application';
+        
+        //js_helper: dynamically build <script> tags
+        $data['js'] = js_load(
+            array(
+                base_url().'js/calendar.js'
+            )
+        );
+        
         //this stuff is just for a first pass demo
 
         $this->load->view('header',$data);
+        $this->load->view('editevent_master',$data);
         $this->load->view('editevent_application',$data);
         $this->load->view('footer',$data);
     }
@@ -245,11 +303,14 @@ class Member extends CI_Controller {
         
         $data['link_content'] = link_content(
             array(
-                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/calendar.css')
             )
         );
         
         $data['title'] = 'Grow Our Yields - Edit Event Chemical';
+        
+        $data['event_type'] = 'Chemical';
         
         //js object builder
         $data['js_object'] = js_object(
@@ -262,7 +323,8 @@ class Member extends CI_Controller {
         $data['js'] = js_load(
             array(
                 $this->config->item('jquery_js'),
-                base_url().'js/chemical.js'
+                base_url().'js/chemical.js',
+                base_url().'js/calendar.js'
             )
         );
         
@@ -270,6 +332,7 @@ class Member extends CI_Controller {
         $data['types'] = $this->m_chemical->get_type();
 
         $this->load->view('header',$data);
+        $this->load->view('editevent_master',$data);
         $this->load->view('editevent_chemical',$data);
         $this->load->view('footer',$data);
     }
@@ -287,15 +350,26 @@ class Member extends CI_Controller {
         
         $data['link_content'] = link_content(
             array(
-                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/calendar.css')
             )
         );
         
         $data['title'] = 'Grow Our Yields - Edit Event Fertilizer';
         
+        $data['event_type'] = 'Fertilizer';
+        
+        //js_helper: dynamically build <script> tags
+        $data['js'] = js_load(
+            array(
+                base_url().'js/calendar.js'
+            )
+        );
+        
         //this stuff is just for a first pass demo
 
         $this->load->view('header',$data);
+        $this->load->view('editevent_master',$data);
         $this->load->view('editevent_fertilizer',$data);
         $this->load->view('footer',$data);
     }
@@ -313,15 +387,26 @@ class Member extends CI_Controller {
         
         $data['link_content'] = link_content(
             array(
-                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/calendar.css')
             )
         );
         
         $data['title'] = 'Grow Our Yields - Edit Event Harvest';
         
+        $data['event_type'] = 'Harvest';
+        
+        //js_helper: dynamically build <script> tags
+        $data['js'] = js_load(
+            array(
+                base_url().'js/calendar.js'
+            )
+        );
+        
         //this stuff is just for a first pass demo
 
         $this->load->view('header',$data);
+        $this->load->view('editevent_master',$data);
         $this->load->view('editevent_harvest',$data);
         $this->load->view('footer',$data);
     }
@@ -339,15 +424,26 @@ class Member extends CI_Controller {
         
         $data['link_content'] = link_content(
             array(
-                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/calendar.css')
             )
         );
         
         $data['title'] = 'Grow Our Yields - Edit Event Plant';
         
+        $data['event_type'] = 'Plant';
+        
+        //js_helper: dynamically build <script> tags
+        $data['js'] = js_load(
+            array(
+                base_url().'js/calendar.js'
+            )
+        );
+        
         //this stuff is just for a first pass demo
 
         $this->load->view('header',$data);
+        $this->load->view('editevent_master',$data);
         $this->load->view('editevent_plant',$data);
         $this->load->view('footer',$data);
     }
@@ -365,15 +461,26 @@ class Member extends CI_Controller {
         
         $data['link_content'] = link_content(
             array(
-                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/calendar.css')
             )
         );
         
         $data['title'] = 'Grow Our Yields - Edit Event Tillage';
         
+        $data['event_type'] = 'Tillage';
+        
+        //js_helper: dynamically build <script> tags
+        $data['js'] = js_load(
+            array(
+                base_url().'js/calendar.js'
+            )
+        );
+        
         //this stuff is just for a first pass demo
 
         $this->load->view('header',$data);
+        $this->load->view('editevent_master',$data);
         $this->load->view('editevent_tillage',$data);
         $this->load->view('footer',$data);
     }
@@ -391,45 +498,31 @@ class Member extends CI_Controller {
         
         $data['link_content'] = link_content(
             array(
-                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/calendar.css')
             )
         );
         
         $data['title'] = 'Grow Our Yields - Edit Event Weather';
         
+        $data['event_type'] = 'Weather';
+        
+        //js_helper: dynamically build <script> tags
+        $data['js'] = js_load(
+            array(
+                base_url().'js/calendar.js'
+            )
+        );
+        
         //this stuff is just for a first pass demo
 
         $this->load->view('header',$data);
+        $this->load->view('editevent_master',$data);
         $this->load->view('editevent_weather',$data);
         $this->load->view('footer',$data);
     }
     
-    public function editevent_org($field_id=1, $action='new')
-    {
-        $data['member'] = true;
-        
-        $data['meta_content'] = meta_content(
-            array(
-                array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
-                array('name'=>'keywords','content'=>'grow our yields, yield, crop, corn, beans, soybeans, field, agriculture')
-            )
-        );
-        
-        $data['link_content'] = link_content(
-            array(
-                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
-            )
-        );
-        
-        $data['title'] = 'Grow Our Yields - Edit Event';
-        
-        //this stuff is just for a first pass demo
-        $data['brands'] = $this->grow_fields->get_chemical_brands('Herbicide');
-        $data['products'] = $this->grow_fields->get_chemical_products('ACETO AGRI. CHEMICALS CORP.');
-        $this->load->view('header',$data);
-        $this->load->view('editevent_org',$data);
-        $this->load->view('footer',$data);
-    }
+
     
     //example
     function linked_list(){
