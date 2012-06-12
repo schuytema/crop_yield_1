@@ -5,11 +5,18 @@
     <div id="map_canvas"></div>
     <h3>Field Information</h3>
         <blockquote>
-            <b>Swallow Hills East</b><br>
-            73 acres (user)<br>
-            72.15 acres (calculated)<br>
-            Drainage effectiveness: 37%<br>
-            <a href="<?php echo base_url(); ?>member/editfield">{edit field information}</a>
+            <?php
+                if(isset($field) && $field->num_rows())
+                {
+                    $row = $field->row();
+                    echo '<b>'.$row->Name.'</b><br>';
+                    echo $row->UserSize.'&nbsp;'.$row->UserSizeUnit.' (user)<br>';
+                    echo 'Drainage Effectiveness:&nbsp;'.$row->PercentDrainageEffectiveness.'%<br>';
+                    echo '<a href="'.base_url().'member/editfield/'.$row->PK_FieldId.'">{edit field information}</a>';
+                } else {
+                    echo '<font color="red">No field data found.</font>';
+                }
+            ?>
         </blockquote>             
     <h3>Field Events</h3>
     <table  id="table-data" width="600">

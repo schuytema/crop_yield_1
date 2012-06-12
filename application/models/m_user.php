@@ -21,6 +21,12 @@ class m_user extends CI_Model{
         return $this->db->get('User');
     }
     
+    //get record by user id
+    function get_by_userid($user){
+        $this->db->where('PK_UserId',db_clean($user,100));
+        return $this->db->get('User');
+    }
+    
     //update visit log; increase visit count by 1
     function update_visit($id,$count){
         //update record

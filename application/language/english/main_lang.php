@@ -18,3 +18,10 @@ $lang['farm_new_title'] = 'Welcome to Grow Our Yields!';
 $lang['farm_new_desc'] = 'Before moving on, let\'s first create a farm record. Please complete the form below and you\'ll be on your way to adding field data.';
 $lang['farm_edit_title'] = 'Edit Farm';
 $lang['farm_edit_desc'] = 'Use this form to update your basic farm information.';
+
+
+//Add/Edit Field
+$lang['field_new_title'] = 'Enter New Field Information';
+$lang['field_new_desc'] = 'You can now create your new field\'s polygon and enter basic data to describe the size and drainage of your field.';
+$lang['field_edit_title'] = 'Edit Existing Field Information';
+$lang['field_edit_desc'] = 'Use this form to update this field\'s information.';

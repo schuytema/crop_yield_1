@@ -18,8 +18,12 @@ class Member extends CI_Controller {
         
         $this->load->model('m_chemical');
         $this->load->model('m_farm');
+        $this->load->model('m_field');
+        $this->load->model('m_event');
         $this->lang->load('main');
         $this->load->helper('language');
+        
+        //$this->output->enable_profiler(TRUE);
     }
 
     function logout(){
@@ -27,7 +31,7 @@ class Member extends CI_Controller {
         redirect('main/','refresh');
     }
     
-    public function farm($farm_id = 1)
+    public function farm()
     {
         $data['meta_content'] = meta_content(
             array(
@@ -44,12 +48,18 @@ class Member extends CI_Controller {
         
         $data['title'] = 'Grow Our Yields - Your Farm';
         
+        //get info for the field table
+        $auth_data = $this->php_session->get('AUTH');
+        $data['user_info'] = $this->m_user->get_by_userid($auth_data['UserId']);
+        $data['farm'] = $this->m_farm->get($auth_data['FarmId']);
+        $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
+        
         $this->load->view('header',$data);
         $this->load->view('farm');
         $this->load->view('footer',$data);
     }
     
-    public function field($field_id = 1)
+    public function field($field_id=NULL)
     {
         $data['meta_content'] = meta_content(
             array(
@@ -65,6 +75,12 @@ class Member extends CI_Controller {
         );
         
         $data['title'] = 'Grow Our Yields - Field View';
+        
+        //get info for the field data
+        if(isset($field_id))
+        {
+            $data['field'] = $this->m_field->get($field_id);
+        }
         
         $this->load->view('header',$data);
         $this->load->view('field');
@@ -168,8 +184,22 @@ class Member extends CI_Controller {
         $this->load->view('footer',$data);
     }
     
-    public function editfield($farm_id=1, $action='new')
+    public function editfield($field_id=NULL)
     {
+        $auth_data = $this->php_session->get('AUTH');
+        if($this->input->post('submit')){
+            $this->load->library('Form_validation');
+            $this->form_validation->set_rules('Name', 'Field Name', 'trim|required|max_length[100]');
+            $this->form_validation->set_rules('UserSize', 'Field Sizes', 'trim|required|max_length[11]');
+            $this->form_validation->set_rules('UserSizeUnit', 'Unit', 'trim|required|max_length[9]');
+            $this->form_validation->set_rules('PercentDrainageEffectiveness', 'Drainage', 'trim|required|max_length[7]');
+            if($this->form_validation->run()){
+                //send to db
+                $this->m_field->set($auth_data['FarmId']);
+                //redirect to overview
+                redirect('member/farm','refresh');
+            } 
+        }
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -183,7 +213,20 @@ class Member extends CI_Controller {
             )
         );
         
+        //load dropdown list
+        $this->load->config('edit_dropdowns');
+        
         $data['title'] = 'Grow Our Yields - Edit Field';
+        $data['page_title'] = lang('field_edit_title');
+        $data['desc'] = lang('field_edit_desc');
+        
+        
+        if(!isset($field_id)){ //field record does not exist; display first-time user info
+            $data['page_title'] = lang('field_new_title');
+            $data['desc'] = lang('field_new_desc');
+        } else {
+            $data['field_data'] = $this->m_field->get($field_id);
+        }
         
         $this->load->view('header',$data);
         $this->load->view('editfield');
@@ -468,6 +511,20 @@ class Member extends CI_Controller {
         $this->load->view('footer',$data);
     }
     
+    
+    function delete_field($field_id=NULL){   
+        $this->m_field->delete_field($field_id);   
+        $field_events = $this->m_event->get_field_events($field_id);
+        if($field_events->num_rows()){
+            $result = $field_events->result();
+            foreach($result AS $row)
+            {
+                //@TODO handle deletion for all child events of any found events
+                $this->m_event->delete_event($row->PK_EventId);
+            }
+        } 
+        redirect('member/farm','refresh');
+    }
 
     
     //example
