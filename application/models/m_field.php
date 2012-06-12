@@ -26,7 +26,7 @@ class m_field extends CI_Model{
         
         if(isset($field_id)){ //update
             $this->db->set($data);
-            $this->db->where('PK_Fieldd',id_clean($field_id));
+            $this->db->where('PK_FieldId',id_clean($field_id));
             $this->db->update('Field');
         } else { //create record (once per subscription)
             $this->db->set($data);
@@ -36,6 +36,17 @@ class m_field extends CI_Model{
     
     function get($id=NULL){
         return $this->db->get_where('Field',array('PK_FieldId' => id_clean($id)));
+    }
+    
+    function get_farm_id_from_field($id=NULL){
+        $farm_id = NULL;
+        $query = $this->db->get_where('Field',array('PK_FieldId' => id_clean($id)));
+        if($query->num_rows())
+        {
+            $row = $query->row();
+            $farm_id = $row->FK_FarmId;
+        }
+        return $farm_id;
     }
     
     //gets field info for overview

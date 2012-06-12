@@ -13,6 +13,7 @@
                 echo '<ul>';
                 echo '<li><a href="'.base_url().'member/farm">Overview</a></li>';
                 echo '<li><a href="'.base_url().'member/editfield">Add Field</a></li>';
+                echo '<li><a href="'.base_url().'member/editevent">Add Event</a></li>';
                 echo '</ul>';
             } else {
                 echo '<h3>Account Access</h3>';

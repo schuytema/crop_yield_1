@@ -53,14 +53,21 @@
                       <b>Your Fields:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left" width="310">
-                    <input type="checkbox" name="fields[]" value="1">Hartz Seven<br>
-                    <input type="checkbox" name="fields[]" value="2">Swallow Hills back<br>
-                    <input type="checkbox" name="fields[]" value="3" checked>Swallow Hills east 
+                    <?php
+                        if($fields->num_rows())
+                        {
+                            $result = $fields->result();
+                            foreach($result AS $row)
+                            {
+                                echo '<input type="checkbox" name="fields[]" value="'.$row->PK_FieldId.'">'.$row->Name.'<br>';
+                            }
+                        }
+                    ?>
                   </td>
                </tr>
           </table>
           <BR CLEAR=LEFT>
-          <br><br>
+          <br>
     
     
 
