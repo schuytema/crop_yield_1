@@ -1,8 +1,8 @@
 <div class="splitleft">
     <p><span class="style4">Grow Your Fields 0.1a Password Reset</span></p>
     <?php
-    if($msg){
-        echo '<div class="error_msg">'.$msg.'</div>';
+    if(validation_errors()){
+        echo '<div class="error_msg">'.validation_errors().'</div>';
     }
     
     if(!isset($reset)){

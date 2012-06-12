@@ -12,8 +12,6 @@ class Main extends CI_Controller {
 
     public function index()
     {
-        $data['member'] = false;
-        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -37,8 +35,6 @@ class Main extends CI_Controller {
 
     function contact()
     {
-        $data['member'] = false;
-        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -99,8 +95,6 @@ class Main extends CI_Controller {
 
     function privacy()
     {
-        $data['member'] = false;
-        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -123,8 +117,6 @@ class Main extends CI_Controller {
     
     function terms()
     {
-        $data['member'] = false;
-        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -147,8 +139,6 @@ class Main extends CI_Controller {
 
     function about()
     {
-        $data['member'] = false;
-        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -171,7 +161,6 @@ class Main extends CI_Controller {
     
     function login()
     {
-        $data['member'] = false;
         $data['msg'] = NULL;
         if($this->input->post('username')){
             if($this->auth->login(trim($this->input->post('username')),trim($this->input->post('password')))){
@@ -209,9 +198,6 @@ class Main extends CI_Controller {
             redirect('member/farm','refresh');
         }
         
-        $data['member'] = false;
-        
-        $data['msg'] = NULL;
         $data['reset'] = NULL;
         if($this->input->post('submit')){
             $this->load->library('Form_validation');
@@ -219,8 +205,6 @@ class Main extends CI_Controller {
             if($this->form_validation->run()){
                 $this->auth->forgot_password(trim($this->input->post('Email')));
                 $data['reset'] = TRUE;
-            } else {
-                $data['msg'] = validation_errors();
             }
         }
         
@@ -296,8 +280,6 @@ class Main extends CI_Controller {
             )
         );
         
-        $data['member'] = false;
-        
         $this->load->view('header',$data);
         $this->load->view('signup');
         $this->load->view('footer',$data);
@@ -325,14 +307,11 @@ class Main extends CI_Controller {
             )
         );
         
-        $data['member'] = false;
         $this->load->view('header',$data);
         $this->load->view('footer',$data);
     }
     
     function error(){
-        $data['member'] = false;
-        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),

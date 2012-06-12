@@ -2,7 +2,7 @@
 <!-- Begin Page Menu  -->
 
    <div id="introduction"><br />
-   <?php    if ($member) 
+   <?php    if ($this->php_session->get('AUTH')) 
             {
                 echo '<h3>Account Access</h3>';
                 echo '<ul>';

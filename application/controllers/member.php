@@ -5,20 +5,16 @@ class Member extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
-        
-        
+                
         if(!$this->php_session->get('AUTH')){
             redirect('main/login','refresh');
         }         
         
         //verify farm record exists; if not - send to farm form
-        /*
         $auth_data = $this->php_session->get('AUTH');
-        if(!isset($auth_data['FarmId']) && $this->router->method != 'editfarm'){
+        if(!isset($auth_data['FarmId']) && $this->router->method != 'editfarm' && $this->router->method != 'logout'){
             redirect('member/editfarm','refresh');
         }
-         * 
-         */
         
         $this->load->model('m_chemical');
         $this->load->model('m_farm');
@@ -33,14 +29,6 @@ class Member extends CI_Controller {
     
     public function farm($farm_id = 1)
     {
-        //verify farm record exists
-        $auth_data = $this->php_session->get('AUTH');
-        if(!isset($auth_data['FarmId'])){
-            redirect('member/editfarm','refresh');
-        }
-        
-        $data['member'] = true;
-        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -63,8 +51,6 @@ class Member extends CI_Controller {
     
     public function field($field_id = 1)
     {
-        $data['member'] = true;
-        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -87,8 +73,6 @@ class Member extends CI_Controller {
     
     public function event($event_id = 1)
     {
-        $data['member'] = true;
-        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -111,8 +95,6 @@ class Member extends CI_Controller {
     
     public function editaccount($user_id=1)
     {
-        $data['member'] = true;
-        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -180,8 +162,6 @@ class Member extends CI_Controller {
             $data['farm_data'] = $this->m_farm->get($auth_data['FarmId']);
         }
         
-        $data['member'] = true;
-        
         $this->load->view('header',$data);
         $this->load->view('editfarm');
         $this->load->view('footer',$data);
@@ -189,8 +169,6 @@ class Member extends CI_Controller {
     
     public function editfield($farm_id=1, $action='new')
     {
-        $data['member'] = true;
-        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -213,8 +191,6 @@ class Member extends CI_Controller {
     
     public function editevent()
     {
-        $data['member'] = true;
-        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -238,8 +214,6 @@ class Member extends CI_Controller {
     
     public function editevent_application()
     {
-        $data['member'] = true;
-        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -275,8 +249,6 @@ class Member extends CI_Controller {
     
     public function editevent_chemical()
     {
-        $data['member'] = true;
-        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -322,8 +294,6 @@ class Member extends CI_Controller {
     
     public function editevent_fertilizer()
     {
-        $data['member'] = true;
-        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -359,8 +329,6 @@ class Member extends CI_Controller {
     
     public function editevent_harvest()
     {
-        $data['member'] = true;
-        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -396,8 +364,6 @@ class Member extends CI_Controller {
     
     public function editevent_plant()
     {
-        $data['member'] = true;
-        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -433,8 +399,6 @@ class Member extends CI_Controller {
     
     public function editevent_tillage()
     {
-        $data['member'] = true;
-        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -470,8 +434,6 @@ class Member extends CI_Controller {
     
     public function editevent_weather()
     {
-        $data['member'] = true;
-        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -509,8 +471,6 @@ class Member extends CI_Controller {
     
     //example
     function linked_list(){
-        $data['member'] = true;
-        
         //@TODO: load all meta data (i.e. meta description & meta keywords, when applicable), css and js by the following methods:
         
         //utilize helpers to dynamically load css & js files (i.e. load only the resources we need)
