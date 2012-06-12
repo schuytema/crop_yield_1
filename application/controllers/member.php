@@ -5,39 +5,26 @@ class Member extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+        
+        if(!$this->php_session->get('AUTH')){
+            redirect('main/login','refresh');
+        }
+        
+        //verify farm record exists; if not - send to farm form
+        $auth_data = $this->php_session->get('AUTH');
+        if(!isset($auth_data['FarmId']) && $this->router->method != 'editfarm'){
+            redirect('member/editfarm','refresh');
+        }
+        
+                
         $this->load->model('grow_fields');
         
         $this->load->model('m_chemical');
     }
-
-
-
-    public function index()
-    {
-        $data['member'] = true;
-        
-        $data['meta_content'] = meta_content(
-            array(
-                array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
-                array('name'=>'keywords','content'=>'grow our yields, yield, crop, corn, beans, soybeans, field, agriculture')
-            )
-        );
-        
-        $data['link_content'] = link_content(
-            array(
-                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
-            )
-        );
-        
-        $data['title'] = 'Grow Our Yields - Welcome';
-        
-        $this->load->view('header',$data);
-        $this->load->view('home');
-        $this->load->view('footer',$data);
-    }
     
-    public function farm($farm_id = 1)
+    public function farm()
     {
+        
         $data['member'] = true;
         
         $data['meta_content'] = meta_content(
@@ -54,6 +41,7 @@ class Member extends CI_Controller {
         );
         
         $data['title'] = 'Grow Our Yields - Your Farm';
+        
         
         $this->load->view('header',$data);
         $this->load->view('farm');
@@ -137,6 +125,22 @@ class Member extends CI_Controller {
     {
         $data['member'] = true;
         
+        $auth_data = $this->php_session->get('AUTH');
+        $data['edit_mode'] = (isset($auth_data['FarmId'])) ? TRUE : FALSE;
+        //utilize lang file
+        $data['title'] = ($data['edit_mode']) ? 'Grow Our Yields - Edit Farm' : 'Grow Our Yields - Create Farm';
+        $data['page_title'] = ($data['edit_mode']) ? 'Edit Farm' : 'Create Farm';
+        $data['title'] = ($data['edit_mode']) ? 'Grow Our Yields - Edit Farm' : 'Grow Our Yields - Add Farm';
+        
+        
+        if($this->input->post('submit')){
+            //form validation
+            
+            //write to db
+            
+            //send to members homepage if successful; else re-populate form
+        }
+        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -150,7 +154,6 @@ class Member extends CI_Controller {
             )
         );
         
-        $data['title'] = 'Grow Our Yields - Edit Farm';
         
         $this->load->view('header',$data);
         $this->load->view('editfarm');
