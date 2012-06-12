@@ -9,11 +9,7 @@
     
     //check for edit
     if(isset($farm_data) && $farm_data->num_rows()){
-        $arr = array();
         $row = $farm_data->row();
-        foreach ($row AS $field => $val){
-            $arr[$field] = $val;
-        }
     }
       
     echo form_open('member/editfarm');
@@ -24,7 +20,7 @@
                       <b>Farm Name:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left" width="310">
-                      <input type="text" size="40" name="Name" value="<?php echo set_value('Name',(isset($arr['Name'])) ? $arr['Name'] : NULL); ?>">
+                      <input type="text" size="40" name="Name" value="<?php echo set_value('Name',(isset($row->Name)) ? $row->Name : NULL); ?>">
                   </td>
                </tr>
                <tr valign="top">
@@ -32,17 +28,17 @@
                       <b>Address:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left">
-                      <input type="text" size="50" name="Address" value="<?php echo set_value('Address',(isset($arr['Address'])) ? $arr['Address'] : NULL); ?>">
+                      <input type="text" size="50" name="Address" value="<?php echo set_value('Address',(isset($row->Address)) ? $row->Address : NULL); ?>">
                   </td>
                </tr>
                <tr valign="top">
                   <td align="right" colspan="2">
-                      <b>City:</b>&nbsp;&nbsp;<input type="text" size="20" name="City" value="<?php echo set_value('City',(isset($arr['City'])) ? $arr['City'] : NULL); ?>">&nbsp;&nbsp;<b>State:</b>&nbsp;&nbsp;<?php echo form_dropdown('State',$this->config->item('states'), set_value('State',(isset($arr['State'])) ? $arr['State'] : NULL));?>
+                      <b>City:</b>&nbsp;&nbsp;<input type="text" size="20" name="City" value="<?php echo set_value('City',(isset($row->City)) ? $row->City : NULL); ?>">&nbsp;&nbsp;<b>State:</b>&nbsp;&nbsp;<?php echo form_dropdown('State',$this->config->item('states'), set_value('State',(isset($row->State)) ? $row->State : NULL));?>
                   </td>
                </tr>
                <tr valign="top">
                   <td align="right" colspan="2">
-                      <b>Zip:</b>&nbsp;&nbsp;<input type="text" size="10" name="Zip" value="<?php echo set_value('Zip',(isset($arr['Zip'])) ? $arr['Zip'] : NULL); ?>">&nbsp;&nbsp;<b>Phone:</b>&nbsp;&nbsp;<input type="text" size="20" name="Phone" value="<?php echo set_value('Phone',(isset($arr['Phone'])) ? $arr['Phone'] : NULL); ?>">
+                      <b>Zip:</b>&nbsp;&nbsp;<input type="text" size="10" name="Zip" value="<?php echo set_value('Zip',(isset($row->Zip)) ? $row->Zip : NULL); ?>">&nbsp;&nbsp;<b>Phone:</b>&nbsp;&nbsp;<input type="text" size="20" name="Phone" value="<?php echo set_value('Phone',(isset($row->Phone)) ? $row->Phone : NULL); ?>">
                   </td>
                   
                </tr>

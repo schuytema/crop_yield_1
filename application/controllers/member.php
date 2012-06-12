@@ -120,12 +120,13 @@ class Member extends CI_Controller {
     {
         $auth_data = $this->php_session->get('AUTH');
         if($this->input->post('submit')){
-            $this->load->library('form_validation');
+            $this->load->library('Form_validation');
+            $this->load->library('MY_form_validation',NULL,'form_validation');
             $this->form_validation->set_rules('Name', 'Farm Name', 'trim|required|max_length[100]');
             $this->form_validation->set_rules('Address', 'Farm Address', 'trim|required|max_length[100]');
             $this->form_validation->set_rules('City', 'City', 'trim|required|max_length[50]');
             $this->form_validation->set_rules('State', 'State', 'trim|required');
-            $this->form_validation->set_rules('Zip', 'Zipcode', 'trim|required|max_length[5]');
+            $this->form_validation->set_rules('Zip', 'Zipcode', 'trim|required|check_zip_code');
             $this->form_validation->set_rules('Phone', 'Phone', 'trim|required|max_length[20]');
             if($this->form_validation->run()){
                 //send to db

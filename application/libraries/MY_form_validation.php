@@ -27,4 +27,14 @@ class MY_Form_validation extends CI_Form_validation {
         return TRUE;
     }
     
+    function check_zip_code($str){
+        $CI =& get_instance();
+        $code = preg_replace("/[\s|-]/", "", $str);
+        if (((strlen($code) != 5) && (strlen($code) != 9)) || !is_numeric($code)){
+            $CI->form_validation->set_message('check_zip_code', 'The Zip code value is not valid.');
+            return FALSE;
+        }
+        return TRUE;
+    }
+    
 }
