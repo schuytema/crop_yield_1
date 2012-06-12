@@ -6,7 +6,7 @@
             {
                 echo '<h3>Account Access</h3>';
                 echo '<ul>';
-                echo '<li><a href="'.base_url().'">Logout</a></li>';
+                echo '<li><a href="'.base_url().'member/logout">Logout</a></li>';
                 echo '</ul>';
                 echo '<br>';
                 echo '<h3>My Farm</h3>';

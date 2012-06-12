@@ -11,3 +11,10 @@ $lang['auth_login_failed'] = 'The username or password you entered is not valid.
 $lang['auth_forgot_pass_msg'] = 'Changing your password is simple. Please use the link below within 24 hours.'."\n\n".'%s'."\n\n".'Thank you,'."\n".'The Grow Our Yields Team';
 $lang['auth_forgot_pass_subject'] = 'Reset Your Grow Our Yields Password';
 $lang['auth_forgot_pass_reset_success'] = 'An email has been sent to the requested account with further information. If you do not receive an email then please confirm you have entered the same email address used during account signup.';
+
+
+//Add/Edit Farm
+$lang['farm_new_title'] = 'Welcome to Grow Our Yields!';
+$lang['farm_new_desc'] = 'Before moving on, let\'s first create a farm record. Please complete the form below and you\'ll be on your way to adding field data.';
+$lang['farm_edit_title'] = 'Edit Farm';
+$lang['farm_edit_desc'] = 'Use this form to update your basic farm information.';

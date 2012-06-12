@@ -95,6 +95,14 @@ class m_user extends CI_Model{
         }
         return FALSE;
     }
+    
+    //user created a new farm record; save foreign key
+    function set_farm_id($user_id,$farm_id){
+        $data = array('FK_FarmId' => $farm_id);
+        $this->db->set($data);
+        $this->db->where('PK_UserId',id_clean($user_id));
+        $this->db->update('User');
+    }
 }
 /* End of file m_user.php */
 /* Location: ./application/models/m_user.php */

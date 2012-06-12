@@ -423,6 +423,11 @@ background: #f5f5f5;
 background: #f5f5f5;
 }
 
+/*---------- error message -----------*/
+.error_msg{
+    color: red;
+}
+
 /* --------- google map canvas (draw polygon) -------------*/
 #map_canvas {
     height:400px;
