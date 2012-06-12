@@ -1,8 +1,8 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * Farm model
+ * Event model
  *
- * Model contains functions for field data
+ * Model contains functions for event data
  *
  * @package     CropYield
  * @subpackage	Models

@@ -20,6 +20,13 @@ class Member extends CI_Controller {
         $this->load->model('m_farm');
         $this->load->model('m_field');
         $this->load->model('m_event');
+        $this->load->model('m_eventapplication');
+        $this->load->model('m_eventchemical');
+        $this->load->model('m_eventfertilizer');
+        $this->load->model('m_eventharvest');
+        $this->load->model('m_eventplant');
+        $this->load->model('m_eventtillage');
+        $this->load->model('m_eventweather');
         $this->lang->load('main');
         $this->load->helper('language');
         
@@ -222,7 +229,6 @@ class Member extends CI_Controller {
                     $this->m_field->set($auth_data['FarmId'], $field_id);
                 } else {
                     $this->m_field->set($auth_data['FarmId']);
-                    echo 'field id!';
                 }
                 //redirect to overview
                 redirect('member/farm','refresh');
@@ -561,17 +567,9 @@ class Member extends CI_Controller {
     }
     
     
-    function delete_field($field_id=NULL){   
-        $this->m_field->delete_field($field_id);   
-        $field_events = $this->m_event->get_field_events($field_id);
-        if($field_events->num_rows()){
-            $result = $field_events->result();
-            foreach($result AS $row)
-            {
-                //@TODO handle deletion for all child events of any found events
-                $this->m_event->delete_event($row->PK_EventId);
-            }
-        } 
+    function delete_field($field_id=NULL){  
+        $this->load->library('event_manager');
+        $this->event_manager->delete_field_with_events($field_id);
         redirect('member/farm','refresh');
     }
 
