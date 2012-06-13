@@ -30,7 +30,7 @@ class m_eventchemical extends CI_Model{
     }
     
     
-    function delete_chemical_event($id=NULL)
+    function delete_chemical_event($event_id=NULL)
     {
         if(isset($event_id))
         {

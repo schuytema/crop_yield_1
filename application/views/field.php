@@ -19,9 +19,9 @@
             ?>
         </blockquote>             
     <h3>Field Events</h3>
-    <table  id="table-data" width="600">
+    <table  id="table-data" width="650">
         <thead>
-            <th width="100">Date</th>
+            <th width="150">Date</th>
             <th width="100">Event Type</th>
             <th width="200">Notes</th>
             <th width="150">Actions</th>
@@ -31,7 +31,7 @@
                 $result = $events->result();
                 foreach($result AS $row)
                 {
-                    echo '<tr>';
+                    echo '<tr valign="top">';
                     echo '<td>'.$row->Date.'</td>';
                     echo '<td>'.$row->EventType.'</td>';
                     echo '<td>'.$row->Notes.'</td>';

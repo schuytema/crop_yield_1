@@ -1,4 +1,11 @@
 <h4>Equipment Used</h4>
+
+<?php
+    //check for edit
+    if(isset($harvest_data) && $harvest_data->num_rows()){
+        $row = $harvest_data->row();
+    }
+    ?>
     
     <table  style="float:left;" width="510">
               <tr valign="top">
@@ -38,7 +45,7 @@
                       <b>Yield:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left" width="310">
-                      <input type="text" size="4" name="Yield">
+                      <input type="text" size="4" name="Yield" value="<?php echo set_value('Yield',(isset($row->Yield)) ? $row->Yield : NULL); ?>">
                   </td>
                </tr>
                <tr valign="top">
@@ -46,10 +53,9 @@
                       <b>Units:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left">
-                      <select name="YieldUnit">
-                        <option value="bu/acre">bu/acre</option>
-                        <option value="bu/sq. mile">bu/sq. mile</option>
-                      </select>
+                      <?php
+                      echo form_dropdown('YieldUnit', $this->config->item('yield_units'), set_value('YieldUnit',(isset($row->YieldUnit)) ? $row->YieldUnit : NULL));
+                      ?>
                   </td>
                </tr>
                <tr valign="top">
@@ -57,7 +63,8 @@
                       <b>Grain Test Weight:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left">
-                      <input type="text" size="4" name="GrainTestWeight">&nbsp;lbs/bu
+                      <input type="text" size="4" name="GrainTestWeight" value="<?php echo set_value('GrainTestWeight',(isset($row->GrainTestWeight)) ? $row->GrainTestWeight : NULL); ?>">&nbsp;lbs/bu
+                      <input type="hidden" name="GrainTestWeightUnit" value="lbs/bu">
                   </td>
                </tr>
                <tr valign="top">
@@ -65,7 +72,7 @@
                       <b>Percent Moisture:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left">
-                      <input type="text" size="3" name="PercentMoisture">&nbsp;%
+                      <input type="text" size="3" name="PercentMoisture" value="<?php echo set_value('PercentMoisture',(isset($row->PercentMoisture)) ? $row->PercentMoisture : NULL); ?>">&nbsp;%
                   </td>
                </tr>
           </table>
@@ -76,7 +83,7 @@
    
           
 	<footer>
-	  <input type="submit" class="btnLogin" value="Submit" tabindex="4">
+	  <input type="submit" name="submit" class="btnLogin" value="Submit" tabindex="4">
 	</footer>
     </form>
     <br><br>

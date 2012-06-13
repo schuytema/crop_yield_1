@@ -20,6 +20,27 @@ class m_eventharvest extends CI_Model{
         return $this->db->get_where('EventHarvest',array('FK_EventId' => id_clean($event_id)));
     }
     
+    function set($event_id=NULL, $new=true){
+        $data = array(
+            'FK_EquipmentId' => id_clean($event_id),
+            'Yield' => db_clean($this->input->post('Yield'),10),
+            'YieldUnit' => db_clean($this->input->post('YieldUnit'),10),
+            'GrainTestWeight' => db_clean($this->input->post('GrainTestWeight'),10),
+            'GrainTestWeightUnit' => db_clean($this->input->post('GrainTestWeightUnit'),10),
+            'PercentGrainMoisture' => db_clean($this->input->post('PercentGrainMoisture'),10),
+            'FK_EventId' => id_clean($event_id)
+        );
+
+        if(!$new){ //update  
+            $this->db->set($data);
+            $this->db->where('FK_EventId',id_clean($event_id));
+            $this->db->update('EventHarvest');
+        } else { //create record
+            //print_r($data);
+            $this->db->set($data);
+            $this->db->insert('EventHarvest');
+        }
+    }
     
     //gets event details matching a certain master event
     function get_harvest_event($event_id=NULL){
@@ -30,7 +51,7 @@ class m_eventharvest extends CI_Model{
     }
     
     
-    function delete_harvest_event($id=NULL)
+    function delete_harvest_event($event_id=NULL)
     {
         if(isset($event_id))
         {

@@ -1,4 +1,11 @@
    <h3>Event Fertilizer Details</h3>
+   
+   <?php
+    //check for edit
+    if(isset($fertilizer_data) && $fertilizer_data->num_rows()){
+        $row = $fertilizer_data->row();
+    }
+    ?>
        
         <table  style="float:left;" width="510">
               <tr valign="top">
@@ -6,7 +13,7 @@
                       <b>Percent N:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left" width="310">
-                      <input type="text" size="3" name="PercentN">&nbsp;%
+                      <input type="text" size="3" name="PercentN" value="<?php echo set_value('PercentN',(isset($row->PercentN)) ? $row->PercentN : NULL); ?>">&nbsp;%
                   </td>
                </tr>
                <tr valign="top">
@@ -14,7 +21,7 @@
                       <b>Percent P:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left">
-                      <input type="text" size="3" name="PercentP">&nbsp;%
+                      <input type="text" size="3" name="PercentP" value="<?php echo set_value('PercentP',(isset($row->PercentP)) ? $row->PercentP : NULL); ?>">&nbsp;%
                   </td>
                </tr>
                <tr valign="top">
@@ -22,7 +29,7 @@
                       <b>Percent K:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left">
-                      <input type="text" size="3" name="PercentK">&nbsp;%
+                      <input type="text" size="3" name="PercentK" value="<?php echo set_value('PercentK',(isset($row->PercentK)) ? $row->PercentK : NULL); ?>">&nbsp;%
                   </td>
                </tr>
                <tr valign="top">
@@ -30,7 +37,7 @@
                       <b>Application Rate:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left">
-                      <input type="text" size="10" name="ApplicationRate">
+                      <input type="text" size="10" name="ApplicationRate" value="<?php echo set_value('ApplicationRate',(isset($row->ApplicationRate)) ? $row->ApplicationRate : NULL); ?>">
                   </td>
                </tr>
                <tr valign="top">
@@ -38,10 +45,10 @@
                       <b>Units:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left">
-                      <select name="ApplicationRateUnit">
-                        <option value="lbs/acre">lbs/acre</option>
-                        <option value="lbs/sq. mile">lbs/sq. mile</option>
-                      </select>
+                      <?php
+                      //$options = array('lbs/acre','lbs/sq. mile');
+                      echo form_dropdown('ApplicationRateUnit', $this->config->item('application_units'), set_value('ApplicationRateUnit',(isset($row->ApplicationRateUnit)) ? $row->ApplicationRateUnit : NULL));
+                      ?>
                   </td>
                </tr>
           </table>
@@ -52,7 +59,7 @@
    
           
 	<footer>
-	  <input type="submit" class="btnLogin" value="Submit" tabindex="4">
+	  <input type="submit" name="submit" class="btnLogin" value="Submit" tabindex="4">
 	</footer>
     </form>
     <br><br>
