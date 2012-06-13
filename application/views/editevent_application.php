@@ -14,8 +14,8 @@
                   </td>
                   <td align="left" width="310">
                     <?php
-                      $options = array('Ammonia','Lime');
-                      echo form_dropdown('Product', $options, (isset($row->Product)) ? $row->Product : NULL);
+                      //$options = array('Ammonia','Lime');
+                      echo form_dropdown('Product', $this->config->item('application_product'), set_value('Product',(isset($row->Product)) ? $row->Product : NULL));
                     ?>
                   </td>
                </tr>
@@ -33,8 +33,8 @@
                   </td>
                   <td align="left">
                     <?php
-                      $options = array('lbs/acre','lbs/sq. mile');
-                      echo form_dropdown('ApplicationRateUnit', $options, (isset($row->ApplicationRateUnit)) ? $row->ApplicationRateUnit : NULL);
+                      //$options = array('lbs/acre','lbs/sq. mile');
+                      echo form_dropdown('ApplicationRateUnit', $this->config->item('application_units'), set_value('ApplicationRateUnit',(isset($row->ApplicationRateUnit)) ? $row->ApplicationRateUnit : NULL));
                     ?>
                   </td>
                </tr>

@@ -335,9 +335,9 @@ class Member extends CI_Controller {
             //first, set up for master event data
             $this->form_validation->set_rules('Date', 'Date', 'trim|required|max_length[20]');
             //then, set up for application data
-            $this->form_validation->set_rules('Product', 'Product', 'required');
+            //$this->form_validation->set_rules('Product', 'Product', 'required');
             $this->form_validation->set_rules('ApplicationRate', 'Application Rate', 'trim|required|decimal');
-            $this->form_validation->set_rules('ApplicationRateUnit', 'Units', 'required');
+            //$this->form_validation->set_rules('ApplicationRateUnit', 'Units', 'required');
 
             if($this->form_validation->run()){
                 //send to db
@@ -345,13 +345,15 @@ class Member extends CI_Controller {
                 if(isset($event_id))
                 {
                     $this->m_event->set($field_id, $event_id);
-                    $this->m_eventapplication->set($event_id);
+                    $new = false;
+                    $this->m_eventapplication->set($event_id, $new);
                 } else {
                     $fields = $this->event_manager->get_fields_from_event_form();
                     foreach ($fields as $field_id)
-                    {
-                        $event_id = $this->m_event->set($field_id);
-                        $this->m_eventapplication->set($event_id);
+                    { 
+                        $new_event_id = $this->m_event->set($field_id);
+                        $new = true;
+                        $this->m_eventapplication->set($new_event_id, $new);
                     }
                 }
                 //redirect to overview
@@ -374,6 +376,9 @@ class Member extends CI_Controller {
         );
         
         $data['title'] = 'Grow Our Yields - Edit Event Application';
+        
+        //load dropdown list
+        $this->load->config('edit_dropdowns');
         
         
         if(isset($event_id)){ 
