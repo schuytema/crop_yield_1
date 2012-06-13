@@ -285,17 +285,53 @@ class Member extends CI_Controller {
             )
         );
         
-        $data['title'] = 'Grow Our Yields - Edit Event';
-        
 
         $this->load->view('header',$data);
         $this->load->view('editevent',$data);
         $this->load->view('footer',$data);
     }
     
-    public function editevent_application()
+    public function editevent_application($event_id=NULL)
     {
         $auth_data = $this->php_session->get('AUTH');
+        $this->load->library('event_manager');
+        
+        //this isn't working right here - need to fix for an edit
+        if(isset($field_id))
+        {
+            $owning_farm = $this->m_field->get_farm_id_from_field($field_id);
+            if ($owning_farm != $auth_data['FarmId'])
+            {
+                redirect('member/farm','refresh');
+            }
+        }      
+        
+        if($this->input->post('submit')){
+            $this->load->library('Form_validation');
+            //first, set up for master event data
+            $this->form_validation->set_rules('Date', 'Date', 'trim|required|max_length[20]');
+
+            if($this->form_validation->run()){
+                //send to db
+                
+                if(isset($event_id))
+                {
+                    $field_id = 2;
+                    $this->m_event->set($field_id, $event_id);
+                    //application stuff goes here
+                } else {
+                    $fields = $this->event_manager->get_fields_from_event_form();
+                    foreach ($fields as $field_id)
+                    {
+                        $this->m_event->set($field_id);
+                        //application stuff goes here
+                    }
+                }
+                //redirect to overview
+                redirect('member/farm','refresh');
+            } 
+        }
+        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -312,6 +348,11 @@ class Member extends CI_Controller {
         
         $data['title'] = 'Grow Our Yields - Edit Event Application';
         
+        
+        if(isset($event_id)){ 
+            $data['event_data'] = $this->m_event->get($event_id);
+        }
+        
         $data['event_type'] = 'Application';
         
         //js_helper: dynamically build <script> tags
@@ -323,7 +364,7 @@ class Member extends CI_Controller {
         
         $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
         
-        //this stuff is just for a first pass demo
+        $data['action'] = current_url();
 
         $this->load->view('header',$data);
         $this->load->view('editevent_master',$data);
