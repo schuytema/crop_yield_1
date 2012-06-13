@@ -11,12 +11,12 @@
           <table border="0" align="center" cellspacing="0" cellpadding="0" width="420">
               <tr>
                   <td>
-                    <input type="text" name="First" value="<?php echo set_value('First'); ?>">
-                    <br>&nbsp;&nbsp;&nbsp;&nbsp;<font color="gray>">first</font>
+                    <input type="text" name="FirstName" value="<?php echo set_value('FirstName'); ?>">
+                    <br>&nbsp;&nbsp;&nbsp;&nbsp;<font color="gray">first</font>
                   </td>
                   <td>
-                     <input type="text" name="Last" value="<?php echo set_value('Last'); ?>">
-                     <br>&nbsp;&nbsp;&nbsp;&nbsp;<font color="gray>">last</font>
+                     <input type="text" name="LastName" value="<?php echo set_value('LastName'); ?>">
+                     <br>&nbsp;&nbsp;&nbsp;&nbsp;<font color="gray">last</font>
                   </td>
           </tr>
           </table>

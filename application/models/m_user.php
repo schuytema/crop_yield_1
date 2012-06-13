@@ -82,6 +82,13 @@ class m_user extends CI_Model{
         return FALSE;
     }
     
+    //data cleaned from auth lib
+    function update_user($id,$data){
+        $this->db->set($data);
+        $this->db->where('PK_UserId',$id);
+        $this->db->update('User');
+    }
+    
     function set_new_password_key($email,$key){
         //verify email address exists
         $this->db->select('PK_UserId');

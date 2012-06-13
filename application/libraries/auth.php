@@ -82,6 +82,18 @@ class Auth {
     
     // ------------------------------------------------------------------------
     
+    //user is attempting to change password; verify supplied password matches hash
+    function verify_password($password){
+        $auth_data = $this->CI->php_session->get('AUTH');
+        $query = $this->CI->m_user->get_by_userid($auth_data['UserId']);
+        if($query->num_rows()){
+            return $this->check_password($password,$query->row()->Password);
+        }
+        return FALSE;
+    }
+    
+    // ------------------------------------------------------------------------
+    
     function check_password($password,$stored_hash){
         $hash = hash_hmac('sha512',$password,$this->CI->config->item('encryption_key'));
         $hash = crypt($hash,$stored_hash);
@@ -91,6 +103,7 @@ class Auth {
     // ------------------------------------------------------------------------
     
     function create_account(){
+        /*
         //verify username, email do not exist
         if($this->CI->m_user->does_username_exist($this->CI->input->post('Username'))){
             $this->error[] = lang('auth_user_exists');
@@ -101,14 +114,16 @@ class Auth {
             $this->error[] = lang('auth_email_exists');
             return FALSE;
         }
+         * 
+         */
                 
         //generate password hash
         $pass = $this->hash_password(db_clean($this->CI->input->post('Password')));
         
         //create account
         $data = array(
-            'FirstName' => db_clean($this->CI->input->post('First'),25),
-            'LastName' => db_clean($this->CI->input->post('Last'),50),
+            'FirstName' => db_clean($this->CI->input->post('FirstName'),25),
+            'LastName' => db_clean($this->CI->input->post('LastName'),50),
             'Email' => db_clean($this->CI->input->post('Email'),100),
             'Username' => db_clean($this->CI->input->post('Username'),100),
             'Password' => $pass
@@ -278,13 +293,40 @@ class Auth {
     * @access public
     */
     public function update_session($arr=array()){
-        $auth = $this->CI->php_session->get('AUTH');
-        if(!empty($auth) && is_array($arr)){
+        $auth_data = $this->CI->php_session->get('AUTH');
+        if(!empty($auth_data) && is_array($arr)){
             foreach($arr AS $key => $val){
-                $auth[$key] = $val;
+                $auth_data[$key] = $val;
             }
-            $this->CI->php_session->set('AUTH',$auth);
+            $this->CI->php_session->set('AUTH',$auth_data);
         }
+    }
+    
+    // ------------------------------------------------------------------------
+    
+    //fields validated from form
+    //@TODO: more comments
+    function update_account(){
+        $auth_data = $this->CI->php_session->get('AUTH');
+        //required fields
+        $data = array(
+            'FirstName' => db_clean($this->CI->input->post('FirstName'),25),
+            'LastName' => db_clean($this->CI->input->post('LastName'),50)
+        );
+        
+        //optional fields
+        if($this->CI->input->post('Email')){
+            $data['Email'] = db_clean($this->CI->input->post('Email'),100);
+        }
+        if($this->CI->input->post('Username')){
+            $data['Username'] = db_clean($this->CI->input->post('Username'),100);
+        }
+        if($this->CI->input->post('Password')){
+            $data['Password'] = $this->hash_password(db_clean($this->CI->input->post('Password')));
+        }
+        
+        //update db
+        $this->CI->m_user->update_user($auth_data['UserId'],$data);
     }
     
 }

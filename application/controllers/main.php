@@ -240,10 +240,10 @@ class Main extends CI_Controller {
         if($this->input->post('submit')){
             $this->load->library('Form_validation');
             $this->load->library('MY_form_validation',NULL,'form_validation');
-            $this->form_validation->set_rules('First', 'First Name', 'trim|required|max_length[25]');
-            $this->form_validation->set_rules('Last', 'Last Name', 'trim|required|max_length[50]');
-            $this->form_validation->set_rules('Email', 'Email', 'trim|required|max_length[100]|valid_email');
-            $this->form_validation->set_rules('Username', 'Username', 'trim|required|max_length[100]');
+            $this->form_validation->set_rules('FirstName', 'First Name', 'trim|required|max_length[25]');
+            $this->form_validation->set_rules('LastName', 'Last Name', 'trim|required|max_length[50]');
+            $this->form_validation->set_rules('Email', 'Email', 'trim|required|max_length[100]|valid_email|check_email');
+            $this->form_validation->set_rules('Username', 'Username', 'trim|required|min_length[3]|max_length[100]|check_username');
             $this->form_validation->set_rules('Password', 'Password', 'trim|required|min_length[8]|max_length[50]|matches[Password2]|is_legal_password');
             $this->form_validation->set_rules('Password2', 'Password (again)', 'trim|required');
             $this->form_validation->set_rules('Key', 'Invitation Key', 'trim|required|check_verification');
