@@ -99,7 +99,10 @@ class Member extends CI_Controller {
         if(isset($field_id))
         {
             $data['field'] = $this->m_field->get($field_id);
+            $data['events'] = $this->m_event->get_field_events($field_id);
         }
+        
+        
         
         $this->load->view('header',$data);
         $this->load->view('field');
@@ -635,6 +638,12 @@ class Member extends CI_Controller {
     function delete_field($field_id=NULL){  
         $this->load->library('event_manager');
         $this->event_manager->delete_field_with_events($field_id);
+        redirect('member/farm','refresh');
+    }
+    
+    function delete_event($event_id=NULL){  
+        $this->load->library('event_manager');
+        $this->event_manager->delete_event($event_id);
         redirect('member/farm','refresh');
     }
 

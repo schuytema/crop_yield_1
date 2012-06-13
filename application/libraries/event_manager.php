@@ -91,6 +91,74 @@ class event_manager {
         $this->CI->db->trans_complete();
      }
      
+    function delete_event($event_id=NULL)
+    {
+        $this->CI->db->trans_start();
+        $event = $this->CI->m_event->get($event_id);
+        if($event->num_rows()){
+            $result = $event->result();
+            foreach($result AS $row)
+            {
+                switch ($row->EventType)
+                {
+                    case 'Application':
+                        //remove application event - there can be only one per master event
+                        $application = $this->CI->m_eventapplication->get_application_event($row->PK_EventId);
+                        if($application->num_rows()){
+                            $this->CI->m_eventapplication->delete_application_event($row->PK_EventId);
+                        }
+                    break;
+                    case 'Chemical':
+                        //remove chemical event - there can be only one per master event
+                        $chemical = $this->CI->m_eventchemical->get_chemical_event($row->PK_EventId);
+                        if($chemical->num_rows()){
+                            $this->CI->m_eventchemical->delete_chemical_event($row->PK_EventId);
+                        }
+                    break;
+                    case 'Fertilizer':
+                        //remove fertilizer event - there can be only one per master event
+                        $fertilizer = $this->CI->m_eventfertilizer->get_fertilizer_event($row->PK_EventId);
+                        if($fertilizer->num_rows()){
+                            $this->CI->m_eventfertilizer->delete_fertilizer_event($row->PK_EventId);
+                        }
+                    break;
+                    case 'Harvest':
+                        //remove harvest event - there can be only one per master event
+                        $harvest = $this->CI->m_eventharvest->get_harvest_event($row->PK_EventId);
+                        if($harvest->num_rows()){
+                            $this->CI->m_eventharvest->delete_harvest_event($row->PK_EventId);
+                        }
+                    break;
+                    case 'Plant':
+                        //remove plant event - there can be only one per master event
+                        $plant = $this->CI->m_eventplant->get_plant_event($row->PK_EventId);
+                        if($plant->num_rows()){
+                            $this->CI->m_eventplant->delete_plant_event($row->PK_EventId);
+                        }
+                    break;
+                    case 'Tillage':
+                        //remove tillage event - there can be only one per master event
+                        $tillage = $this->CI->m_eventtillage->get_tillage_event($row->PK_EventId);
+                        if($tillage->num_rows()){
+                            $this->CI->m_eventtillage->delete_tillage_event($row->PK_EventId);
+                        }
+                    break;
+                    case 'Weather':
+                        //remove weather event - there can be only one per master event
+                        $weather = $this->CI->m_eventweather->get_weather_event($row->PK_EventId);
+                        if($weather->num_rows()){
+                            $this->CI->m_eventweather->delete_weather_event($row->PK_EventId);
+                        }
+                    break;
+
+                }
+                //now delete the event itself
+                $this->CI->m_event->delete_event($row->PK_EventId);
+            }
+        } 
+        $this->CI->db->trans_complete();
+     }
+     
     function get_fields_from_event_form()
     {
         $field_array = array();

@@ -30,7 +30,7 @@ class m_event extends CI_Model{
     
     //gets events matching a certain field
     function get_field_events($field_id=NULL){
-        if(isset($farm_id)){
+        if(isset($field_id)){
             $this->db->where('FK_FieldId',db_clean($field_id,20));
         }
         return $this->db->get('Event');
