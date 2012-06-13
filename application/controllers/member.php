@@ -334,6 +334,10 @@ class Member extends CI_Controller {
             $this->load->library('Form_validation');
             //first, set up for master event data
             $this->form_validation->set_rules('Date', 'Date', 'trim|required|max_length[20]');
+            //then, set up for application data
+            $this->form_validation->set_rules('Product', 'Product', 'required');
+            $this->form_validation->set_rules('ApplicationRate', 'Application Rate', 'trim|required|decimal');
+            $this->form_validation->set_rules('ApplicationRateUnit', 'Units', 'required');
 
             if($this->form_validation->run()){
                 //send to db
@@ -341,13 +345,13 @@ class Member extends CI_Controller {
                 if(isset($event_id))
                 {
                     $this->m_event->set($field_id, $event_id);
-                    //application stuff goes here
+                    $this->m_eventapplication->set($event_id);
                 } else {
                     $fields = $this->event_manager->get_fields_from_event_form();
                     foreach ($fields as $field_id)
                     {
-                        $this->m_event->set($field_id);
-                        //application stuff goes here
+                        $event_id = $this->m_event->set($field_id);
+                        $this->m_eventapplication->set($event_id);
                     }
                 }
                 //redirect to overview
@@ -374,6 +378,7 @@ class Member extends CI_Controller {
         
         if(isset($event_id)){ 
             $data['event_data'] = $this->m_event->get($event_id);
+            $data['application_data'] = $this->m_eventapplication->get($event_id);
             $data['field_name'] = $this->m_field->get_field_name($field_id);
             $data['new_event'] = false;
         } else {

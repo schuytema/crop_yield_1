@@ -57,9 +57,11 @@ class m_event extends CI_Model{
             $this->db->set($data);
             $this->db->where('PK_EventId',id_clean($event_id));
             $this->db->update('Event');
-        } else { //create record (once per subscription)
+        } else { //create record
             $this->db->set($data);
-            $this->db->insert('Event');
+            if($this->db->insert('Event')) {
+                return $this->db->insert_id();
+            }
         }
     }
         
