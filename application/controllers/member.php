@@ -20,6 +20,13 @@ class Member extends CI_Controller {
         $this->load->model('m_farm');
         $this->load->model('m_field');
         $this->load->model('m_event');
+        $this->load->model('m_eventapplication');
+        $this->load->model('m_eventchemical');
+        $this->load->model('m_eventfertilizer');
+        $this->load->model('m_eventharvest');
+        $this->load->model('m_eventplant');
+        $this->load->model('m_eventtillage');
+        $this->load->model('m_eventweather');
         $this->lang->load('main');
         $this->load->helper('language');
         
@@ -61,6 +68,18 @@ class Member extends CI_Controller {
     
     public function field($field_id=NULL)
     {
+        $auth_data = $this->php_session->get('AUTH');
+        if(isset($field_id))
+        {
+            $owning_farm = $this->m_field->get_farm_id_from_field($field_id);
+            if ($owning_farm != $auth_data['FarmId'])
+            {
+                redirect('member/farm','refresh');
+            }
+        } else {
+            redirect('member/farm','refresh');
+        }
+        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -187,6 +206,16 @@ class Member extends CI_Controller {
     public function editfield($field_id=NULL)
     {
         $auth_data = $this->php_session->get('AUTH');
+        
+        if(isset($field_id))
+        {
+            $owning_farm = $this->m_field->get_farm_id_from_field($field_id);
+            if ($owning_farm != $auth_data['FarmId'])
+            {
+                redirect('member/farm','refresh');
+            }
+        }
+        
         if($this->input->post('submit')){
             $this->load->library('Form_validation');
             $this->form_validation->set_rules('Name', 'Field Name', 'trim|required|max_length[100]');
@@ -195,7 +224,12 @@ class Member extends CI_Controller {
             $this->form_validation->set_rules('PercentDrainageEffectiveness', 'Drainage', 'trim|required|max_length[7]');
             if($this->form_validation->run()){
                 //send to db
-                $this->m_field->set($auth_data['FarmId']);
+                if(isset($field_id))
+                {
+                    $this->m_field->set($auth_data['FarmId'], $field_id);
+                } else {
+                    $this->m_field->set($auth_data['FarmId']);
+                }
                 //redirect to overview
                 redirect('member/farm','refresh');
             } 
@@ -228,6 +262,9 @@ class Member extends CI_Controller {
             $data['field_data'] = $this->m_field->get($field_id);
         }
         
+        //for the second run of form processing (with validation), so if we have a field to edit, it keeps the id
+        $data['action'] = current_url();
+        
         $this->load->view('header',$data);
         $this->load->view('editfield');
         $this->load->view('footer',$data);
@@ -258,6 +295,7 @@ class Member extends CI_Controller {
     
     public function editevent_application()
     {
+        $auth_data = $this->php_session->get('AUTH');
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -283,6 +321,8 @@ class Member extends CI_Controller {
             )
         );
         
+        $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
+        
         //this stuff is just for a first pass demo
 
         $this->load->view('header',$data);
@@ -293,6 +333,7 @@ class Member extends CI_Controller {
     
     public function editevent_chemical()
     {
+        $auth_data = $this->php_session->get('AUTH');
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -329,6 +370,8 @@ class Member extends CI_Controller {
         
         //get chemical type
         $data['types'] = $this->m_chemical->get_type();
+        
+        $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
 
         $this->load->view('header',$data);
         $this->load->view('editevent_master',$data);
@@ -338,6 +381,7 @@ class Member extends CI_Controller {
     
     public function editevent_fertilizer()
     {
+        $auth_data = $this->php_session->get('AUTH');
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -363,6 +407,8 @@ class Member extends CI_Controller {
             )
         );
         
+        $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
+        
         //this stuff is just for a first pass demo
 
         $this->load->view('header',$data);
@@ -373,6 +419,7 @@ class Member extends CI_Controller {
     
     public function editevent_harvest()
     {
+        $auth_data = $this->php_session->get('AUTH');
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -398,6 +445,8 @@ class Member extends CI_Controller {
             )
         );
         
+        $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
+        
         //this stuff is just for a first pass demo
 
         $this->load->view('header',$data);
@@ -408,6 +457,7 @@ class Member extends CI_Controller {
     
     public function editevent_plant()
     {
+        $auth_data = $this->php_session->get('AUTH');
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -433,6 +483,8 @@ class Member extends CI_Controller {
             )
         );
         
+        $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
+        
         //this stuff is just for a first pass demo
 
         $this->load->view('header',$data);
@@ -443,6 +495,7 @@ class Member extends CI_Controller {
     
     public function editevent_tillage()
     {
+        $auth_data = $this->php_session->get('AUTH');
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -468,7 +521,8 @@ class Member extends CI_Controller {
             )
         );
         
-        //this stuff is just for a first pass demo
+        $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
+        
 
         $this->load->view('header',$data);
         $this->load->view('editevent_master',$data);
@@ -478,6 +532,7 @@ class Member extends CI_Controller {
     
     public function editevent_weather()
     {
+        $auth_data = $this->php_session->get('AUTH');
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -503,7 +558,7 @@ class Member extends CI_Controller {
             )
         );
         
-        //this stuff is just for a first pass demo
+        $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
 
         $this->load->view('header',$data);
         $this->load->view('editevent_master',$data);
@@ -512,17 +567,9 @@ class Member extends CI_Controller {
     }
     
     
-    function delete_field($field_id=NULL){   
-        $this->m_field->delete_field($field_id);   
-        $field_events = $this->m_event->get_field_events($field_id);
-        if($field_events->num_rows()){
-            $result = $field_events->result();
-            foreach($result AS $row)
-            {
-                //@TODO handle deletion for all child events of any found events
-                $this->m_event->delete_event($row->PK_EventId);
-            }
-        } 
+    function delete_field($field_id=NULL){  
+        $this->load->library('event_manager');
+        $this->event_manager->delete_field_with_events($field_id);
         redirect('member/farm','refresh');
     }
 

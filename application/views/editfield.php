@@ -12,7 +12,7 @@
         $row = $field_data->row();
     }
       
-    echo form_open('member/editfield');
+    echo form_open($action);
     ?>
     <h3>Field location</h3>
     <div id="map_canvas"></div>
