@@ -15,7 +15,7 @@
 */
 //$config['base_url'] = "http://63.247.138.178/~cropyld/";
 //$config['base_url'] = "http://growyourfields.com/";
-$config['base_url'] = "http://growouryields.com/";
+$config['base_url'] = "https://growouryields.com/";
 
 //cookie
 $config['cookie_domain'] = '63.247.138.178';
