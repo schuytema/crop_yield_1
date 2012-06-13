@@ -162,7 +162,7 @@ class event_manager {
     function get_fields_from_event_form()
     {
         $field_array = array();
-        $fields = $this->input->post('fields');
+        $fields = $this->CI->input->post('fields');
         foreach ($fields as $field)
         {
             $field_array[] = $field;
