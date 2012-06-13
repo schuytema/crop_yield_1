@@ -116,6 +116,16 @@ class m_user extends CI_Model{
         $this->db->where('PK_UserId',id_clean($user_id));
         $this->db->update('User');
     }
+    
+    //verify password recovery params
+    function verify_pwr($id,$key,$check_expiration=FALSE){
+        $this->db->where('PK_UserId',id_clean($id));
+        $this->db->where('NewPasswordKey',db_clean($key,32));
+        if($check_expiration){
+            $this->db->where('NewPasswordRequest > ( NOW( ) - INTERVAL 8 HOUR )');
+        }
+        return $this->db->get('User');
+    }
 }
 /* End of file m_user.php */
 /* Location: ./application/models/m_user.php */

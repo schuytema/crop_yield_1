@@ -222,7 +222,7 @@ class Main extends CI_Controller {
             )
         );
         
-        $data['title'] = 'Grow Our Yields - Password Change';
+        $data['title'] = 'Grow Our Yields - Password Reset';
         
         $this->load->view('header',$data);
         $this->load->view('lost');
@@ -280,12 +280,19 @@ class Main extends CI_Controller {
             )
         );
         
+        $data['title'] = 'Grow Our Yields - Sign Up';
+        
         $this->load->view('header',$data);
         $this->load->view('signup');
         $this->load->view('footer',$data);
     }
 
     function pwr(){
+        
+        if(!$this->m_user->verify_pwr($this->uri->segment(3),$this->uri->segment(4),TRUE)->num_rows()){
+            show_404();
+        }
+        
         $data['link_content'] = link_content(
             array(
                 array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
@@ -306,6 +313,8 @@ class Main extends CI_Controller {
                 $this->config->item('jquery_js')
             )
         );
+        
+        $data['title'] = 'Grow Our Yields';
         
         $this->load->view('header',$data);
         $this->load->view('footer',$data);
