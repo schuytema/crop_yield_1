@@ -60,6 +60,21 @@ class m_field extends CI_Model{
         return $this->db->get('Field');
     }
     
+    function get_field_name($field_id=NULL){
+        $this->db->where('PK_FieldId',db_clean($field_id,20));
+        $this->db->select('Name');
+        $field = $this->db->get('Field');
+        if($field->num_rows())
+        {
+            $result = $field->result();
+            foreach($result AS $row)
+            {
+                $name = $row->Name;
+            }
+        }
+        return $name;
+    }
+    
     function delete_field($id=NULL)
     {
         if(isset($id))

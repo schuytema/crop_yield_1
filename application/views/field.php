@@ -21,29 +21,30 @@
     <h3>Field Events</h3>
     <table  id="table-data" width="600">
         <thead>
-            <th>Date</th>
-            <th>Event Type</th>
-            <th>Notes</th>
-            <th>Actions</th>
+            <th width="100">Date</th>
+            <th width="100">Event Type</th>
+            <th width="200">Notes</th>
+            <th width="150">Actions</th>
         </thead>
-        <tr>
-            <td width="100">2012-03-12</td>
-            <td width="100">Tillage</td>
-            <td width="200">Dry soil and winds out of...</td>
-            <td width="150"><a href="<?php echo base_url(); ?>member/event">details</a>&nbsp;|&nbsp;<a href="#">delete</a></td>
-        </tr>
-        <tr>
-            <td>2012-03-27</td>
-            <td>Application</td>
-            <td>Done a week later than...</td>
-            <td><a href="<?php echo base_url(); ?>member/event">details</a>&nbsp;|&nbsp;<a href="#">delete</a></td>
-        </tr>
-        <tr>
-            <td>2012-05-18</td>
-            <td>Planting</td>
-            <td>Planter froze up on row...</td>
-            <td><a href="<?php echo base_url(); ?>member/event">details</a>&nbsp;|&nbsp;<a href="#">delete</a></td>
-        </tr>
+        <?php
+            if($events->num_rows()){
+                $result = $events->result();
+                foreach($result AS $row)
+                {
+                    echo '<tr>';
+                    echo '<td>'.$row->Date.'</td>';
+                    echo '<td>'.$row->EventType.'</td>';
+                    echo '<td>'.$row->Notes.'</td>';
+                    $deleteText = "return confirm('Confirm event delete: ".$row->EventType."')";
+                    $lower = strtolower($row->EventType);
+                    echo '<td><a href="'.base_url().'member/editevent_'.$lower.'/'.$row->PK_EventId.'/'.$row->FK_FieldId.'">edit</a>&nbsp;|&nbsp;'.anchor(base_url().'member/delete_event/'.$row->PK_EventId,'delete',array('class'=>'delete','onclick'=>$deleteText)).'</td>';
+                    echo '</tr>';
+                }
+            } else {
+                echo '<tr><td colspan="4"><font color="red">No events have been defined for this field.</font></td><tr>';
+            }
+        ?>
+        
     </table>
     <a href="<?php echo base_url(); ?>member/editevent">{add new event}</a>
     <br><br>

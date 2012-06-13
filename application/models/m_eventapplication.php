@@ -20,6 +20,25 @@ class m_eventapplication extends CI_Model{
         return $this->db->get_where('EventApplication',array('FK_EventId' => id_clean($event_id)));
     }
     
+    function set($event_id=NULL, $new=true){
+        $data = array(
+            'Product' => db_clean($this->input->post('Product'),25),
+            'ApplicationRate' => db_clean($this->input->post('ApplicationRate'),9),
+            'ApplicationRateUnit' => db_clean($this->input->post('ApplicationRateUnit',25)),
+            'FK_EventId' => id_clean($event_id)
+        );
+
+        if(!$new){ //update  
+            $this->db->set($data);
+            $this->db->where('FK_EventId',id_clean($event_id));
+            $this->db->update('EventApplication');
+        } else { //create record
+            print_r($data);
+            $this->db->set($data);
+            $this->db->insert('EventApplication');
+        }
+    }
+    
     
     //gets event details matching a certain master event
     function get_application_event($event_id=NULL){
@@ -37,8 +56,7 @@ class m_eventapplication extends CI_Model{
             $this->db->where('FK_EventId', $event_id);
             $this->db->delete('EventApplication');
         }
-     }
-        
+    }        
 }
 /* End of file m_eventapplication.php */
 /* Location: ./application/models/m_eventapplication.php */
