@@ -31,3 +31,8 @@ $config['weather'] = array(
     'Tornado'=>"Tornado",
     'Winds'=>"Winds"
 );
+
+$config['chemical_units'] = array(
+    'lbs'=>"lbs",
+    'kg'=>"kg",
+);

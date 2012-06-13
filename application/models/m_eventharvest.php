@@ -22,7 +22,7 @@ class m_eventharvest extends CI_Model{
     
     function set($event_id=NULL, $new=true){
         $data = array(
-            'FK_EquipmentId' => id_clean($event_id),
+            'FK_EquipmentId' => db_clean($this->input->post('FK_EquipmentId'),10),
             'Yield' => db_clean($this->input->post('Yield'),10),
             'YieldUnit' => db_clean($this->input->post('YieldUnit'),10),
             'GrainTestWeight' => db_clean($this->input->post('GrainTestWeight'),10),

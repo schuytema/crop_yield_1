@@ -1,7 +1,18 @@
    
     <h3>Event Chemical Details</h3>
     
+    <?php
+    //check for edit
+    if(isset($chemical_data) && $chemical_data->num_rows()){
+        $datarow = $chemical_data->row();
+    }
     
+    if(isset($selected_chemical))
+    {
+        echo $selected_chemical;
+    }
+    
+    ?>
     
     
     
@@ -51,7 +62,7 @@
                       <b>Amount of Active Ingredient:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left">
-                      <input type="text" size="10" name="AmountActiveIngredient">
+                      <input type="text" size="10" name="AmountActiveIngredient" value="<?php echo set_value('AmountActiveIngredient',(isset($datarow->AmountActiveIngredient)) ? $datarow->AmountActiveIngredient : NULL); ?>">
                   </td>
                </tr>
                <tr valign="top">
@@ -59,10 +70,9 @@
                       <b>Units:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left">
-                      <select name="AmountActiveIngredientUnit">
-                        <option value="lbs">lbs</option>
-                        <option value="kg">kq</option>
-                      </select>
+                      <?php
+                      echo form_dropdown('AmountActiveIngredientUnit', $this->config->item('chemical_units'), set_value('AmountActiveIngredientUnit',(isset($datarow->AmountActiveIngredientUnit)) ? $datarow->AmountActiveIngredientUnit : NULL));
+                      ?>
                   </td>
                </tr>
           </table>
@@ -73,7 +83,7 @@
    
           
 	<footer>
-	  <input type="submit" class="btnLogin" value="Submit" tabindex="4">
+	  <input type="submit" name="submit" class="btnLogin" value="Submit" tabindex="4">
 	</footer>
     </form>
     <br><br>

@@ -408,9 +408,50 @@ class Member extends CI_Controller {
         $this->load->view('footer',$data);
     }
     
-    public function editevent_chemical()
+    public function editevent_chemical($event_id=NULL, $field_id=NULL)
     {
         $auth_data = $this->php_session->get('AUTH');
+        
+        $this->load->library('event_manager');
+        
+        if(isset($field_id))
+        {
+            $owning_farm = $this->m_field->get_farm_id_from_field($field_id);
+            if ($owning_farm != $auth_data['FarmId'])
+            {
+                redirect('member/farm','refresh');
+            }
+        }      
+        
+        if($this->input->post('submit')){
+            $this->load->library('Form_validation');
+            //first, set up for master event data
+            $this->form_validation->set_rules('Date', 'Date', 'trim|required|max_length[20]');
+            //then, set up for chemica; data
+            $this->form_validation->set_rules('AmountActiveIngredient', 'Amount Active Ingredient', 'trim|required|numeric');
+
+            if($this->form_validation->run()){
+                //send to db
+                
+                if(isset($event_id))
+                {
+                    $this->m_event->set($field_id, $event_id);
+                    $new = false;
+                    $this->m_eventchemical->set($event_id, $new);
+                } else {
+                    $fields = $this->event_manager->get_fields_from_event_form();
+                    foreach ($fields as $field_id)
+                    { 
+                        $new_event_id = $this->m_event->set($field_id);
+                        $new = true;
+                        $this->m_eventchemical->set($new_event_id, $new);
+                    }
+                }
+                //redirect to overview
+                redirect('member/farm','refresh');
+            } 
+        }
+        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -426,6 +467,24 @@ class Member extends CI_Controller {
         );
         
         $data['title'] = 'Grow Our Yields - Edit Event Chemical';
+        
+        //load dropdown list
+        $this->load->config('edit_dropdowns');
+        
+        
+        if(isset($event_id)){ 
+            $data['event_data'] = $this->m_event->get($event_id);
+            $data['chemical_data'] = $this->m_eventchemical->get($event_id);
+            $data['field_name'] = $this->m_field->get_field_name($field_id);
+            $data['new_event'] = false;
+            //get the info for the chemical if one's picked
+            $chemical_details = $data['chemical_data']->row();
+            $chemical_info = $this->m_chemical->get_product_info($chemical_details->FK_ChemicalId);
+            $selected_chemical = 'Current Chamical:&nbsp;Type:&nbsp;'.$chemical_info['Type'].'Brand:&nbsp;'.$chemical_info['Brand'].'Product:&nbsp;'.$chemical_info['Product'].'<br>';
+        } else {
+            $data['new_event'] = true;
+            $selected_chemical = NULL;
+        }
         
         $data['event_type'] = 'Chemical';
         
@@ -447,6 +506,8 @@ class Member extends CI_Controller {
         
         //get chemical type
         $data['types'] = $this->m_chemical->get_type();
+        
+        $data['action'] = current_url();
         
         $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
 

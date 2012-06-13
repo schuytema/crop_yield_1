@@ -47,6 +47,20 @@ class m_chemical extends CI_Model{
         return $this->db->get('Chemical');
     }
     
+    //return all brands by type
+    function get_product_info($id=NULL){
+        $this->db->where('PK_ChemicalId',$id);
+        $results = $this->db->get('Chemical');
+        if($results->num_rows())
+        {
+            $datarow = $results->row();
+        }
+        $info['Type'] = $datarow->ChemicalType;
+        $info['Brand'] = $datarow->Brand;
+        $info['Product'] = $datarow->Product;
+        return $info;
+    }
+    
 }
 /* End of file m_chemical.php */
 /* Location: ./application/models/m_chemical.php */

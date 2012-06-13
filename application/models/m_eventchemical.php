@@ -20,6 +20,25 @@ class m_eventchemical extends CI_Model{
         return $this->db->get_where('EventChemical',array('FK_EventId' => id_clean($event_id)));
     }
     
+    function set($event_id=NULL, $new=true){
+        $data = array(
+            'FK_ChemicalId' => db_clean($this->input->post('Product'),9),
+            'AmountActiveIngredient' => db_clean($this->input->post('AmountActiveIngredient'),20),
+            'AmountActiveIngredientUnit' => db_clean($this->input->post('AmountActiveIngredientUnit'),3),
+            'FK_EventId' => id_clean($event_id)
+        );
+
+        if(!$new){ //update  
+            $this->db->set($data);
+            $this->db->where('FK_EventId',id_clean($event_id));
+            $this->db->update('EventChemical');
+        } else { //create record
+            //print_r($data);
+            $this->db->set($data);
+            $this->db->insert('EventChemical');
+        }
+    }
+    
     
     //gets event details matching a certain master event
     function get_chemical_event($event_id=NULL){
