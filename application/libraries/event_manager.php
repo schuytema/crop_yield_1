@@ -90,6 +90,17 @@ class event_manager {
         } 
         $this->CI->db->trans_complete();
      }
+     
+    function get_fields_from_event_form()
+    {
+        $field_array = array();
+        $fields = $this->input->post('fields');
+        foreach ($fields as $field)
+        {
+            $field_array[] = $field;
+        }
+        return $field_array;
+    }
     
 }
 // END event_manager Class

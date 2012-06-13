@@ -1,6 +1,6 @@
 
     <h3>Event Application Details</h3>
-       
+    
         <table  style="float:left;" width="510">
               <tr valign="top">
                   <td align="right" width="200">
@@ -40,7 +40,7 @@
    
           
 	<footer>
-	  <input type="submit" class="btnLogin" value="Submit" tabindex="4">
+	  <input type="submit" name="submit" class="btnLogin" value="Submit" tabindex="4">
 	</footer>
     </form>
     <br><br>

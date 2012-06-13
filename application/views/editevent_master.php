@@ -4,7 +4,20 @@
 
 
 <div class="splitleft">
-    <h1>Edit Event(New)</h1>
+    <h1>Edit Event</h1>
+    <?php
+    if(validation_errors()){
+        echo '<div class="error_msg">'.validation_errors().'</div>';
+    }
+    
+    //check for edit
+    if(isset($event_data) && $event_data->num_rows()){
+        $row = $event_data->row();
+    }
+      
+    echo form_open($action);
+    ?>
+    
     <h3>Master Event Data</h3>
     
     <form action="<?php echo base_url(); ?>member/field" method="POST">
@@ -31,7 +44,7 @@
                       <b>Date:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left">
-                      <input type="text" size="15" name="Date" onclick="displayDatePicker('Date');"><a href="javascript:void(0);" onclick="displayDatePicker('Date');"><img src="<?php echo base_url(); ?>css/images/calendar.png" alt="calendar" border="0"></a>
+                      <input type="text" size="15" name="Date" onclick="displayDatePicker('Date');" value="<?php echo set_value('Date',(isset($row->Date)) ? $row->Date : NULL); ?>"><a href="javascript:void(0);" onclick="displayDatePicker('Date');"><img src="<?php echo base_url(); ?>css/images/calendar.png" alt="calendar" border="0"></a>
                   </td>
                </tr>
                <tr valign="top">
@@ -39,7 +52,7 @@
                       <b>Notes:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left">
-                      <TEXTAREA NAME="Notes" COLS=40 ROWS=6></TEXTAREA>
+                      <TEXTAREA NAME="Notes" COLS=40 ROWS=6><?php echo set_value('Notes',(isset($row->Notes)) ? $row->Notes : NULL); ?></TEXTAREA>
                   </td>
                </tr>
           </table>

@@ -44,6 +44,24 @@ class m_event extends CI_Model{
             $this->db->delete('Event');
         }
      }
+     
+     function set($field_id=NULL, $event_id=NULL){
+        $data = array(
+            'FK_FieldId' => $field_id,
+            'EventType' => db_clean($this->input->post('EventType'),50),
+            'Date' => db_clean($this->input->post('Date'),11),
+            'Notes' => db_clean($this->input->post('Notes'),255)
+        );
+        
+        if(isset($event_id)){ //update
+            $this->db->set($data);
+            $this->db->where('PK_EventId',id_clean($event_id));
+            $this->db->update('Event');
+        } else { //create record (once per subscription)
+            $this->db->set($data);
+            $this->db->insert('Event');
+        }
+    }
         
 }
 /* End of file m_event.php */
