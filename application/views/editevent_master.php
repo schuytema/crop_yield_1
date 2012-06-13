@@ -62,7 +62,14 @@
     <table  style="float:left;" width="510">
               <tr valign="top">
                   <td align="right" width="200">
-                      <b>Affected Fields:</b>&nbsp;&nbsp;
+                      <?php
+                        if ($new_event)
+                        {
+                            echo '<b>Affected Fields:</b>&nbsp;&nbsp;';
+                        } else {
+                            echo '<b>Event on Field:</b>&nbsp;&nbsp;';
+                        }
+                      ?>
                   </td>
                   <td align="left" width="310">
                     <?php

@@ -30,7 +30,7 @@ class m_eventtillage extends CI_Model{
     }
     
     
-    function delete_tillage_event($id=NULL)
+    function delete_tillage_event($event_id=NULL)
     {
         if(isset($event_id))
         {

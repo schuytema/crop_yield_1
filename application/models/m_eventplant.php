@@ -30,7 +30,7 @@ class m_eventplant extends CI_Model{
     }
     
     
-    function delete_plant_event($id=NULL)
+    function delete_plant_event($event_id=NULL)
     {
         if(isset($event_id))
         {

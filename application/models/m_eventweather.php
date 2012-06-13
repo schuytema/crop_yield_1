@@ -20,6 +20,24 @@ class m_eventweather extends CI_Model{
         return $this->db->get_where('EventWeather',array('FK_EventId' => id_clean($event_id)));
     }
     
+    function set($event_id=NULL, $new=true){
+        $data = array(
+            'Weather' => db_clean($this->input->post('Weather'),25),
+            'PercentDamaged' => db_clean($this->input->post('PercentDamaged'),9),
+            'FK_EventId' => id_clean($event_id)
+        );
+
+        if(!$new){ //update  
+            $this->db->set($data);
+            $this->db->where('FK_EventId',id_clean($event_id));
+            $this->db->update('EventWeather');
+        } else { //create record
+            //print_r($data);
+            $this->db->set($data);
+            $this->db->insert('EventWeather');
+        }
+    }
+    
     
     //gets event details matching a certain master event
     function get_weather_event($event_id=NULL){
@@ -30,7 +48,7 @@ class m_eventweather extends CI_Model{
     }
     
     
-    function delete_weather_event($id=NULL)
+    function delete_weather_event($event_id=NULL)
     {
         if(isset($event_id))
         {

@@ -14,3 +14,20 @@ $config['application_units'] = array(
     'lbs/acre'=>"lbs/acre",  
     'lbs/sq. mile'=>"lbs/sq. mile"
 );
+
+$config['yield_units'] = array(
+    'bu/acre'=>"bu/acre",  
+    'bu/sq. mile'=>"bu/sq. mile"
+);
+
+$config['weight_units'] = array(
+    'lbs/bu'=>"lbs/bu"
+);
+
+$config['weather'] = array(
+    'Rain'=>"Rain",
+    'Hail'=>"Hail",
+    'Flood'=>"Flood",
+    'Tornado'=>"Tornado",
+    'Winds'=>"Winds"
+);

@@ -24,7 +24,7 @@ class m_eventapplication extends CI_Model{
         $data = array(
             'Product' => db_clean($this->input->post('Product'),25),
             'ApplicationRate' => db_clean($this->input->post('ApplicationRate'),9),
-            'ApplicationRateUnit' => db_clean($this->input->post('ApplicationRateUnit',25)),
+            'ApplicationRateUnit' => db_clean($this->input->post('ApplicationRateUnit'),25),
             'FK_EventId' => id_clean($event_id)
         );
 
@@ -33,7 +33,7 @@ class m_eventapplication extends CI_Model{
             $this->db->where('FK_EventId',id_clean($event_id));
             $this->db->update('EventApplication');
         } else { //create record
-            print_r($data);
+            //print_r($data);
             $this->db->set($data);
             $this->db->insert('EventApplication');
         }
@@ -49,7 +49,7 @@ class m_eventapplication extends CI_Model{
     }
     
     
-    function delete_application_event($id=NULL)
+    function delete_application_event($event_id=NULL)
     {
         if(isset($event_id))
         {
