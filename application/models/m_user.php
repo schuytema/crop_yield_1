@@ -22,8 +22,8 @@ class m_user extends CI_Model{
     }
     
     //get record by user id
-    function get_by_userid($user){
-        $this->db->where('PK_UserId',db_clean($user,100));
+    function get_by_userid($id){
+        $this->db->where('PK_UserId',id_clean($id));
         return $this->db->get('User');
     }
     
