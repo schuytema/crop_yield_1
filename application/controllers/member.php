@@ -312,7 +312,7 @@ class Member extends CI_Controller {
         $this->load->view('footer',$data);
     }
     
-    public function editevent_application($event_id=NULL)
+    public function editevent_application($event_id=NULL, $field_id=NULL)
     {
         $auth_data = $this->php_session->get('AUTH');
         $this->load->library('event_manager');
@@ -337,7 +337,6 @@ class Member extends CI_Controller {
                 
                 if(isset($event_id))
                 {
-                    $field_id = 2;
                     $this->m_event->set($field_id, $event_id);
                     //application stuff goes here
                 } else {
@@ -372,6 +371,10 @@ class Member extends CI_Controller {
         
         if(isset($event_id)){ 
             $data['event_data'] = $this->m_event->get($event_id);
+            $data['field_name'] = $this->m_field->get_field_name($field_id);
+            $data['new_event'] = false;
+        } else {
+            $data['new_event'] = true;
         }
         
         $data['event_type'] = 'Application';

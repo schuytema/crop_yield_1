@@ -57,23 +57,27 @@
                </tr>
           </table>
     <BR CLEAR=LEFT>
-    
-    <h4>Select all fields that are affected by this event</h4>
+   
     
     <table  style="float:left;" width="510">
               <tr valign="top">
                   <td align="right" width="200">
-                      <b>Your Fields:</b>&nbsp;&nbsp;
+                      <b>Affected Fields:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left" width="310">
                     <?php
-                        if($fields->num_rows())
+                        if ($new_event)
                         {
-                            $result = $fields->result();
-                            foreach($result AS $row)
+                            if($fields->num_rows())
                             {
-                                echo '<input type="checkbox" name="fields[]" value="'.$row->PK_FieldId.'">'.$row->Name.'<br>';
+                                $result = $fields->result();
+                                foreach($result AS $row)
+                                {
+                                    echo '<input type="checkbox" name="fields[]" value="'.$row->PK_FieldId.'">'.$row->Name.'<br>';
+                                }
                             }
+                        } else {
+                            echo $field_name;
                         }
                     ?>
                   </td>
