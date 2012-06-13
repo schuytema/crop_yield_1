@@ -18,9 +18,9 @@
 |
 */
 $config['protocol'] = 'smtp';
-$config['smtp_host'] = 'mail.schuytema.com';
-$config['smtp_user'] = 'paul+schuytema.com';
-$config['smtp_pass'] = 'aikoaiko';
+$config['smtp_host'] = 'mail.growouryields.com';
+$config['smtp_user'] = 'noreply+growouryields.com';
+$config['smtp_pass'] = 'noreply2012';
 
 /* End of file email.php */
 /* Location: ./application/config/email.php */

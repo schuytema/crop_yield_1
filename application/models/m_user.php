@@ -22,8 +22,8 @@ class m_user extends CI_Model{
     }
     
     //get record by user id
-    function get_by_userid($user){
-        $this->db->where('PK_UserId',db_clean($user,100));
+    function get_by_userid($id){
+        $this->db->where('PK_UserId',id_clean($id));
         return $this->db->get('User');
     }
     
@@ -80,6 +80,13 @@ class m_user extends CI_Model{
             return $this->db->insert_id();
         }
         return FALSE;
+    }
+    
+    //data cleaned from auth lib
+    function update_user($id,$data){
+        $this->db->set($data);
+        $this->db->where('PK_UserId',$id);
+        $this->db->update('User');
     }
     
     function set_new_password_key($email,$key){
