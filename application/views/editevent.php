@@ -5,6 +5,12 @@
 
 <div class="splitleft">
     <h1>Edit Event(New)</h1>
+    <?php
+    if(validation_errors()){
+        echo '<div class="error_msg">'.validation_errors().'</div>';
+    }
+    ?>
+    
     <h3>Master Event Data</h3>
     
     <form action="<?php echo base_url(); ?>member/field" method="POST">

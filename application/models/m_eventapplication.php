@@ -22,15 +22,15 @@ class m_eventapplication extends CI_Model{
     
     function set($event_id=NULL){
         $data = array(
-            'FK_EventId' => id_clean($event_id),
             'Product' => db_clean($this->input->post('Product'),25),
             'ApplicationRate' => db_clean($this->input->post('ApplicationRate'),9),
             'ApplicationRateUnit' => db_clean($this->input->post('ApplicationRateUnit',25))
         );
 
         if(isset($event_id)){ //update
+            $data['FK_EventId'] = id_clean($event_id);
             $this->db->set($data);
-            $this->db->where('PK_EventId',id_clean($event_id));
+            $this->db->where('FK_EventId',id_clean($event_id));
             $this->db->update('EventApplication');
         } else { //create record
             $this->db->set($data);
