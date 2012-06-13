@@ -1,6 +1,6 @@
 <?php
 //Authentication
-$lang['auth_welcome_msg'] = 'Welcome to Grow Our Yields!'."\n\n".'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sagittis fringilla velit, nec fringilla metus auctor adipiscing. Vestibulum dui purus, aliquet vel consequat eu, laoreet in mauris.'."\n\n".'Thank you,'."\n".'The Grow Our Yields Team';
+$lang['auth_welcome_msg'] = 'Welcome to Grow Our Yields!'."\n\n".'Your efforts will help us grow our initial test database. Given enough regional data, we will be able to move forward to create best practice and prediction reports that can help you make better, more informed decisions in the future - and that means a better bottom line! Thank you for sharing your data - together, we can all Grow Our Yields.';
 $lang['auth_welcome_subject'] = 'Welcome to Grow Our Yields';
 $lang['auth_acct_failed'] = 'Account creation failed. Please try again.';
 $lang['auth_user_exists'] = 'Username already exists. Please choose another username.';
