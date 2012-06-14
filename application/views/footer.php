@@ -36,7 +36,7 @@
 
 </div>
 <div id="footer">
-<span class="style5">copyright 2012 GrowOurYields, LLC (all rights reserved) | <a href="<?php echo base_url(); ?>main/privacy">Privacy Policy</a> | <a href="<?php echo base_url(); ?>main/terms">Terms of Use</a></span><br />
+<span class="style5">&copy; 2012 GrowOurYields, LLC (all rights reserved) | <a href="<?php echo base_url(); ?>main/privacy">Privacy Policy</a> | <a href="<?php echo base_url(); ?>main/terms">Terms of Use</a></span><br />
 <br />
 </div>
 </div>
