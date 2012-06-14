@@ -734,6 +734,8 @@ class Member extends CI_Controller {
     {
         $auth_data = $this->php_session->get('AUTH');
         
+        $this->load->library('event_manager');
+        
         if(isset($field_id))
         {
             $owning_farm = $this->m_field->get_farm_id_from_field($field_id);
@@ -755,7 +757,7 @@ class Member extends CI_Controller {
             //$this->form_validation->set_rules('CropProduct', 'Crop Product', 'trim|required');
             $this->form_validation->set_rules('PlantingRate', 'Planting Rate', 'trim|required');
             $this->form_validation->set_rules('PlantingRateUnit', 'Planting Rate Unit', 'trim|required');
-            $this->form_validation->set_rules('RowSpacing', 'RowS pacing', 'trim|required');
+            $this->form_validation->set_rules('RowSpacing', 'Row Spacing', 'trim|required');
             $this->form_validation->set_rules('RowSpacingUnit', 'Row Spacing Unit', 'trim|required');
 
             if($this->form_validation->run()){

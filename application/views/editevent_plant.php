@@ -110,7 +110,47 @@
                         Product:&nbsp;<input type="text" size="40" name="OtherCropProduct"><br>
                     </div>
                 </td>
+            </tr>
+
+            <tr valign="top">
+                <td align="right">
+                    <b>Planting Rate</b>&nbsp;&nbsp;
+                </td>
+                <td align="left">
+                    <input type="text" size="10" name="PlantingRate" value="<?php echo set_value('PlantingRate',(isset($datarow->PlantingRate)) ? $datarow->PlantingRate : NULL); ?>">
+                </td>
+            </tr>
+            
+            <tr valign="top">
+                <td align="right">
+                    <b>Planting Rate Units:</b>&nbsp;&nbsp;
+                </td>
+                <td align="left">
+                    <?php
+                    echo form_dropdown('PlantingRateUnit', $this->config->item('planting_rate_units'), set_value('PlantingRateUnit',(isset($datarow->PlantingRateUnit)) ? $datarow->PlantingRateUnit : NULL));
+                    ?>
+                </td>
             </tr>            
+            
+            <tr valign="top">
+                <td align="right">
+                    <b>Row Spacing</b>&nbsp;&nbsp;
+                </td>
+                <td align="left">
+                    <input type="text" size="10" name="RowSpacing" value="<?php echo set_value('RowSpacing',(isset($datarow->RowSpacing)) ? $datarow->RowSpacing : NULL); ?>">
+                </td>
+            </tr>           
+            
+            <tr valign="top">
+                <td align="right">
+                    <b>Row Spacing Units:</b>&nbsp;&nbsp;
+                </td>
+                <td align="left">
+                    <?php
+                    echo form_dropdown('RowSpacingUnit', $this->config->item('planting_row_spacing_units'), set_value('RowSpacingUnit',(isset($datarow->RowSpacingUnit)) ? $datarow->RowSpacingUnit : NULL));
+                    ?>
+                </td>
+            </tr>                   
           </table>
 
         
