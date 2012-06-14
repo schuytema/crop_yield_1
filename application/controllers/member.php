@@ -95,14 +95,6 @@ class Member extends CI_Controller {
             )
         );
         
-        //js_helper: dynamically build <script> tags
-        $data['js'] = js_load(
-            array(
-                "https://maps.googleapis.com/maps/api/js?sensor=true",
-                base_url().'js/load_map_polygon.js',
-            )
-        );
-        
         $data['title'] = 'Grow Our Yields - Field View';
         
         //get info for the field data
@@ -278,14 +270,6 @@ class Member extends CI_Controller {
         $data['link_content'] = link_content(
             array(
                 array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
-            )
-        );
-     
-        //js_helper: dynamically build <script> tags
-        $data['js'] = js_load(
-            array(
-                "https://maps.googleapis.com/maps/api/js?sensor=true&libraries=drawing",
-                base_url().'js/map_polygon.js',
             )
         );
         
@@ -861,6 +845,47 @@ class Member extends CI_Controller {
     public function editevent_tillage($event_id=NULL, $field_id=NULL)
     {
         $auth_data = $this->php_session->get('AUTH');
+        
+        $this->load->library('event_manager');
+        
+        if(isset($field_id))
+        {
+            $owning_farm = $this->m_field->get_farm_id_from_field($field_id);
+            if ($owning_farm != $auth_data['FarmId'])
+            {
+                redirect('member/farm','refresh');
+            }
+        }      
+        
+        if($this->input->post('submit')){
+            $this->load->library('Form_validation');
+            //first, set up for master event data
+            $this->form_validation->set_rules('Date', 'Date', 'trim|required|max_length[20]');
+            //then, set up for harvest data
+            //$this->form_validation->set_rules('Yield', 'Yield', 'trim|required|numeric');
+
+            if($this->form_validation->run()){
+                //send to db
+                
+                if(isset($event_id))
+                {
+                    $this->m_event->set($field_id, $event_id);
+                    $new = false;
+                    $this->m_eventtillage->set($event_id, $new);
+                } else {
+                    $fields = $this->event_manager->get_fields_from_event_form();
+                    foreach ($fields as $field_id)
+                    { 
+                        $new_event_id = $this->m_event->set($field_id);
+                        $new = true;
+                        $this->m_eventtillage->set($new_event_id, $new);
+                    }
+                }
+                //redirect to overview
+                redirect('member/farm','refresh');
+            } 
+        } 
+        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -877,6 +902,19 @@ class Member extends CI_Controller {
         
         $data['title'] = 'Grow Our Yields - Edit Event Tillage';
         
+        //load dropdown list
+        $this->load->config('edit_dropdowns');
+        
+        
+        if(isset($event_id)){ 
+            $data['event_data'] = $this->m_event->get($event_id);
+            $data['harvest_data'] = $this->m_eventtillage->get($event_id);
+            $data['field_name'] = $this->m_field->get_field_name($field_id);
+            $data['new_event'] = false;
+        } else {
+            $data['new_event'] = true;
+        }
+        
         $data['event_type'] = 'Tillage';
         
         //js_helper: dynamically build <script> tags
@@ -889,7 +927,6 @@ class Member extends CI_Controller {
         $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
         
         $data['action'] = current_url();
-        
 
         $this->load->view('header',$data);
         $this->load->view('editevent_master',$data);
