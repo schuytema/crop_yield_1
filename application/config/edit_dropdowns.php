@@ -34,5 +34,15 @@ $config['weather'] = array(
 
 $config['chemical_units'] = array(
     'lbs'=>"lbs",
-    'kg'=>"kg",
+    'kgs'=>"kgs",
+);
+
+$config['planting_rate_units'] = array(
+    'seeds/acre' => 'seeds/acre',
+    'seeds/sq. mile' => 'seeds/sq. mile'
+);
+
+$config['planting_row_spacing_units'] = array(
+    'in' => 'in',
+    'cm' => 'cm'
 );

@@ -712,6 +712,67 @@ class Member extends CI_Controller {
     public function editevent_plant($event_id=NULL, $field_id=NULL)
     {
         $auth_data = $this->php_session->get('AUTH');
+        
+        if(isset($field_id))
+        {
+            $owning_farm = $this->m_field->get_farm_id_from_field($field_id);
+            if ($owning_farm != $auth_data['FarmId'])
+            {
+                redirect('member/farm','refresh');
+            }
+        }      
+        
+        if($this->input->post('submit')){
+            $this->load->library('Form_validation');
+            //first, set up for master event data
+            $this->form_validation->set_rules('Date', 'Date', 'trim|required|max_length[20]');
+            //then, set up for planting data
+            //$this->form_validation->set_rules('EquipmentBrand', 'Equipment Brand', 'trim|required');
+            //$this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required');
+            $this->form_validation->set_rules('CropType', 'Crop Type', 'trim|required');
+            //$this->form_validation->set_rules('CropBrand', 'Crop Brand', 'trim|required');
+            //$this->form_validation->set_rules('CropProduct', 'Crop Product', 'trim|required');
+            $this->form_validation->set_rules('PlantingRate', 'Planting Rate', 'trim|required');
+            $this->form_validation->set_rules('PlantingRateUnit', 'Planting Rate Unit', 'trim|required');
+            $this->form_validation->set_rules('RowSpacing', 'RowS pacing', 'trim|required');
+            $this->form_validation->set_rules('RowSpacingUnit', 'Row Spacing Unit', 'trim|required');
+
+            if($this->form_validation->run()){
+                //see if other stuff has been entered... if so, create the new equipment row
+                if (!empty($this->input->post('OtherEquipmentBrand')) && !empty($this->input->post('OtherEquipmentProduct')))
+                {
+                    $equipment_id = $this->m_equipment->set_equipment_manually('Planter', $this->input->post('OtherEquipmentBrand'), $this->input->post('OtherEquipmentProduct'));
+                } else {
+                    $equipment_id = NULL;
+                }
+                //see if other stuff has been entered... if so, create the new crop row
+                if (!empty($this->input->post('OtherCropBrand')) && !empty($this->input->post('OtherCropProduct')))
+                {
+                    $crop_id = $this->m_plant->set_crop_manually($this->input->post('CropType'), $this->input->post('OtherCropBrand'), $this->input->post('OtherCropProduct'));
+                } else {
+                    $crop_id = NULL;
+                }
+                //send to db
+                if(isset($event_id))
+                {
+                    $this->m_event->set($field_id, $event_id);
+                    $new = false;
+                    $this->m_eventplant->set($event_id, $new, $equipment_id, $crop_id);
+                } else {
+                    $fields = $this->event_manager->get_fields_from_event_form();
+                    foreach ($fields as $field_id)
+                    { 
+                        $new_event_id = $this->m_event->set($field_id);
+                        $new = true;
+                        $this->m_eventplant->set($event_id, $new, $equipment_id, $crop_id);
+                    }
+                }
+                //redirect to overview
+                redirect('member/farm','refresh');
+            } 
+        }        
+        
+        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -728,18 +789,48 @@ class Member extends CI_Controller {
         
         $data['title'] = 'Grow Our Yields - Edit Event Plant';
         
+        //load dropdown list
+        $this->load->config('edit_dropdowns');
+        
+        if(isset($event_id)){ 
+            $data['event_data'] = $this->m_event->get($event_id);
+            $data['plant_data'] = $this->m_eventplant->get($event_id);
+            $data['field_name'] = $this->m_field->get_field_name($field_id);
+            $data['new_event'] = false;
+            //get the info for the equipment if one's picked
+            $plant_details = $data['plant_data']->row();
+            $data['equipment_info'] = $this->m_equipment->get_product_info($plant_details->FK_EquipmentId);
+            //get the info for the crop if one's picked
+            $data['crop_info'] = $this->m_crop->get_product_info($plant_details->FK_CropId);
+        } else {
+            $data['new_event'] = true;
+        }
+        
         $data['event_type'] = 'Plant';
         
+        //js object builder
+        $data['js_object'] = js_object(
+            array(
+                'CI' => array('base_url' => base_url())
+            )
+        );
+                  
         //js_helper: dynamically build <script> tags
         $data['js'] = js_load(
             array(
+                $this->config->item('jquery_js'),
+                base_url().'js/plant.js',
                 base_url().'js/calendar.js'
             )
-        );
+        );     
+        
+        //get equipment brand
+        $data['equipment_brands'] = $this->m_crop->get_brand('Planter');
+        
+        //get crop type
+        $data['crop_types'] = $this->m_crop->get_type();
         
         $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
-        
-        //this stuff is just for a first pass demo
 
         $this->load->view('header',$data);
         $this->load->view('editevent_master',$data);
@@ -776,6 +867,8 @@ class Member extends CI_Controller {
         );
         
         $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
+        
+        $data['action'] = current_url();
         
 
         $this->load->view('header',$data);
@@ -960,7 +1053,54 @@ class Member extends CI_Controller {
             echo json_encode($data);
         }
     }
+    
+    function get_equipment_product(){
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $data['response'] = false;
+            $query = $this->m_equipment->get_product(trim($this->input->post('type')),trim($this->input->post('brand')));
+            if($query->num_rows()){
+                $result = $query->result();
+                $data['response'] = true; //Set response
+                $data['list'] = array(); //Create array
+                foreach($result as $row){
+                    $data['list'][] = array('value'=> $row->PK_EquipmentId,'display' => $row->Product);
+                }
+            }
+            echo json_encode($data);
+        }
+    }
 
+    function get_crop_brand(){
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $data['response'] = false;
+            $query = $this->m_crop->get_brand(trim($this->input->post('type')));
+            if($query->num_rows()){
+                $result = $query->result();
+                $data['response'] = true; //Set response
+                $data['list'] = array(); //Create array
+                foreach($result as $row){
+                    $data['list'][] = array('value'=> $row->Brand,'display' => $row->Brand);
+                }
+            }
+            echo json_encode($data);
+        }
+    }
+    
+    function get_crop_product(){
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $data['response'] = false;
+            $query = $this->m_crop->get_product(trim($this->input->post('type')),trim($this->input->post('brand')));
+            if($query->num_rows()){
+                $result = $query->result();
+                $data['response'] = true; //Set response
+                $data['list'] = array(); //Create array
+                foreach($result as $row){
+                    $data['list'][] = array('value'=> $row->PK_CropId,'display' => $row->Product);
+                }
+            }
+            echo json_encode($data);
+        }
+    }
 
 }
 
