@@ -8,8 +8,8 @@ $(document).ready(function(){
     $("#EquipmentBrand").change(function(){
         var brand = $('#EquipmentBrand').val();
         if(brand.length){
-            $("#Product").attr("disabled","disabled");
-            $("#Product").html("<option value=\"\">wait...</option>");
+            $("#EquipmentProduct").attr("disabled","disabled");
+            $("#EquipmentProduct").html("<option value=\"\">wait...</option>");
             $.post(CI.base_url + "member/get_equipment_product", { 'type' : 'Planter', 'brand' : brand },
             function(data){
                 if(data.response == true){
@@ -17,8 +17,8 @@ $(document).ready(function(){
                     for (var i = 0; i < data.list.length; i++) {
                         options += '<option value="' + data.list[i].value + '">' + data.list[i].display + '</option>';
                     }
-                    $("#Product").html(options);
-                    $("#Product").removeAttr("disabled");
+                    $("#EquipmentProduct").html(options);
+                    $("#EquipmentProduct").removeAttr("disabled");
                 } 
             }, "json");
         }
@@ -66,5 +66,15 @@ $(document).ready(function(){
                 } 
             }, "json");
         }
+    });
+    
+    //bind show event to link
+    $('#show_other_one').click(function() {
+        $('#other_one').show();
+    });
+    
+    //bind show event to link
+    $('#show_other_two').click(function() {
+        $('#other_two').show();
     });
 });

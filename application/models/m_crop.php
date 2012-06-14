@@ -15,16 +15,22 @@ class m_crop extends CI_Model{
     }
     
     //return all types
-    function get_type(){
+    function get_type($verified=NULL){
+        if (isset($verified)) {
+            $this->db->where('Verified',id_clean($verified));
+        }
         $this->db->distinct();
         $this->db->select('CropType');
         return $this->db->get('Crop');
     }
     
     //return all brands by type
-    function get_brand($type=NULL){
+    function get_brand($type=NULL,$verified=NULL){
         if(isset($type)){
             $this->db->where('CropType',db_clean($type,20));
+        }
+        if (isset($verified)) {
+            $this->db->where('Verified',id_clean($verified));
         }
         $this->db->distinct();
         $this->db->select('Brand');
@@ -33,13 +39,16 @@ class m_crop extends CI_Model{
     }
     
     //return products by type,brand
-    function get_product($type=NULL,$brand=NULL){
+    function get_product($type=NULL,$brand=NULL,$verified=NULL){
         if(isset($type)){
             $this->db->where('CropType',db_clean($type,20));
         }
         
         if(isset($brand)){
             $this->db->where('Brand',db_clean($brand,100));
+        }
+        if (isset($verified)) {
+            $this->db->where('Verified',id_clean($verified));
         }
         $this->db->distinct();
         $this->db->select('PK_CropId,Product');
@@ -72,8 +81,7 @@ class m_crop extends CI_Model{
         //print_r($data);
         $this->db->set($data);
         $this->db->insert('Crop');
-        $id = $this->db->insert_id();
-        return $id;
+        return $this->db->insert_id();
     }
     
 }

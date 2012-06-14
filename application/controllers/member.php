@@ -843,10 +843,10 @@ class Member extends CI_Controller {
         );     
         
         //get equipment brand
-        $data['equipment_brands'] = $this->m_equipment->get_brand('Planter');
+        $data['equipment_brands'] = $this->m_equipment->get_brand('Planter',1);
         
         //get crop type
-        $data['crop_types'] = $this->m_crop->get_type();
+        $data['crop_types'] = $this->m_crop->get_type(1);
         
         $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
         
@@ -1077,7 +1077,7 @@ class Member extends CI_Controller {
     function get_equipment_product(){
         if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $data['response'] = false;
-            $query = $this->m_equipment->get_product(trim($this->input->post('type')),trim($this->input->post('brand')));
+            $query = $this->m_equipment->get_product(trim($this->input->post('type')),trim($this->input->post('brand')),1);
             if($query->num_rows()){
                 $result = $query->result();
                 $data['response'] = true; //Set response
@@ -1093,7 +1093,7 @@ class Member extends CI_Controller {
     function get_crop_brand(){
         if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $data['response'] = false;
-            $query = $this->m_crop->get_brand(trim($this->input->post('type')));
+            $query = $this->m_crop->get_brand(trim($this->input->post('type')),1);
             if($query->num_rows()){
                 $result = $query->result();
                 $data['response'] = true; //Set response

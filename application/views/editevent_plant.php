@@ -45,18 +45,19 @@
         ?>
             <tr>
                 <td align="right" colspan="2">
-                    <a href="#" onclick="javascript:changeToVisible('other_one');">{my product isn't in these lists}</a>
+                    <a href="javascript:void(0);" id="show_other_one">{my product isn't in these lists}</a>
                     <div id="other_one">
-                        <br>Please enter manually (select Type above):<br>
+                        <br>Please enter manually:<br>
                         Brand:&nbsp;<input type="text" size="40" name="OtherEquipmentBrand"><br>
                         Product:&nbsp;<input type="text" size="40" name="OtherEquipmentProduct"><br>
                     </div>
                 </td>
             </tr>
-
+    </table>
+    <BR CLEAR=LEFT>
        
-        <h4>Planting Data</h4>  
-        
+    <h4>Planting Data</h4>  
+          
     <?php
     if(isset($crop_info))
     {
@@ -100,6 +101,16 @@
             }
 
         ?>
+            <tr>
+                <td align="right" colspan="2">
+                    <a href="javascript:void(0);" id="show_other_two">{my product isn't in these lists}</a>
+                    <div id="other_two">
+                        <br>Please enter manually (select Type above):<br>
+                        Brand:&nbsp;<input type="text" size="40" name="OtherCropBrand"><br>
+                        Product:&nbsp;<input type="text" size="40" name="OtherCropProduct"><br>
+                    </div>
+                </td>
+            </tr>            
           </table>
 
         
@@ -114,13 +125,3 @@
     </form>
     <br><br>
 </div>
-
-<script type="text/javascript">
-
-function changeToVisible(obj)
-{
-    obj = document.getElementById(obj);
-    obj.style.display = 'inline';
-}
-
-</script>
