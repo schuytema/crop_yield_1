@@ -26,7 +26,7 @@
     ?>
 <br />
 <br />
-   <img src="<?php echo base_url(); ?>css/images/sm_logo4.jpg" alt="logo" width="165" height="97" /></div>
+   <img src="<?php echo base_url(); ?>css/images/sm_logo5.jpg" alt="logo" width="165" height="97" /></div>
 
   
 </div>

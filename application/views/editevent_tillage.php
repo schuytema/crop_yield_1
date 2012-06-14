@@ -1,4 +1,11 @@
 <h3>Event Tillage Details</h3>
+
+<?php
+    //check for edit
+    if(isset($tillage_data) && $tillage_data->num_rows()){
+        $row = $tillage_data->row();
+    }
+    ?>
     
     <h4>Equipment Used</h4>
     
@@ -13,11 +20,7 @@
                         <option value="Case IH">Case IH</option>
                         <option value="Ford">Ford</option>
                         <option value="John Deere">John Deere</option>
-                        <option value="Other" >Other</option>
                       </select>
-                      <div id="other_one">
-                          <br>Please enter:&nbsp;<input type="text" size="20" name="OtherBrand">
-                      </div>
                   </td>
                </tr>
                <tr valign="top">
@@ -30,13 +33,19 @@
                         <option value="625">625</option>
                         <option value="980">980</option>
                         <option value="1010">1010</option>
-                        <option value="Other">Other</option>
                       </select>
-                      <div id="other_two">
-                          <br>Please enter:&nbsp;<input type="text" size="20" name="OtherProduct">
-                      </div>
                   </td>
                </tr>
+               <tr>
+                    <td align="right" colspan="2">
+                        <a href="javascript:Void(0);" onclick="javascript:changeToVisible('other_one');">{my equipment isn't in these lists}</a>
+                        <div id="other_one">
+                          <br>Please enter equipment manually:<br>
+                          Brand:&nbsp;<input type="text" size="40" name="OtherBrand"><br>
+                          Product:&nbsp;<input type="text" size="40" name="OtherProduct"><br>
+                        </div>
+                    </td>
+                </tr>
           </table>
           <BR CLEAR=LEFT>
     <br><br>
@@ -53,18 +62,10 @@
 
 <script type="text/javascript">
 
-function changeToVisible(val, obj)
+function changeToVisible(obj)
 {
     obj = document.getElementById(obj);
-    if (val == 'Other')
-    {
-        //obj.style.visibility = 'visible';
-        obj.style.display = 'inline';
-    } else {
-        //obj.style.visibility = 'hidden';
-        obj.style.display = 'none';
-    }
-
+    obj.style.display = 'inline';
 }
 
 </script>

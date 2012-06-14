@@ -34,6 +34,16 @@
                       </select>
                   </td>
                </tr>
+               <tr>
+                    <td align="right" colspan="2">
+                        <a href="javascript:Void(0);" onclick="javascript:changeToVisible('other_one');">{my equipment isn't in these lists}</a>
+                        <div id="other_one">
+                          <br>Please enter equipment manually:<br>
+                          Brand:&nbsp;<input type="text" size="40" name="OtherBrand"><br>
+                          Product:&nbsp;<input type="text" size="40" name="OtherProduct"><br>
+                        </div>
+                    </td>
+                </tr>
           </table>
           <BR CLEAR=LEFT>
        
@@ -88,4 +98,14 @@
     </form>
     <br><br>
 </div>
+
+<script type="text/javascript">
+
+function changeToVisible(obj)
+{
+    obj = document.getElementById(obj);
+    obj.style.display = 'inline';
+}
+
+</script>
 
