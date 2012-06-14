@@ -26,6 +26,7 @@
           <input type="text" name="Username" value="<?php echo set_value('Username'); ?>">
           <label>Password</label>
           <input type="password" name="Password">
+          &nbsp;&nbsp;<font color="gray"><?php echo lang('auth_pass_note');?></font>
           <label>Password (again)</label>
           <input type="password" name="Password2">
           <label>Invitation Key</label>

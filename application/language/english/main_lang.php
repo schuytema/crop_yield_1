@@ -7,6 +7,10 @@ $lang['auth_user_exists'] = 'Username already exists. Please choose another user
 $lang['auth_email_exists'] = 'Email already exists. Please choose another email.';
 $lang['auth_login_failed'] = 'The username or password you entered is not valid.';
 
+//Password
+$lang['auth_pass_note'] = "Passwords must be at least 8 characters long and contain both letters and numbers.";
+
+
 //Forgot Password
 $lang['auth_forgot_pass_msg'] = 'Changing your password is simple. Please use the link below within 8 hours.'."\n\n".'%s'."\n\n".'Thank you,'."\n".'The Grow Our Yields Team';
 $lang['auth_forgot_pass_subject'] = 'Reset Your Grow Our Yields Password';
