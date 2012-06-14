@@ -33,6 +33,7 @@ class m_event extends CI_Model{
         if(isset($field_id)){
             $this->db->where('FK_FieldId',db_clean($field_id,20));
         }
+        $this->db->order_by("Date", "DESC"); 
         return $this->db->get('Event');
     }
     
