@@ -10,7 +10,7 @@ $(document).ready(function(){
             $("#Brand").attr("disabled","disabled");
             $("#Product").attr("disabled","disabled");
             $("#Brand").html("<option>wait...</option>");
-            $("#Product").html("<option>wait...</option>");
+            $("#Product").html("<option value=\"\">wait...</option>");
             $.post(CI.base_url + "member/get_chemical_brand", { 'type' : type },
             function(data){
                 if(data.response == true){

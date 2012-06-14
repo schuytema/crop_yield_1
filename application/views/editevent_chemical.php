@@ -7,9 +7,9 @@
         $datarow = $chemical_data->row();
     }
     
-    if(isset($selected_chemical))
+    if(isset($chemical_info))
     {
-        echo $selected_chemical;
+        echo '<blockquote>Current Chemical:<br>Type:&nbsp;'.$chemical_info['Type'].'<br>Brand:&nbsp;'.$chemical_info['Brand'].'<br>Product:&nbsp;'.$chemical_info['Product'].'</blockquote>';;
     }
     
     ?>
@@ -37,14 +37,14 @@
                     //brands
                     echo '<tr valign="top"><td align="right" width="200"><b>Brand:</b>&nbsp;&nbsp;</td><td align="left" width="310">';
                     
-                    echo '<select id="Brand" name="Brand"><option>select type...</select>';
+                    echo '<select id="Brand" name="Brand"><option>select type...</option></select>';
 
                     echo '</td></tr>';
 
                     //products
                     echo '<tr valign="top"><td align="right" width="200"><b>Product:</b>&nbsp;&nbsp;</td><td align="left" width="310">';
                     
-                    echo '<select id="Product" name="Product"><option>select brand...</select></select>';
+                    echo '<select id="Product" name="Product"><option value="">select brand...</option></select>';
 
                     echo '</td></tr>';
                     
@@ -55,6 +55,16 @@
             
             ?>
             
+                <tr>
+                    <td align="right" colspan="2">
+                        <a href="#" onclick="javascript:changeToVisible('other_one');">{my product isn't in these lists}</a>
+                        <div id="other_one">
+                          <br>Please enter manually (select Type above):<br>
+                          Brand:&nbsp;<input type="text" size="40" name="OtherBrand"><br>
+                          Product:&nbsp;<input type="text" size="40" name="OtherProduct"><br>
+                        </div>
+                    </td>
+                </tr>
             
               
                <tr valign="top">
@@ -89,3 +99,12 @@
     <br><br>
 </div>
 
+<script type="text/javascript">
+
+function changeToVisible(obj)
+{
+    obj = document.getElementById(obj);
+    obj.style.display = 'inline';
+}
+
+</script>
