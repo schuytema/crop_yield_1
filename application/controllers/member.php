@@ -531,7 +531,7 @@ class Member extends CI_Controller {
         );
         
         //get chemical type
-        $data['types'] = $this->m_chemical->get_type();
+        $data['types'] = $this->m_chemical->get_type(1);
         
         $data['action'] = current_url();
         
@@ -771,7 +771,7 @@ class Member extends CI_Controller {
                 //see if other stuff has been entered... if so, create the new crop row
                 if (strlen($this->input->post('OtherCropBrand')) > 0 && strlen($this->input->post('OtherCropProduct')) > 0)
                 {
-                    $crop_id = $this->m_plant->set_crop_manually($this->input->post('CropType'), $this->input->post('OtherCropBrand'), $this->input->post('OtherCropProduct'));
+                    $crop_id = $this->m_crop->set_crop_manually($this->input->post('CropType'), $this->input->post('OtherCropBrand'), $this->input->post('OtherCropProduct'));
                 } else {
                     $crop_id = NULL;
                 }
@@ -787,7 +787,7 @@ class Member extends CI_Controller {
                     { 
                         $new_event_id = $this->m_event->set($field_id);
                         $new = true;
-                        $this->m_eventplant->set($event_id, $new, $equipment_id, $crop_id);
+                        $this->m_eventplant->set($new_event_id, $new, $equipment_id, $crop_id);
                     }
                 }
                 //redirect to overview
@@ -1088,7 +1088,7 @@ class Member extends CI_Controller {
         );
         
         //get chemical type
-        $data['types'] = $this->m_chemical->get_type();
+        $data['types'] = $this->m_chemical->get_type(1);
         
         // load views
         $this->load->view('header', $data);
@@ -1103,7 +1103,7 @@ class Member extends CI_Controller {
     function get_chemical_brand(){
         if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $data['response'] = false;
-            $query = $this->m_chemical->get_brand(trim($this->input->post('type')));
+            $query = $this->m_chemical->get_brand(trim($this->input->post('type')),1);
             if($query->num_rows()){
                 $result = $query->result();
                 $data['response'] = true; //Set response
@@ -1119,7 +1119,7 @@ class Member extends CI_Controller {
     function get_chemical_product(){
         if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $data['response'] = false;
-            $query = $this->m_chemical->get_product(trim($this->input->post('type')),trim($this->input->post('brand')));
+            $query = $this->m_chemical->get_product(trim($this->input->post('type')),trim($this->input->post('brand')),1);
             if($query->num_rows()){
                 $result = $query->result();
                 $data['response'] = true; //Set response

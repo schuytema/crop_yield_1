@@ -61,7 +61,7 @@
     <?php
     if(isset($crop_info))
     {
-        echo '<blockquote>Current Crop:<br>Type:&nbsp;'.$crop_info['CropType'].'<br>Brand:&nbsp;'.$crop_info['Brand'].'<br>Product:&nbsp;'.$crop_info['Product'].'</blockquote>';;
+        echo '<blockquote>Current Crop:<br>Type:&nbsp;'.$crop_info['Type'].'<br>Brand:&nbsp;'.$crop_info['Brand'].'<br>Product:&nbsp;'.$crop_info['Product'].'</blockquote>';;
     }
     ?>
           
