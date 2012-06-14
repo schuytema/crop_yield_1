@@ -50,7 +50,7 @@
                     
 
                 } else {
-                    echo '<tr><td colspan="2"><font color="red>Chemical data not found.</font></td><tr>';
+                    echo '<tr><td colspan="2"><font color="red>Chemical data not found.</font></td></tr>';
                 }
             
             ?>

@@ -17,8 +17,10 @@ class Member extends CI_Controller {
         }
         
         $this->load->model('m_chemical');
+        $this->load->model('m_crop');
         $this->load->model('m_farm');
         $this->load->model('m_field');
+        $this->load->model('m_equipment');
         $this->load->model('m_event');
         $this->load->model('m_eventapplication');
         $this->load->model('m_eventchemical');
@@ -739,14 +741,14 @@ class Member extends CI_Controller {
 
             if($this->form_validation->run()){
                 //see if other stuff has been entered... if so, create the new equipment row
-                if (!empty($this->input->post('OtherEquipmentBrand')) && !empty($this->input->post('OtherEquipmentProduct')))
+                if (strlen($this->input->post('OtherEquipmentBrand')) > 0 && strlen($this->input->post('OtherEquipmentProduct')) > 0)
                 {
                     $equipment_id = $this->m_equipment->set_equipment_manually('Planter', $this->input->post('OtherEquipmentBrand'), $this->input->post('OtherEquipmentProduct'));
                 } else {
                     $equipment_id = NULL;
                 }
                 //see if other stuff has been entered... if so, create the new crop row
-                if (!empty($this->input->post('OtherCropBrand')) && !empty($this->input->post('OtherCropProduct')))
+                if (strlen($this->input->post('OtherCropBrand')) > 0 && strlen($this->input->post('OtherCropProduct')) > 0)
                 {
                     $crop_id = $this->m_plant->set_crop_manually($this->input->post('CropType'), $this->input->post('OtherCropBrand'), $this->input->post('OtherCropProduct'));
                 } else {
@@ -825,12 +827,14 @@ class Member extends CI_Controller {
         );     
         
         //get equipment brand
-        $data['equipment_brands'] = $this->m_crop->get_brand('Planter');
+        $data['equipment_brands'] = $this->m_equipment->get_brand('Planter');
         
         //get crop type
         $data['crop_types'] = $this->m_crop->get_type();
         
         $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
+        
+        $data['action'] = current_url();
 
         $this->load->view('header',$data);
         $this->load->view('editevent_master',$data);

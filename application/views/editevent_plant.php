@@ -39,12 +39,21 @@
 
 
             } else {
-                echo '<tr><td colspan="2"><font color="red>Equipment data not found.</font></td><tr>';
+                echo '<tr><td colspan="2"><font color="red>Equipment data not found.</font></td></tr>';
             }
 
         ?>
-          </table>
-          <BR CLEAR=LEFT>
+            <tr>
+                <td align="right" colspan="2">
+                    <a href="#" onclick="javascript:changeToVisible('other_one');">{my product isn't in these lists}</a>
+                    <div id="other_one">
+                        <br>Please enter manually (select Type above):<br>
+                        Brand:&nbsp;<input type="text" size="40" name="OtherEquipmentBrand"><br>
+                        Product:&nbsp;<input type="text" size="40" name="OtherEquipmentProduct"><br>
+                    </div>
+                </td>
+            </tr>
+
        
         <h4>Planting Data</h4>  
         
@@ -87,7 +96,7 @@
 
 
             } else {
-                echo '<tr><td colspan="2"><font color="red>Crop data not found.</font></td><tr>';
+                echo '<tr><td colspan="2"><font color="red>Crop data not found.</font></td></tr>';
             }
 
         ?>
@@ -106,3 +115,12 @@
     <br><br>
 </div>
 
+<script type="text/javascript">
+
+function changeToVisible(obj)
+{
+    obj = document.getElementById(obj);
+    obj.style.display = 'inline';
+}
+
+</script>

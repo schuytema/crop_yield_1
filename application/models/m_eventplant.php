@@ -34,7 +34,7 @@ class m_eventplant extends CI_Model{
             {
                 $data['FK_EquipmentId'] = id_clean($equipment_id);
             } else {
-                if (!empty($this->input->post('EquipmentProduct')))
+                if (strlen($this->input->post('EquipmentProduct')) > 0)
                 {
                     $data['FK_EquipmentId'] = id_clean($this->input->post('EquipmentProduct'));
                 }
@@ -44,7 +44,7 @@ class m_eventplant extends CI_Model{
             {
                 $data['FK_CropId'] = id_clean($crop_id);
             } else {
-                if (!empty($this->input->post('CropProduct')))
+                if (strlen($this->input->post('CropProduct')) > 0)
                 {
                     $data['FK_CropId'] = id_clean($this->input->post('CropProduct'));
                 }
