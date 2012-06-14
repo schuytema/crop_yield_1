@@ -61,6 +61,21 @@ class m_chemical extends CI_Model{
         return $info;
     }
     
+    function set_chemical_manually($type, $brand, $product)
+    {
+        $data = array(
+            'ChemicalType' => db_clean(($type),20),
+            'Brand' => db_clean(($brand),100),
+            'Product' => db_clean(($product),200),
+            'Verified' => 0
+        );
+        //print_r($data);
+        $this->db->set($data);
+        $this->db->insert('Chemical');
+        $id = $this->db->insert_id();
+        return $id;
+    }
+    
 }
 /* End of file m_chemical.php */
 /* Location: ./application/models/m_chemical.php */

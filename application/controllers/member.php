@@ -431,20 +431,27 @@ class Member extends CI_Controller {
             $this->form_validation->set_rules('AmountActiveIngredient', 'Amount Active Ingredient', 'trim|required|numeric');
 
             if($this->form_validation->run()){
+                //see if other stuff has been entered... if so, crearte the new chemical row
+                if (($this->input->post('OtherBrand') != '') && ($this->input->post('OtherProduct') != ''))
+                {
+                    $chem_id = $this->m_chemical->set_chemical_manually($this->input->post('ChemicalType'), $this->input->post('OtherBrand'), $this->input->post('OtherProduct'));
+                    //echo $chem_id;
+                } else {
+                    $chem_id = NULL;
+                }
                 //send to db
-                
                 if(isset($event_id))
                 {
                     $this->m_event->set($field_id, $event_id);
                     $new = false;
-                    $this->m_eventchemical->set($event_id, $new);
+                    $this->m_eventchemical->set($event_id, $new, $chem_id);
                 } else {
                     $fields = $this->event_manager->get_fields_from_event_form();
                     foreach ($fields as $field_id)
                     { 
                         $new_event_id = $this->m_event->set($field_id);
                         $new = true;
-                        $this->m_eventchemical->set($new_event_id, $new);
+                        $this->m_eventchemical->set($new_event_id, $new, $chem_id);
                     }
                 }
                 //redirect to overview
@@ -479,11 +486,9 @@ class Member extends CI_Controller {
             $data['new_event'] = false;
             //get the info for the chemical if one's picked
             $chemical_details = $data['chemical_data']->row();
-            $chemical_info = $this->m_chemical->get_product_info($chemical_details->FK_ChemicalId);
-            $selected_chemical = 'Current Chamical:&nbsp;Type:&nbsp;'.$chemical_info['Type'].'Brand:&nbsp;'.$chemical_info['Brand'].'Product:&nbsp;'.$chemical_info['Product'].'<br>';
+            $data['chemical_info'] = $this->m_chemical->get_product_info($chemical_details->FK_ChemicalId);
         } else {
             $data['new_event'] = true;
-            $selected_chemical = NULL;
         }
         
         $data['event_type'] = 'Chemical';
