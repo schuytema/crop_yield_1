@@ -55,7 +55,7 @@ class Auth {
                 //verify password
                 if($this->check_password($pass,$row->Password)){
                     //set session for direct access to member's area
-                    $this->set_session(array('PK_UserId' => $row->PK_UserId,'FK_FarmId' => $row->FK_FarmId));
+                    $this->_set_session(array('PK_UserId' => $row->PK_UserId,'FK_FarmId' => $row->FK_FarmId));
                     $this->CI->m_user->update_visit($row->PK_UserId,$row->VisitCount);
                     return TRUE;
                 }
@@ -131,7 +131,7 @@ class Auth {
         
         if($val = $this->CI->m_user->create_user($data)){
             //set session for direct access to member's area
-            $this->set_session(array('PK_UserId' => $val,'FK_FarmId' => NULL));
+            $this->_set_session(array('PK_UserId' => $val,'FK_FarmId' => NULL));
             
             //send welcome message
             $this->CI->load->library('mail');
@@ -275,10 +275,17 @@ class Auth {
         return $error;
     }
     
-    function set_session($data){
+    // ------------------------------------------------------------------------
+
+    /**
+    * Set auth data for current session
+    * @param array
+    * @return void
+    * @access public
+    */
+    private function _set_session($data){
         //initialize data
         $arr = array();
-        $arr['Auth'] = TRUE;
         $arr['UserId'] = $data['PK_UserId'];
         $arr['FarmId'] = $data['FK_FarmId'];
         $this->CI->php_session->set('AUTH',$arr);
@@ -294,12 +301,12 @@ class Auth {
     */
     public function update_session($arr=array()){
         $auth_data = $this->CI->php_session->get('AUTH');
-        if(!empty($auth_data) && is_array($arr)){
-            foreach($arr AS $key => $val){
+        foreach($arr AS $key => $val){
+            if(array_key_exists($key,$auth_data)){ //key must exist in original session data
                 $auth_data[$key] = $val;
             }
-            $this->CI->php_session->set('AUTH',$auth_data);
         }
+        $this->CI->php_session->set('AUTH',$auth_data);
     }
     
     // ------------------------------------------------------------------------

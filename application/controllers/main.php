@@ -265,21 +265,7 @@ class Main extends CI_Controller {
                 array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/reset.css')
             )
         );
-        
-        //js object builder
-        $data['js_object'] = js_object(
-            array(
-                'CI' => array('base_url' => base_url())
-            )
-        );
-                  
-        //js_helper: dynamically build <script> tags
-        $data['js'] = js_load(
-            array(
-                $this->config->item('jquery_js')
-            )
-        );
-        
+                
         $data['title'] = 'Grow Our Yields - Sign Up';
         
         $this->load->view('header',$data);
@@ -289,9 +275,12 @@ class Main extends CI_Controller {
 
     function pwr(){
         
+        /*
         if(!$this->m_user->verify_pwr($this->uri->segment(3),$this->uri->segment(4),TRUE)->num_rows()){
             show_404();
         }
+         * 
+         */
         
         $data['link_content'] = link_content(
             array(

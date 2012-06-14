@@ -19,9 +19,9 @@ $config['base_url'] = "https://".$_SERVER["SERVER_NAME"].'/';
 $config['cookie_domain'] = 'DOMAIN_NAME_HERE';
 
 //jquery links
-$config['jquery_js'] = 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js';
-$config['jquery_ui_js'] = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js';
-$config['jquery_ui_css'] = 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css';
+$config['jquery_js'] = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js';
+$config['jquery_ui_js'] = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js';
+$config['jquery_ui_css'] = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css';
 
 //system email
 $config['sys_email'] = 'noreply@growouryields.com';

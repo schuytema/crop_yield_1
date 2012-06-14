@@ -30,7 +30,7 @@ class MY_Exceptions extends CI_Exceptions {
         }
         
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $domain.'/main/error');
+        curl_setopt($ch, CURLOPT_URL, 'https://'.$domain.'/main/error');
         curl_setopt($ch, CURLOPT_HEADER, 0);
         
         if(!session_id()){
