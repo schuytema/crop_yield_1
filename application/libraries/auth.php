@@ -102,30 +102,16 @@ class Auth {
     
     // ------------------------------------------------------------------------
     
-    function create_account(){
-        /*
-        //verify username, email do not exist
-        if($this->CI->m_user->does_username_exist($this->CI->input->post('Username'))){
-            $this->error[] = lang('auth_user_exists');
-            return FALSE;
-        }
-        
-        if($this->CI->m_user->does_email_exist($this->CI->input->post('Email'))){
-            $this->error[] = lang('auth_email_exists');
-            return FALSE;
-        }
-         * 
-         */
-                
+    function create_account(){     
         //generate password hash
         $pass = $this->hash_password(db_clean($this->CI->input->post('Password')));
         
         //create account
         $data = array(
-            'FirstName' => db_clean($this->CI->input->post('FirstName'),25),
-            'LastName' => db_clean($this->CI->input->post('LastName'),50),
-            'Email' => db_clean($this->CI->input->post('Email'),100),
-            'Username' => db_clean($this->CI->input->post('Username'),100),
+            'FirstName' => db_clean(strip_tags($this->CI->input->post('FirstName')),25),
+            'LastName' => db_clean(strip_tags($this->CI->input->post('LastName')),50),
+            'Email' => db_clean(strip_tags($this->CI->input->post('Email')),100),
+            'Username' => db_clean(strip_tags($this->CI->input->post('Username')),100),
             'Password' => $pass
         );
         
@@ -317,16 +303,16 @@ class Auth {
         $auth_data = $this->CI->php_session->get('AUTH');
         //required fields
         $data = array(
-            'FirstName' => db_clean($this->CI->input->post('FirstName'),25),
-            'LastName' => db_clean($this->CI->input->post('LastName'),50)
+            'FirstName' => db_clean(strip_tags($this->CI->input->post('FirstName')),25),
+            'LastName' => db_clean(strip_tags($this->CI->input->post('LastName')),50)
         );
         
         //optional fields
         if($this->CI->input->post('Email')){
-            $data['Email'] = db_clean($this->CI->input->post('Email'),100);
+            $data['Email'] = db_clean(strip_tags($this->CI->input->post('Email')),100);
         }
         if($this->CI->input->post('Username')){
-            $data['Username'] = db_clean($this->CI->input->post('Username'),100);
+            $data['Username'] = db_clean(strip_tags($this->CI->input->post('Username')),100);
         }
         if($this->CI->input->post('Password')){
             $data['Password'] = $this->hash_password(db_clean($this->CI->input->post('Password')));

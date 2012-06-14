@@ -32,10 +32,11 @@
             &nbsp;&nbsp;<font color="gray">current username: <?php echo $row->Username;?></font>
             <label>Existing Password</label>
             <input type="password" name="CurrPassword">
-            &nbsp;&nbsp;&nbsp;&nbsp;<label>New Password</label>
-            &nbsp;&nbsp;&nbsp;&nbsp;<input type="password" name="Password">
-            &nbsp;&nbsp;&nbsp;&nbsp;<label>New Password (again)</label>
-            &nbsp;&nbsp;&nbsp;&nbsp;<input type="password" name="VerifyPassword">
+            <label>New Password</label>
+            <input type="password" name="Password">
+            &nbsp;&nbsp;<font color="gray"><?php echo lang('auth_pass_note');?></font>
+            <label>New Password (again)</label>
+            <input type="password" name="VerifyPassword">
             </fieldset>
             <footer>
             <input type="submit" name="submit" class="btnLogin" value="Submit" tabindex="4">

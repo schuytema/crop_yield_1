@@ -17,12 +17,12 @@ class m_farm extends CI_Model{
     
     function set($id=NULL){
         $data = array(
-            'Name' => db_clean($this->input->post('Name'),100),
-            'Address' => db_clean($this->input->post('Address'),100),
-            'City' => db_clean($this->input->post('City'),50),
-            'State' => db_clean($this->input->post('State'),2),
-            'Zip' => db_clean($this->input->post('Zip'),5),
-            'Phone' => db_clean($this->input->post('Phone'),20)
+            'Name' => db_clean(strip_tags($this->input->post('Name')),100),
+            'Address' => db_clean(strip_tags($this->input->post('Address')),100),
+            'City' => db_clean(strip_tags($this->input->post('City')),50),
+            'State' => db_clean(strip_tags($this->input->post('State')),2),
+            'Zip' => db_clean(strip_tags($this->input->post('Zip')),5),
+            'Phone' => db_clean(strip_tags($this->input->post('Phone')),20)
         );
         
         if(isset($id)){ //update

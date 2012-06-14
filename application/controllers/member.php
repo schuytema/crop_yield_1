@@ -35,7 +35,7 @@ class Member extends CI_Controller {
 
     function logout(){
         $this->auth->logout();
-        redirect('main/','refresh');
+        redirect('/','refresh');
     }
     
     public function farm()
