@@ -118,13 +118,47 @@ class m_user extends CI_Model{
     }
     
     //verify password recovery params
-    function verify_pwr($id,$key,$check_expiration=FALSE){
+    function verify_pwr($id,$key){
         $this->db->where('PK_UserId',id_clean($id));
         $this->db->where('NewPasswordKey',db_clean($key,32));
-        if($check_expiration){
-            $this->db->where('NewPasswordRequest > ( NOW( ) - INTERVAL 8 HOUR )');
+        $this->db->where('NewPasswordRequest > ( NOW( ) - INTERVAL 8 HOUR )');
+        if($this->db->get('User')->num_rows()){
+            return TRUE;
         }
-        return $this->db->get('User');
+        
+        //no results: odds are time expired (or the id/key are invalid)
+        //update record to nullify new password fields
+        $data = array(
+            'NewPasswordKey' => NULL,
+            'NewPasswordRequest' => NULL,
+        );
+        $this->db->set($data);
+        $this->db->where('PK_UserId',id_clean($id));
+        $this->db->update('User');
+        
+        return FALSE;
+    }
+    
+    //reset password system
+    //@TODO: when admin backend exists, remove FailedLoginCount, IsEnabled from query
+    function reset_password($id,$key,$password){
+        $data = array(
+            'Password' => $password,
+            'NewPasswordKey' => NULL,
+            'NewPasswordRequest' => NULL,
+            'FailedLoginCount' => 0,
+            'IsEnabled' => 1
+        );
+        $this->db->set($data);
+        $this->db->where('PK_UserId',id_clean($id));
+        $this->db->where('NewPasswordKey',id_clean($key));
+        if($this->db->update('User')){
+            //get email for notification
+            $this->db->select('Email');
+            $query = $this->db->get_where('User',array('PK_UserId' =>id_clean($id)));
+            return $query->row()->Email;
+        }
+        return FALSE;
     }
 }
 /* End of file m_user.php */

@@ -336,6 +336,32 @@ class Auth {
         $this->CI->m_user->update_user($auth_data['UserId'],$data);
     }
     
+    // ------------------------------------------------------------------------
+
+    /**
+    * Reset password via web form
+    * - verify user credentials (id & key), then reset password
+    * - @TODO: when rested, verify logic/flow
+    * @param void
+    * @return void
+    * @access public
+    */
+    function reset_password($id,$key){
+        //hash password
+        $password = $this->hash_password(db_clean($this->CI->input->post('Password')));
+        
+        //reset password; return email address upon success
+        $email = $this->CI->m_user->reset_password($id,$key,$password);
+                
+        if($email){
+            //send notification
+            $this->CI->load->library('mail');
+            $this->CI->mail->send_mail(array('message' => lang('auth_reset_pass_msg'),'subject' => lang('auth_reset_pass_subject'),'to_address' => $email));
+            return TRUE;
+        }
+        return FALSE;
+    }
+    
 }
 // END Auth Class
 

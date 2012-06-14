@@ -274,13 +274,23 @@ class Main extends CI_Controller {
     }
 
     function pwr(){
-        
-        /*
-        if(!$this->m_user->verify_pwr($this->uri->segment(3),$this->uri->segment(4),TRUE)->num_rows()){
+        if(!$this->m_user->verify_pwr($this->uri->segment(3),$this->uri->segment(4))){
             show_404();
         }
-         * 
-         */
+        
+        if($this->input->post('submit')){
+            $this->load->library('Form_validation');
+            $this->load->library('MY_form_validation',NULL,'form_validation');
+            $this->form_validation->set_rules('Password', 'New Password', 'trim|min_length[8]|max_length[50]|is_legal_password|matches[VerifyPassword]');
+            $this->form_validation->set_rules('VerifyPassword', 'New Password (again)', 'trim');
+            if($this->form_validation->run()){
+                $data['status'] = lang('auth_reset_pass_fail');
+                //we know the id/key pair is valid (by way of the verify_pwr function)
+                if($this->auth->reset_password($this->uri->segment(3),$this->uri->segment(4))){
+                    $data['status'] = lang('auth_reset_pass_success');
+                }
+            } 
+        }
         
         $data['link_content'] = link_content(
             array(
@@ -304,11 +314,14 @@ class Main extends CI_Controller {
         );
         
         $data['title'] = 'Grow Our Yields';
+        $data['id'] = $this->uri->segment(3);
+        $data['key'] = $this->uri->segment(4);
         
         $this->load->view('header',$data);
+        $this->load->view('pwr');
         $this->load->view('footer',$data);
     }
-    
+        
     function error(){
         $data['meta_content'] = meta_content(
             array(

@@ -12,6 +12,12 @@ $lang['auth_forgot_pass_msg'] = 'Changing your password is simple. Please use th
 $lang['auth_forgot_pass_subject'] = 'Reset Your Grow Our Yields Password';
 $lang['auth_forgot_pass_reset_success'] = 'An email has been sent to the requested account with further information. If you do not receive an email then please confirm you have entered the same email address used during account signup.';
 
+//Reset Password
+$lang['auth_reset_pass_msg'] = 'Your password was recently updated. If you did not reset your password, please contact the Grow Our Yields Team.'."\n\n".'Thank you,'."\n".'The Grow Our Yields Team';
+$lang['auth_reset_pass_subject'] = 'Grow Our Yields - Password Reset';
+$lang['auth_reset_pass_success'] = 'Your password has been updated! Please login now to access your account.<br /><br />If you need further assistance, please contact The Grow Our Yields Team.';
+$lang['auth_reset_pass_fail'] = 'An error occurred while updating your password. The allotted time (8 hours) to reset your password has expired.<br /><br />To reset your password, please select the "Login" link, followed by the "Forgot your password?" link and follow the instructions on the screen.<br /><br />If you need further assistance, please contact The Grow Our Yields Team.';
+
 
 //Add/Edit Farm
 $lang['farm_new_title'] = 'Welcome to Grow Our Yields!';
