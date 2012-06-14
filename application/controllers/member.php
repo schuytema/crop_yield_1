@@ -95,6 +95,14 @@ class Member extends CI_Controller {
             )
         );
         
+        //js_helper: dynamically build <script> tags
+        $data['js'] = js_load(
+            array(
+                "https://maps.googleapis.com/maps/api/js?sensor=true",
+                base_url().'js/load_map_polygon.js',
+            )
+        );
+        
         $data['title'] = 'Grow Our Yields - Field View';
         
         //get info for the field data
@@ -270,6 +278,14 @@ class Member extends CI_Controller {
         $data['link_content'] = link_content(
             array(
                 array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
+            )
+        );
+     
+        //js_helper: dynamically build <script> tags
+        $data['js'] = js_load(
+            array(
+                "https://maps.googleapis.com/maps/api/js?sensor=true&libraries=drawing",
+                base_url().'js/map_polygon.js',
             )
         );
         

@@ -60,6 +60,3 @@
     ?>
     <br><br>
 </div>
-
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true&libraries=drawing"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>js/map_polygon.js"></script>

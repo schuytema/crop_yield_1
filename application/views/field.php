@@ -49,7 +49,3 @@
     <a href="<?php echo base_url(); ?>member/editevent">{add new event}</a>
     <br><br>
 </div>
-
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
-<script type="text/javascript" src="<?php echo base_url(); ?>js/load_map_polygon.js"></script>
-
