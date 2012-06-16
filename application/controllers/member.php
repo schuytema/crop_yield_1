@@ -876,6 +876,22 @@ class Member extends CI_Controller {
         
         $data['event_type'] = $type;
         
+        //js object builder
+        $data['js_object'] = js_object(
+            array(
+                'CI' => array('base_url' => base_url())
+            )
+        );
+                  
+        //js_helper: dynamically build <script> tags
+        $data['js'] = js_load(
+            array(
+                $this->config->item('jquery_js'),
+                base_url().'js/plant.js',
+                base_url().'js/calendar.js'
+            )
+        );     
+        
         //get equipment brand
         $data['equipment_brands'] = $this->m_equipment->get_brand('Planter',1);
         

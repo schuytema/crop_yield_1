@@ -27,7 +27,8 @@
                         <option value="<?php echo base_url(); ?>member/editevent_chemical"<?php if ($event_type == 'Chemical') { echo ' selected="selected"'; } ?>>Chemical</option>
                         <option value="<?php echo base_url(); ?>member/editevent_fertilizer"<?php if ($event_type == 'Fertilizer') { echo ' selected="selected"'; } ?>>Fertilizer</option>
                         <option value="<?php echo base_url(); ?>member/editevent_harvest"<?php if ($event_type == 'Harvest') { echo ' selected="selected"'; } ?>>Harvest</option>
-                        <option value="<?php echo base_url(); ?>member/editevent_plant"<?php if ($event_type == 'Plant') { echo ' selected="selected"'; } ?>>Plant</option>
+                        <option value="<?php echo base_url(); ?>member/editevent_plant/Plant"<?php if ($event_type == 'Plant') { echo ' selected="selected"'; } ?>>Plant</option>
+                        <option value="<?php echo base_url(); ?>member/editevent_plant/Replant"<?php if ($event_type == 'Replant') { echo ' selected="selected"'; } ?>>Replant</option>
                         <option value="<?php echo base_url(); ?>member/editevent_tillage"<?php if ($event_type == 'Tillage') { echo ' selected="selected"'; } ?>>Tillage</option>
                         <option value="<?php echo base_url(); ?>member/editevent_weather"<?php if ($event_type == 'Weather') { echo ' selected="selected"'; } ?>>Weather</option>
                       </select>
