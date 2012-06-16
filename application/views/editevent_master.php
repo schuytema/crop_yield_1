@@ -44,7 +44,7 @@
                       <b>Date:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left">
-                      <input type="text" size="15" name="Date" onclick="displayDatePicker('Date');" value="<?php echo set_value('Date',(isset($row->Date)) ? $row->Date : NULL); ?>"><a href="javascript:void(0);" onclick="displayDatePicker('Date');"><img src="<?php echo base_url(); ?>css/images/calendar.png" alt="calendar" border="0"></a>
+                      <input type="text" size="15" name="Date" id="Date" value="<?php echo set_value('Date',(isset($row->Date)) ? $row->Date : NULL); ?>" readonly="readonly">
                   </td>
                </tr>
                <tr valign="top">
