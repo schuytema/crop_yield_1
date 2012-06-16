@@ -680,20 +680,26 @@ class Member extends CI_Controller {
             $this->form_validation->set_rules('Yield', 'Yield', 'trim|required|numeric');
 
             if($this->form_validation->run()){
-                //send to db
+                //see if other stuff has been entered... if so, create the new equipment row
+                if (strlen($this->input->post('OtherEquipmentBrand')) > 0 && strlen($this->input->post('OtherEquipmentProduct')) > 0)
+                {
+                    $equipment_id = $this->m_equipment->set_equipment_manually('Harvet', $this->input->post('OtherEquipmentBrand'), $this->input->post('OtherEquipmentProduct'));
+                } else {
+                    $equipment_id = NULL;
+                }
                 
                 if(isset($event_id))
                 {
                     $this->m_event->set($field_id, $event_id);
                     $new = false;
-                    $this->m_eventharvest->set($event_id, $new);
+                    $this->m_eventharvest->set($event_id, $new, $equipment_id);
                 } else {
                     $fields = $this->event_manager->get_fields_from_event_form();
                     foreach ($fields as $field_id)
                     { 
                         $new_event_id = $this->m_event->set($field_id);
                         $new = true;
-                        $this->m_eventharvest->set($new_event_id, $new);
+                        $this->m_eventharvest->set($new_event_id, $new, $equipment_id);
                     }
                 }
                 //redirect to overview
@@ -727,7 +733,8 @@ class Member extends CI_Controller {
             array(
                 $this->config->item('jquery_js'),
                 $this->config->item('jquery_ui_js'),
-                base_url().'js/event.js'
+                base_url().'js/event.js',
+                base_url().'js/harvest.js'
             )
         );
         
@@ -742,12 +749,21 @@ class Member extends CI_Controller {
             $data['harvest_data'] = $this->m_eventharvest->get($event_id);
             $data['field_name'] = $this->m_field->get_field_name($field_id);
             $data['new_event'] = false;
+            //get the info for the equipment if one's picked
+            $harvest_details = $data['harvest_data']->row();
+            $data['equipment_info'] = $this->m_equipment->get_product_info($harvest_details->FK_EquipmentId);
         } else {
             $data['new_event'] = true;
         }
         
         $data['event_type'] = 'Harvest';
-                
+        
+        
+        
+
+        //get equipment brand
+        $data['equipment_brands'] = $this->m_equipment->get_brand('Harvester',1);
+        
         $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
         
         $data['action'] = current_url();
@@ -915,20 +931,26 @@ class Member extends CI_Controller {
             //$this->form_validation->set_rules('Yield', 'Yield', 'trim|required|numeric');
 
             if($this->form_validation->run()){
-                //send to db
+                //see if other stuff has been entered... if so, create the new equipment row
+                if (strlen($this->input->post('OtherEquipmentBrand')) > 0 && strlen($this->input->post('OtherEquipmentProduct')) > 0)
+                {
+                    $equipment_id = $this->m_equipment->set_equipment_manually('Tiller', $this->input->post('OtherEquipmentBrand'), $this->input->post('OtherEquipmentProduct'));
+                } else {
+                    $equipment_id = NULL;
+                }
                 
                 if(isset($event_id))
                 {
                     $this->m_event->set($field_id, $event_id);
                     $new = false;
-                    $this->m_eventtillage->set($event_id, $new);
+                    $this->m_eventtillage->set($event_id, $new, $equipment_id);
                 } else {
                     $fields = $this->event_manager->get_fields_from_event_form();
                     foreach ($fields as $field_id)
                     { 
                         $new_event_id = $this->m_event->set($field_id);
                         $new = true;
-                        $this->m_eventtillage->set($new_event_id, $new);
+                        $this->m_eventtillage->set($new_event_id, $new, $equipment_id);
                     }
                 }
                 //redirect to overview
@@ -950,19 +972,15 @@ class Member extends CI_Controller {
             )
         );
         
-        //js object builder
-        $data['js_object'] = js_object(
-            array(
-                'CI' => array('base_url' => base_url())
-            )
-        );
+
         
         //js_helper: dynamically build <script> tags
         $data['js'] = js_load(
             array(
                 $this->config->item('jquery_js'),
                 $this->config->item('jquery_ui_js'),
-                base_url().'js/event.js'
+                base_url().'js/event.js',
+                base_url().'js/tillage.js'
             )
         );
         
@@ -974,15 +992,29 @@ class Member extends CI_Controller {
         
         if(isset($event_id)){ 
             $data['event_data'] = $this->m_event->get($event_id);
-            $data['harvest_data'] = $this->m_eventtillage->get($event_id);
+            $data['tillage_data'] = $this->m_eventtillage->get($event_id);
             $data['field_name'] = $this->m_field->get_field_name($field_id);
             $data['new_event'] = false;
+            //get the info for the equipment if one's picked
+            $tillage_details = $data['tillage_data']->row();
+            $data['equipment_info'] = $this->m_equipment->get_product_info($tillage_details->FK_EquipmentId);
         } else {
             $data['new_event'] = true;
         }
         
         $data['event_type'] = 'Tillage';
-                
+        
+        //js object builder
+        $data['js_object'] = js_object(
+            array(
+                'CI' => array('base_url' => base_url())
+            )
+        );
+        
+
+        //get equipment brand
+        $data['equipment_brands'] = $this->m_equipment->get_brand('Tiller',1);
+        
         $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
         
         $data['action'] = current_url();
