@@ -37,7 +37,14 @@
                     echo '<td>'.$row->Notes.'</td>';
                     $deleteText = "return confirm('Confirm event delete: ".$row->EventType."')";
                     $lower = strtolower($row->EventType);
-                    echo '<td><a href="'.base_url().'member/editevent_'.$lower.'/'.$row->PK_EventId.'/'.$row->FK_FieldId.'">edit</a>&nbsp;|&nbsp;'.anchor(base_url().'member/delete_event/'.$row->PK_EventId,'delete',array('class'=>'delete','onclick'=>$deleteText)).'</td>';
+                    if ($lower == 'plant')
+                    {
+                        echo '<td><a href="'.base_url().'member/editevent_plant/Plant/'.$row->PK_EventId.'/'.$row->FK_FieldId.'">edit</a>&nbsp;|&nbsp;'.anchor(base_url().'member/delete_event/'.$row->PK_EventId,'delete',array('class'=>'delete','onclick'=>$deleteText)).'</td>';
+                    } elseif ($lower == 'replant') {
+                        echo '<td><a href="'.base_url().'member/editevent_plant/Replant/'.$row->PK_EventId.'/'.$row->FK_FieldId.'">edit</a>&nbsp;|&nbsp;'.anchor(base_url().'member/delete_event/'.$row->PK_EventId,'delete',array('class'=>'delete','onclick'=>$deleteText)).'</td>';
+                    } else {
+                        echo '<td><a href="'.base_url().'member/editevent_'.$lower.'/'.$row->PK_EventId.'/'.$row->FK_FieldId.'">edit</a>&nbsp;|&nbsp;'.anchor(base_url().'member/delete_event/'.$row->PK_EventId,'delete',array('class'=>'delete','onclick'=>$deleteText)).'</td>';                  
+                    }
                     echo '</tr>';
                 }
             } else {

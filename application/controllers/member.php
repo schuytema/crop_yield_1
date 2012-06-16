@@ -730,7 +730,7 @@ class Member extends CI_Controller {
         $this->load->view('footer',$data);
     }
     
-    public function editevent_plant($event_id=NULL, $field_id=NULL)
+    public function editevent_plant($type = 'Plant', $event_id=NULL, $field_id=NULL)
     {
         $auth_data = $this->php_session->get('AUTH');
         
@@ -810,7 +810,7 @@ class Member extends CI_Controller {
             )
         );
         
-        $data['title'] = 'Grow Our Yields - Edit Event Plant';
+        $data['title'] = 'Grow Our Yields - Edit Event '.$type;
         
         //load dropdown list
         $this->load->config('edit_dropdowns');
@@ -829,7 +829,7 @@ class Member extends CI_Controller {
             $data['new_event'] = true;
         }
         
-        $data['event_type'] = 'Plant';
+        $data['event_type'] = $type;
         
         //js object builder
         $data['js_object'] = js_object(

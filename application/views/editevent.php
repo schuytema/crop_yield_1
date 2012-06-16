@@ -26,7 +26,8 @@
                         <option value="<?php echo base_url(); ?>member/editevent_chemical">Chemical</option>
                         <option value="<?php echo base_url(); ?>member/editevent_fertilizer">Fertilizer</option>
                         <option value="<?php echo base_url(); ?>member/editevent_harvest">Harvest</option>
-                        <option value="<?php echo base_url(); ?>member/editevent_plant">Plant</option>
+                        <option value="<?php echo base_url(); ?>member/editevent_plant/Plant">Plant</option>
+                        <option value="<?php echo base_url(); ?>member/editevent_plant/Replant">Replant</option>
                         <option value="<?php echo base_url(); ?>member/editevent_tillage">Tillage</option>
                         <option value="<?php echo base_url(); ?>member/editevent_weather">Weather</option>
                       </select>

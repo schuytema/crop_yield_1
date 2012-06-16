@@ -1,4 +1,4 @@
-<h3>Event Plant Details</h3>
+<h3>Event <?php echo $event_type; ?> Details</h3>
     
     <h4>Equipment Used</h4>
     
