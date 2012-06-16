@@ -391,7 +391,22 @@ class Member extends CI_Controller {
         $data['link_content'] = link_content(
             array(
                 array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
-                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/calendar.css')
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>$this->config->item('jquery_ui_css'))
+            )
+        );
+        
+        //js object builder
+        $data['js_object'] = js_object(
+            array(
+                'CI' => array('base_url' => base_url())
+            )
+        );
+        
+        //js_helper: dynamically build <script> tags
+        $data['js'] = js_load(
+            array(
+                $this->config->item('jquery_js'),
+                $this->config->item('jquery_ui_js')
             )
         );
         
