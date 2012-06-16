@@ -406,7 +406,8 @@ class Member extends CI_Controller {
         $data['js'] = js_load(
             array(
                 $this->config->item('jquery_js'),
-                $this->config->item('jquery_ui_js')
+                $this->config->item('jquery_ui_js'),
+                base_url().'js/event.js'
             )
         );
         
@@ -426,14 +427,7 @@ class Member extends CI_Controller {
         }
         
         $data['event_type'] = 'Application';
-        
-        //js_helper: dynamically build <script> tags
-        $data['js'] = js_load(
-            array(
-                base_url().'js/calendar.js'
-            )
-        );
-        
+                
         $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
         
         $data['action'] = current_url();
@@ -505,7 +499,24 @@ class Member extends CI_Controller {
         $data['link_content'] = link_content(
             array(
                 array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
-                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/calendar.css')
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>$this->config->item('jquery_ui_css'))
+            )
+        );
+        
+        //js object builder
+        $data['js_object'] = js_object(
+            array(
+                'CI' => array('base_url' => base_url())
+            )
+        );
+        
+        //js_helper: dynamically build <script> tags
+        $data['js'] = js_load(
+            array(
+                $this->config->item('jquery_js'),
+                $this->config->item('jquery_ui_js'),
+                base_url().'js/event.js',
+                base_url().'js/chemical.js'
             )
         );
         
@@ -528,23 +539,7 @@ class Member extends CI_Controller {
         }
         
         $data['event_type'] = 'Chemical';
-        
-        //js object builder
-        $data['js_object'] = js_object(
-            array(
-                'CI' => array('base_url' => base_url())
-            )
-        );
-                  
-        //js_helper: dynamically build <script> tags
-        $data['js'] = js_load(
-            array(
-                $this->config->item('jquery_js'),
-                base_url().'js/chemical.js',
-                base_url().'js/calendar.js'
-            )
-        );
-        
+                
         //get chemical type
         $data['types'] = $this->m_chemical->get_type(1);
         
@@ -615,7 +610,23 @@ class Member extends CI_Controller {
         $data['link_content'] = link_content(
             array(
                 array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
-                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/calendar.css')
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>$this->config->item('jquery_ui_css'))
+            )
+        );
+        
+        //js object builder
+        $data['js_object'] = js_object(
+            array(
+                'CI' => array('base_url' => base_url())
+            )
+        );
+        
+        //js_helper: dynamically build <script> tags
+        $data['js'] = js_load(
+            array(
+                $this->config->item('jquery_js'),
+                $this->config->item('jquery_ui_js'),
+                base_url().'js/event.js'
             )
         );
         
@@ -635,14 +646,7 @@ class Member extends CI_Controller {
         }
         
         $data['event_type'] = 'Fertilizer';
-        
-        //js_helper: dynamically build <script> tags
-        $data['js'] = js_load(
-            array(
-                base_url().'js/calendar.js'
-            )
-        );
-        
+                
         $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
         
         $data['action'] = current_url();
@@ -707,7 +711,23 @@ class Member extends CI_Controller {
         $data['link_content'] = link_content(
             array(
                 array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
-                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/calendar.css')
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>$this->config->item('jquery_ui_css'))
+            )
+        );
+        
+        //js object builder
+        $data['js_object'] = js_object(
+            array(
+                'CI' => array('base_url' => base_url())
+            )
+        );
+        
+        //js_helper: dynamically build <script> tags
+        $data['js'] = js_load(
+            array(
+                $this->config->item('jquery_js'),
+                $this->config->item('jquery_ui_js'),
+                base_url().'js/event.js'
             )
         );
         
@@ -727,14 +747,7 @@ class Member extends CI_Controller {
         }
         
         $data['event_type'] = 'Harvest';
-        
-        //js_helper: dynamically build <script> tags
-        $data['js'] = js_load(
-            array(
-                base_url().'js/calendar.js'
-            )
-        );
-        
+                
         $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
         
         $data['action'] = current_url();
@@ -745,7 +758,7 @@ class Member extends CI_Controller {
         $this->load->view('footer',$data);
     }
     
-    public function editevent_plant($event_id=NULL, $field_id=NULL)
+    public function editevent_plant($type = 'Plant', $event_id=NULL, $field_id=NULL)
     {
         $auth_data = $this->php_session->get('AUTH');
         
@@ -821,11 +834,28 @@ class Member extends CI_Controller {
         $data['link_content'] = link_content(
             array(
                 array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
-                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/calendar.css')
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>$this->config->item('jquery_ui_css'))
             )
         );
         
-        $data['title'] = 'Grow Our Yields - Edit Event Plant';
+        //js object builder
+        $data['js_object'] = js_object(
+            array(
+                'CI' => array('base_url' => base_url())
+            )
+        );
+        
+        //js_helper: dynamically build <script> tags
+        $data['js'] = js_load(
+            array(
+                $this->config->item('jquery_js'),
+                $this->config->item('jquery_ui_js'),
+                base_url().'js/event.js',
+                base_url().'js/plant.js'
+            )
+        );
+        
+        $data['title'] = 'Grow Our Yields - Edit Event '.$type;
         
         //load dropdown list
         $this->load->config('edit_dropdowns');
@@ -844,23 +874,7 @@ class Member extends CI_Controller {
             $data['new_event'] = true;
         }
         
-        $data['event_type'] = 'Plant';
-        
-        //js object builder
-        $data['js_object'] = js_object(
-            array(
-                'CI' => array('base_url' => base_url())
-            )
-        );
-                  
-        //js_helper: dynamically build <script> tags
-        $data['js'] = js_load(
-            array(
-                $this->config->item('jquery_js'),
-                base_url().'js/plant.js',
-                base_url().'js/calendar.js'
-            )
-        );     
+        $data['event_type'] = $type;
         
         //get equipment brand
         $data['equipment_brands'] = $this->m_equipment->get_brand('Planter',1);
@@ -932,7 +946,23 @@ class Member extends CI_Controller {
         $data['link_content'] = link_content(
             array(
                 array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
-                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/calendar.css')
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>$this->config->item('jquery_ui_css'))
+            )
+        );
+        
+        //js object builder
+        $data['js_object'] = js_object(
+            array(
+                'CI' => array('base_url' => base_url())
+            )
+        );
+        
+        //js_helper: dynamically build <script> tags
+        $data['js'] = js_load(
+            array(
+                $this->config->item('jquery_js'),
+                $this->config->item('jquery_ui_js'),
+                base_url().'js/event.js'
             )
         );
         
@@ -952,14 +982,7 @@ class Member extends CI_Controller {
         }
         
         $data['event_type'] = 'Tillage';
-        
-        //js_helper: dynamically build <script> tags
-        $data['js'] = js_load(
-            array(
-                base_url().'js/calendar.js'
-            )
-        );
-        
+                
         $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
         
         $data['action'] = current_url();
@@ -1024,7 +1047,23 @@ class Member extends CI_Controller {
         $data['link_content'] = link_content(
             array(
                 array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
-                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/calendar.css')
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>$this->config->item('jquery_ui_css'))
+            )
+        );
+        
+        //js object builder
+        $data['js_object'] = js_object(
+            array(
+                'CI' => array('base_url' => base_url())
+            )
+        );
+        
+        //js_helper: dynamically build <script> tags
+        $data['js'] = js_load(
+            array(
+                $this->config->item('jquery_js'),
+                $this->config->item('jquery_ui_js'),
+                base_url().'js/event.js'
             )
         );
         
@@ -1044,14 +1083,7 @@ class Member extends CI_Controller {
         }
         
         $data['event_type'] = 'Weather';
-        
-        //js_helper: dynamically build <script> tags
-        $data['js'] = js_load(
-            array(
-                base_url().'js/calendar.js'
-            )
-        );
-        
+                
         $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
         
         $data['action'] = current_url();
