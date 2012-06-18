@@ -462,6 +462,7 @@ class Member extends CI_Controller {
             $this->form_validation->set_rules('Date', 'Date', 'trim|required|max_length[20]');
             //then, set up for chemica; data
             $this->form_validation->set_rules('AmountActiveIngredient', 'Amount Active Ingredient', 'trim|required|numeric');
+            $this->form_validation->set_rules('Product', 'Chemical Product', 'trim|required|numeric');
 
             if($this->form_validation->run()){
                 //see if other stuff has been entered... if so, crearte the new chemical row
@@ -681,6 +682,7 @@ class Member extends CI_Controller {
             $this->form_validation->set_rules('Date', 'Date', 'trim|required|max_length[20]');
             //then, set up for harvest data
             $this->form_validation->set_rules('Yield', 'Yield', 'trim|required|numeric');
+            $this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required|numeric');
 
             if($this->form_validation->run()){
                 //see if other stuff has been entered... if so, create the new equipment row
@@ -799,6 +801,8 @@ class Member extends CI_Controller {
             //then, set up for planting data
             //$this->form_validation->set_rules('EquipmentBrand', 'Equipment Brand', 'trim|required');
             //$this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required');
+            $this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required|numeric');
+            $this->form_validation->set_rules('CropProduct', 'Crop Product', 'trim|required|numeric');
             $this->form_validation->set_rules('CropType', 'Crop Type', 'trim|required');
             //$this->form_validation->set_rules('CropBrand', 'Crop Brand', 'trim|required');
             //$this->form_validation->set_rules('CropProduct', 'Crop Product', 'trim|required');
@@ -932,6 +936,7 @@ class Member extends CI_Controller {
             $this->form_validation->set_rules('Date', 'Date', 'trim|required|max_length[20]');
             //then, set up for harvest data
             //$this->form_validation->set_rules('Yield', 'Yield', 'trim|required|numeric');
+            $this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required|numeric');
 
             if($this->form_validation->run()){
                 //see if other stuff has been entered... if so, create the new equipment row

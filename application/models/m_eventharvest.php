@@ -22,11 +22,11 @@ class m_eventharvest extends CI_Model{
     
     function set($event_id=NULL, $new=true, $equipment_id=NULL){
         $data = array(
-            'Yield' => db_clean($this->input->post('Yield'),10),
+            'Yield' => db_clean(strip_tags($this->input->post('Yield')),10),
             'YieldUnit' => db_clean($this->input->post('YieldUnit'),10),
-            'GrainTestWeight' => db_clean($this->input->post('GrainTestWeight'),10),
+            'GrainTestWeight' => db_clean(strip_tags($this->input->post('GrainTestWeight')),10),
             'GrainTestWeightUnit' => db_clean($this->input->post('GrainTestWeightUnit'),10),
-            'PercentGrainMoisture' => db_clean($this->input->post('PercentGrainMoisture'),10),
+            'PercentGrainMoisture' => db_clean(strip_tags($this->input->post('PercentGrainMoisture')),10),
             'FK_EventId' => id_clean($event_id)
         );
 
