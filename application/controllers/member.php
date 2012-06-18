@@ -361,6 +361,10 @@ class Member extends CI_Controller {
             //$this->form_validation->set_rules('Product', 'Product', 'required');
             $this->form_validation->set_rules('ApplicationRate', 'Application Rate', 'trim|required|decimal');
             //$this->form_validation->set_rules('ApplicationRateUnit', 'Units', 'required');
+            if(!isset($event_id))
+            {
+                $this->form_validation->set_rules('fields', 'Fields', 'required');
+            }
 
             if($this->form_validation->run()){
                 //send to db
@@ -463,6 +467,10 @@ class Member extends CI_Controller {
             //then, set up for chemica; data
             $this->form_validation->set_rules('AmountActiveIngredient', 'Amount Active Ingredient', 'trim|required|numeric');
             $this->form_validation->set_rules('Product', 'Chemical Product', 'trim|required|numeric');
+            if(!isset($event_id))
+            {
+                $this->form_validation->set_rules('fields', 'Fields', 'required');
+            }
 
             if($this->form_validation->run()){
                 //see if other stuff has been entered... if so, crearte the new chemical row
@@ -581,6 +589,10 @@ class Member extends CI_Controller {
             $this->form_validation->set_rules('PercentP', 'Percent P', 'trim|required|numeric');
             $this->form_validation->set_rules('PercentK', 'Percent K', 'trim|required|numeric');
             $this->form_validation->set_rules('ApplicationRate', 'Application Rate', 'trim|required|decimal');
+            if(!isset($event_id))
+            {
+                $this->form_validation->set_rules('fields', 'Fields', 'required');
+            }
 
             if($this->form_validation->run()){
                 //send to db
@@ -683,6 +695,10 @@ class Member extends CI_Controller {
             //then, set up for harvest data
             $this->form_validation->set_rules('Yield', 'Yield', 'trim|required|numeric');
             $this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required|numeric');
+            if(!isset($event_id))
+            {
+                $this->form_validation->set_rules('fields', 'Fields', 'required');
+            }
 
             if($this->form_validation->run()){
                 //see if other stuff has been entered... if so, create the new equipment row
@@ -810,6 +826,10 @@ class Member extends CI_Controller {
             $this->form_validation->set_rules('PlantingRateUnit', 'Planting Rate Unit', 'trim|required');
             $this->form_validation->set_rules('RowSpacing', 'Row Spacing', 'trim|required');
             $this->form_validation->set_rules('RowSpacingUnit', 'Row Spacing Unit', 'trim|required');
+            if(!isset($event_id))
+            {
+                $this->form_validation->set_rules('fields', 'Fields', 'required');
+            }
 
             if($this->form_validation->run()){
                 //see if other stuff has been entered... if so, create the new equipment row
@@ -937,6 +957,10 @@ class Member extends CI_Controller {
             //then, set up for harvest data
             //$this->form_validation->set_rules('Yield', 'Yield', 'trim|required|numeric');
             $this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required|numeric');
+            if(!isset($event_id))
+            {
+                $this->form_validation->set_rules('fields', 'Fields', 'required');
+            }
 
             if($this->form_validation->run()){
                 //see if other stuff has been entered... if so, create the new equipment row
@@ -1054,6 +1078,10 @@ class Member extends CI_Controller {
             $this->form_validation->set_rules('Date', 'Date', 'trim|required|max_length[20]');
             //then, set up for weather data
             $this->form_validation->set_rules('PercentDamaged', 'Percent Damaged', 'trim|required|numeric');
+            if(!isset($event_id))
+            {
+                $this->form_validation->set_rules('fields', 'Fields', 'required');
+            }
 
             if($this->form_validation->run()){
                 //send to db
