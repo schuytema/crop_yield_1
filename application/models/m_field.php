@@ -21,7 +21,8 @@ class m_field extends CI_Model{
             'Name' => db_clean($this->input->post('Name'),100),
             'UserSize' => db_clean($this->input->post('UserSize'),11),
             'UserSizeUnit' => db_clean($this->input->post('UserSizeUnit'),9),
-            'PercentDrainageEffectiveness' => db_clean($this->input->post('PercentDrainageEffectiveness'),5)
+            'PercentDrainageEffectiveness' => db_clean($this->input->post('PercentDrainageEffectiveness'),5),
+            'Coordinates' => db_clean($this->input->post('Coordinates'))
         );
         
         if(isset($field_id)){ //update

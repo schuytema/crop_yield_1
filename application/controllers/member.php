@@ -253,6 +253,7 @@ class Member extends CI_Controller {
         
         if($this->input->post('submit')){
             $this->load->library('Form_validation');
+            $this->form_validation->set_rules('Coordinates', 'Field Coordinates', 'trim|required');
             $this->form_validation->set_rules('Name', 'Field Name', 'trim|required|max_length[100]');
             $this->form_validation->set_rules('UserSize', 'Field Sizes', 'trim|required|max_length[11]');
             $this->form_validation->set_rules('UserSizeUnit', 'Unit', 'trim|required|max_length[9]');
