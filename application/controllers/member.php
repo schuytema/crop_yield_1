@@ -544,7 +544,7 @@ class Member extends CI_Controller {
         $data['event_type'] = 'Chemical';
                 
         //get chemical type
-        $data['types'] = $this->m_chemical->get_type(1);
+        $data['types'] = $this->m_chemical->get_type();
         
         $data['action'] = current_url();
         
@@ -765,7 +765,7 @@ class Member extends CI_Controller {
         
 
         //get equipment brand
-        $data['equipment_brands'] = $this->m_equipment->get_brand('Harvester',1);
+        $data['equipment_brands'] = $this->m_equipment->get_brand('Harvester');
         
         $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
         
@@ -896,10 +896,10 @@ class Member extends CI_Controller {
         $data['event_type'] = $type;
         
         //get equipment brand
-        $data['equipment_brands'] = $this->m_equipment->get_brand('Planter',1);
+        $data['equipment_brands'] = $this->m_equipment->get_brand('Planter');
         
         //get crop type
-        $data['crop_types'] = $this->m_crop->get_type(1);
+        $data['crop_types'] = $this->m_crop->get_type();
         
         $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
         
@@ -1016,7 +1016,7 @@ class Member extends CI_Controller {
         
 
         //get equipment brand
-        $data['equipment_brands'] = $this->m_equipment->get_brand('Tiller',1);
+        $data['equipment_brands'] = $this->m_equipment->get_brand('Tiller');
         
         $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
         
@@ -1170,7 +1170,7 @@ class Member extends CI_Controller {
         );
         
         //get chemical type
-        $data['types'] = $this->m_chemical->get_type(1);
+        $data['types'] = $this->m_chemical->get_type();
         
         // load views
         $this->load->view('header', $data);
@@ -1185,7 +1185,7 @@ class Member extends CI_Controller {
     function get_chemical_brand(){
         if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $data['response'] = false;
-            $query = $this->m_chemical->get_brand(trim($this->input->post('type')),1);
+            $query = $this->m_chemical->get_brand(trim($this->input->post('type')));
             if($query->num_rows()){
                 $result = $query->result();
                 $data['response'] = true; //Set response
@@ -1201,7 +1201,7 @@ class Member extends CI_Controller {
     function get_chemical_product(){
         if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $data['response'] = false;
-            $query = $this->m_chemical->get_product(trim($this->input->post('type')),trim($this->input->post('brand')),1);
+            $query = $this->m_chemical->get_product(trim($this->input->post('type')),trim($this->input->post('brand')));
             if($query->num_rows()){
                 $result = $query->result();
                 $data['response'] = true; //Set response
@@ -1217,7 +1217,7 @@ class Member extends CI_Controller {
     function get_equipment_product(){
         if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $data['response'] = false;
-            $query = $this->m_equipment->get_product(trim($this->input->post('type')),trim($this->input->post('brand')),1);
+            $query = $this->m_equipment->get_product(trim($this->input->post('type')),trim($this->input->post('brand')));
             if($query->num_rows()){
                 $result = $query->result();
                 $data['response'] = true; //Set response
@@ -1233,7 +1233,7 @@ class Member extends CI_Controller {
     function get_crop_brand(){
         if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
             $data['response'] = false;
-            $query = $this->m_crop->get_brand(trim($this->input->post('type')),1);
+            $query = $this->m_crop->get_brand(trim($this->input->post('type')));
             if($query->num_rows()){
                 $result = $query->result();
                 $data['response'] = true; //Set response
