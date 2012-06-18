@@ -23,7 +23,7 @@ class m_eventapplication extends CI_Model{
     function set($event_id=NULL, $new=true){
         $data = array(
             'Product' => db_clean($this->input->post('Product'),25),
-            'ApplicationRate' => db_clean($this->input->post('ApplicationRate'),9),
+            'ApplicationRate' => db_clean(strip_tags($this->input->post('ApplicationRate')),9),
             'ApplicationRateUnit' => db_clean($this->input->post('ApplicationRateUnit'),25),
             'FK_EventId' => id_clean($event_id)
         );

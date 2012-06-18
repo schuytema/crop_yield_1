@@ -74,8 +74,8 @@ class m_crop extends CI_Model{
     {
         $data = array(
             'CropType' => db_clean(($type),20),
-            'Brand' => db_clean(($brand),100),
-            'Product' => db_clean(($product),200),
+            'Brand' => db_clean(strip_tags(($brand)),100),
+            'Product' => db_clean(strip_tags(($product)),200),
             'Verified' => 0
         );
         //print_r($data);

@@ -50,8 +50,8 @@ class m_event extends CI_Model{
         $data = array(
             'FK_FieldId' => $field_id,
             'EventType' => db_clean($this->input->post('EventType'),50),
-            'Date' => db_clean($this->input->post('Date'),11),
-            'Notes' => db_clean($this->input->post('Notes'),255)
+            'Date' => db_clean(strip_tags($this->input->post('Date')),11),
+            'Notes' => db_clean(strip_tags($this->input->post('Notes')),255)
         );
         
         if(isset($event_id)){ //update

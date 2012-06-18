@@ -23,10 +23,10 @@ class m_eventplant extends CI_Model{
     function set($event_id=NULL, $new=true, $equipment_id=NULL, $crop_id=NULL){
         $data = array(            
             'FK_EventId' => id_clean($event_id),
-            'PlantingRate' => db_clean($this->input->post('PlantingRate'),8),
-            'PlantingRateUnit' => db_clean($this->input->post('PlantingRateUnit'),14),
-            'RowSpacing' => db_clean($this->input->post('RowSpacing'),3),
-            'RowSpacingUnit' => db_clean($this->input->post('RowSpacingUnit'),2)
+            'PlantingRate' => db_clean(strip_tags($this->input->post('PlantingRate')),8),
+            'PlantingRateUnit' => db_clean(strip_tags($this->input->post('PlantingRateUnit')),14),
+            'RowSpacing' => db_clean(strip_tags($this->input->post('RowSpacing')),3),
+            'RowSpacingUnit' => db_clean(strip_tags($this->input->post('RowSpacingUnit')),2)
         );
 
         if(!$new){ //update  

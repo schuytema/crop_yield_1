@@ -23,7 +23,7 @@ class m_eventweather extends CI_Model{
     function set($event_id=NULL, $new=true){
         $data = array(
             'Weather' => db_clean($this->input->post('Weather'),25),
-            'PercentDamaged' => db_clean($this->input->post('PercentDamaged'),9),
+            'PercentDamaged' => db_clean(strip_tags($this->input->post('PercentDamaged')),9),
             'FK_EventId' => id_clean($event_id)
         );
 

@@ -20,9 +20,8 @@ class m_eventharvest extends CI_Model{
         return $this->db->get_where('EventHarvest',array('FK_EventId' => id_clean($event_id)));
     }
     
-    function set($event_id=NULL, $new=true){
+    function set($event_id=NULL, $new=true, $equipment_id=NULL){
         $data = array(
-            'FK_EquipmentId' => db_clean($this->input->post('FK_EquipmentId'),10),
             'Yield' => db_clean($this->input->post('Yield'),10),
             'YieldUnit' => db_clean($this->input->post('YieldUnit'),10),
             'GrainTestWeight' => db_clean($this->input->post('GrainTestWeight'),10),
@@ -32,11 +31,28 @@ class m_eventharvest extends CI_Model{
         );
 
         if(!$new){ //update  
+            if (isset($equipment_id))
+            {
+                $data['FK_EquipmentId'] = id_clean($equipment_id);
+            } else {
+                if (strlen($this->input->post('EquipmentProduct')) > 0)
+                {
+                    $data['FK_EquipmentId'] = id_clean($this->input->post('EquipmentProduct'));
+                }
+            }
+            
+
             $this->db->set($data);
             $this->db->where('FK_EventId',id_clean($event_id));
             $this->db->update('EventHarvest');
         } else { //create record
-            //print_r($data);
+            if (isset($equipment_id))
+            {
+                $data['FK_EquipmentId'] = id_clean($equipment_id);
+            } else {
+                $data['FK_EquipmentId'] = id_clean($this->input->post('EquipmentProduct'));
+            }
+            
             $this->db->set($data);
             $this->db->insert('EventHarvest');
         }

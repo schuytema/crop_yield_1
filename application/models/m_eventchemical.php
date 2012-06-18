@@ -22,7 +22,7 @@ class m_eventchemical extends CI_Model{
     
     function set($event_id=NULL, $new=true, $chem_id=NULL){
         $data = array(
-            'AmountActiveIngredient' => db_clean($this->input->post('AmountActiveIngredient'),20),
+            'AmountActiveIngredient' => db_clean(strip_tags($this->input->post('AmountActiveIngredient')),20),
             'AmountActiveIngredientUnit' => db_clean($this->input->post('AmountActiveIngredientUnit'),3),
             'FK_EventId' => id_clean($event_id)
         );
