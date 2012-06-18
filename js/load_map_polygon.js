@@ -6,29 +6,37 @@
  *      upon a Goolge Map utilizing Google Maps API
  */
 
-var myLatlng = new google.maps.LatLng(40.882501,-90.698061);
+var myLatlng = new google.maps.LatLng(40.877374,-90.676775);
 var myOptions = {
-  zoom: 15,
+  zoom: 8,
   center: myLatlng,
   mapTypeId: google.maps.MapTypeId.HYBRID
 }
 
 var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
+var stored_polygon;
 
-polygon = new google.maps.Polygon({
-    paths: [
-    new google.maps.LatLng(40.885665,-90.700743),
-    new google.maps.LatLng(40.885681,-90.696001),
-    new google.maps.LatLng(40.878543,-90.696237),
-    new google.maps.LatLng(40.878672,-90.700786)
-    ],
-    fillColor: '#ffff00',
-    fillOpacity: .3,
-    strokeWeight: 5,
-    clickable: false,
-    zIndex: 1,
-    editable: false
-  });
-  
-polygon.setMap(map);
+$(document).ready(function(){
+    //load existing polygon
+    if ($("#Coordinates").val().length) {
+        var stored_array = ($("#Coordinates").val()).split(";");
+        var coords_array = [];
+        var stored_path = [];
+        for (i=0; i<stored_array.length; i++) {
+            coords_array = stored_array[i].split(",");
+            stored_path.push(new google.maps.LatLng(coords_array[0],coords_array[1])); 
+        }; 
+        stored_polygon = new google.maps.Polygon({ 
+            paths: stored_path,
+            fillColor: '#ffff00',
+            fillOpacity: .3,
+            strokeWeight: 5,
+            clickable: false,
+            zIndex: 1,
+            editable: false
+        });
+        
+        stored_polygon.setMap(map);
+    }
+});

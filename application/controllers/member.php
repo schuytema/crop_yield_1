@@ -109,6 +109,7 @@ class Member extends CI_Controller {
 
         $data['js'] = js_load(
             array(
+                $this->config->item('jquery_js'),
                 "https://maps.googleapis.com/maps/api/js?sensor=true",
                 base_url().'js/load_map_polygon.js',
             )
@@ -288,6 +289,7 @@ class Member extends CI_Controller {
         //js_helper: dynamically build <script> tags
         $data['js'] = js_load(
             array(
+                $this->config->item('jquery_js'),
                 "https://maps.googleapis.com/maps/api/js?sensor=true&libraries=drawing",
                 base_url().'js/map_polygon.js',
             )

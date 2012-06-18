@@ -11,10 +11,10 @@ function update_coordinates(polygon) {
     var coords = [];
     for (var i =0; i < vertices.length; i++) {
         var xy = vertices.getAt(i);
-        coords.push('{"lat":"'+xy.lat()+'","lng":"'+xy.lng()+'"}');
+        coords.push(xy.lat()+','+xy.lng());
     }
     if (coords.length) {
-        document.getElementById("Coordinates").value = '{"coordinates": ['+coords.join(',')+']}';
+        document.getElementById("Coordinates").value = coords.join(';');
     } else {
         document.getElementById("Coordinates").value = '';
     }
@@ -48,23 +48,6 @@ drawingManager.setMap(map);
 
 var stored_polygon;
 
-//load existing polygon
-if (field_map.data.coordinates) {
-    var stored_path = [];
-    for (i=0; i<field_map.data.coordinates.length; i++) {
-        stored_path.push(new google.maps.LatLng(field_map.data.coordinates.Lat,field_map.data.coordinates.Lng)) 
-    }; 
-    stored_polygon = new google.maps.Polygon({ 
-        paths: stored_path,
-        fillColor: '#ffff00',
-        fillOpacity: .3,
-        strokeWeight: 5,
-        clickable: false,
-        zIndex: 1,
-        editable: false
-    });
-}
-
 google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygon) {
     if (stored_polygon) {
         stored_polygon.setMap(null);
@@ -80,4 +63,37 @@ google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygo
     google.maps.event.addListener(stored_polygon.getPath(), 'insert_at', function() {
         update_coordinates(stored_polygon);
     });
+});
+
+
+$(document).ready(function(){
+    //load existing polygon
+    if ($("#Coordinates").val().length) {
+        var stored_array = ($("#Coordinates").val()).split(";");
+        var coords_array = [];
+        var stored_path = [];
+        for (i=0; i<stored_array.length; i++) {
+            coords_array = stored_array[i].split(",");
+            stored_path.push(new google.maps.LatLng(coords_array[0],coords_array[1])); 
+        }; 
+        stored_polygon = new google.maps.Polygon({ 
+            paths: stored_path,
+            fillColor: '#ffff00',
+            fillOpacity: .3,
+            strokeWeight: 5,
+            clickable: false,
+            zIndex: 1,
+            editable: true
+        });
+        
+        google.maps.event.addListener(stored_polygon.getPath(), 'set_at', function() {
+            update_coordinates(stored_polygon);
+        });
+    
+        google.maps.event.addListener(stored_polygon.getPath(), 'insert_at', function() {
+            update_coordinates(stored_polygon);
+        });
+        
+        stored_polygon.setMap(map);
+    }
 });

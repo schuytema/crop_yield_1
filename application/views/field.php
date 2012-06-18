@@ -9,11 +9,13 @@
                 if(isset($field) && $field->num_rows())
                 {
                     $row = $field->row();
+                    echo '<input type="hidden" name="Coordinates" id="Coordinates" value="'.set_value('Coordinates',$row->Coordinates).'">';
                     echo '<b>'.$row->Name.'</b><br>';
                     echo $row->UserSize.'&nbsp;'.$row->UserSizeUnit.' (user)<br>';
                     echo 'Drainage Effectiveness:&nbsp;'.$row->PercentDrainageEffectiveness.'%<br>';
                     echo '<a href="'.base_url().'member/editfield/'.$row->PK_FieldId.'">{edit field information}</a>';
                 } else {
+                    echo '<input type="hidden" name="Coordinates" id="Coordinates" value="">';
                     echo '<font color="red">No field data found.</font>';
                 }
             ?>
