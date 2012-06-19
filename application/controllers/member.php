@@ -826,6 +826,7 @@ class Member extends CI_Controller {
             $this->form_validation->set_rules('PlantingRateUnit', 'Planting Rate Unit', 'trim|required');
             $this->form_validation->set_rules('RowSpacing', 'Row Spacing', 'trim|required');
             $this->form_validation->set_rules('RowSpacingUnit', 'Row Spacing Unit', 'trim|required');
+            $this->form_validation->set_rules('PercentCrop', 'Percent Planted', 'trim|required|numeric');
             if(!isset($event_id))
             {
                 $this->form_validation->set_rules('fields', 'Fields', 'required');

@@ -26,7 +26,9 @@ class m_eventplant extends CI_Model{
             'PlantingRate' => db_clean(strip_tags($this->input->post('PlantingRate')),8),
             'PlantingRateUnit' => db_clean(strip_tags($this->input->post('PlantingRateUnit')),14),
             'RowSpacing' => db_clean(strip_tags($this->input->post('RowSpacing')),3),
-            'RowSpacingUnit' => db_clean(strip_tags($this->input->post('RowSpacingUnit')),2)
+            'RowSpacingUnit' => db_clean(strip_tags($this->input->post('RowSpacingUnit')),2),
+            'PercentCrop' => db_clean(strip_tags($this->input->post('PercentCrop')),3),
+            'PreviousCrop' => db_clean(strip_tags($this->input->post('PreviousCrop')),8),
         );
 
         if(!$new){ //update  

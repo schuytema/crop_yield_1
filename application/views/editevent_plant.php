@@ -150,7 +150,27 @@
                     echo form_dropdown('RowSpacingUnit', $this->config->item('planting_row_spacing_units'), set_value('RowSpacingUnit',(isset($datarow->RowSpacingUnit)) ? $datarow->RowSpacingUnit : NULL));
                     ?>
                 </td>
-            </tr>                   
+            </tr>  
+            
+            <tr valign="top">
+                <td align="right">
+                    <b>Previous Crop:</b>&nbsp;&nbsp;
+                </td>
+                <td align="left">
+                    <?php
+                    echo form_dropdown('PreviousCrop', $this->config->item('crop_type'), set_value('PreviousCrop',(isset($datarow->PreviousCrop)) ? $datarow->PreviousCrop : NULL));
+                    ?>
+                </td>
+            </tr> 
+            
+            <tr valign="top">
+                  <td align="right">
+                      <b>Percent Planted:</b>&nbsp;&nbsp;
+                  </td>
+                  <td align="left">
+                      <input type="text" size="3" name="PercentCrop" value="<?php echo set_value('PercentCrop',(isset($datarow->PercentCrop)) ? $datarow->PercentCrop : NULL); ?>">&nbsp;%
+                  </td>
+               </tr>
           </table>
 
         
