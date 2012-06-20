@@ -694,7 +694,10 @@ class Member extends CI_Controller {
             $this->form_validation->set_rules('Date', 'Date', 'trim|required|max_length[20]');
             //then, set up for harvest data
             $this->form_validation->set_rules('Yield', 'Yield', 'trim|required|numeric');
-            $this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required|numeric');
+            if (strlen($this->input->post('OtherEquipmentBrand')) == 0 && strlen($this->input->post('OtherEquipmentProduct')) == 0)
+            {
+                $this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required|numeric');             
+            }
             if(!isset($event_id))
             {
                 $this->form_validation->set_rules('fields', 'Fields', 'required');
@@ -817,9 +820,17 @@ class Member extends CI_Controller {
             //then, set up for planting data
             //$this->form_validation->set_rules('EquipmentBrand', 'Equipment Brand', 'trim|required');
             //$this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required');
-            $this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required|numeric');
-            $this->form_validation->set_rules('CropProduct', 'Crop Product', 'trim|required|numeric');
-            $this->form_validation->set_rules('CropType', 'Crop Type', 'trim|required');
+            //$this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required|numeric');
+            if (strlen($this->input->post('OtherEquipmentBrand')) == 0 && strlen($this->input->post('OtherEquipmentProduct')) == 0)
+            {
+                $this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required|numeric');             
+            }
+            if (strlen($this->input->post('OtherCropBrand')) == 0 && strlen($this->input->post('OtherCropProduct')) == 0)
+            {
+                $this->form_validation->set_rules('CropProduct', 'Crop Product', 'trim|required|numeric');             
+            }
+            //$this->form_validation->set_rules('CropProduct', 'Crop Product', 'trim|required|numeric');
+            //$this->form_validation->set_rules('CropType', 'Crop Type', 'trim|required');
             //$this->form_validation->set_rules('CropBrand', 'Crop Brand', 'trim|required');
             //$this->form_validation->set_rules('CropProduct', 'Crop Product', 'trim|required');
             $this->form_validation->set_rules('PlantingRate', 'Planting Rate', 'trim|required');
@@ -957,7 +968,10 @@ class Member extends CI_Controller {
             $this->form_validation->set_rules('Date', 'Date', 'trim|required|max_length[20]');
             //then, set up for harvest data
             //$this->form_validation->set_rules('Yield', 'Yield', 'trim|required|numeric');
-            $this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required|numeric');
+            if (strlen($this->input->post('OtherEquipmentBrand')) == 0 && strlen($this->input->post('OtherEquipmentProduct')) == 0)
+            {
+                $this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required|numeric');             
+            }
             if(!isset($event_id))
             {
                 $this->form_validation->set_rules('fields', 'Fields', 'required');
