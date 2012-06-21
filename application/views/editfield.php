@@ -45,6 +45,14 @@
                </tr>
                <tr valign="top">
                   <td align="right">
+                      <b>Size of Field (Calculated from Map):</b>&nbsp;&nbsp;
+                  </td>
+                  <td align="left">
+                      <input type="text" name="CalcSize" id="CalcSize" value="<?php echo set_value('CalcSize',(isset($row->CalcSize)) ? $row->CalcSize : NULL); ?>" readonly="readonly" /> acres
+                  </td>
+               </tr>
+               <tr valign="top">
+                  <td align="right">
                       <b>Drainage Effectiveness:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left">

@@ -22,7 +22,9 @@ class m_field extends CI_Model{
             'UserSize' => db_clean(strip_tags($this->input->post('UserSize')),11),
             'UserSizeUnit' => db_clean($this->input->post('UserSizeUnit'),9),
             'PercentDrainageEffectiveness' => db_clean(strip_tags($this->input->post('PercentDrainageEffectiveness')),5),
-            'Coordinates' => db_clean($this->input->post('Coordinates'))
+            'Coordinates' => db_clean($this->input->post('Coordinates')),
+            'CalcSize' => db_clean($this->input->post('CalcSize')),
+            'CalcSizeUnit' => 'acres'
         );
         
         if(isset($field_id)){ //update

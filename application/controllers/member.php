@@ -268,6 +268,7 @@ class Member extends CI_Controller {
         if($this->input->post('submit')){
             $this->load->library('Form_validation');
             $this->form_validation->set_rules('Coordinates', 'Field Coordinates', 'trim|required');
+            $this->form_validation->set_rules('CalcSize', 'Calculated Size', 'trim|required|numeric');
             $this->form_validation->set_rules('Name', 'Field Name', 'trim|required|max_length[100]');
             $this->form_validation->set_rules('UserSize', 'Field Sizes', 'trim|required|max_length[11]');
             $this->form_validation->set_rules('UserSizeUnit', 'Unit', 'trim|required|max_length[9]');
@@ -303,7 +304,7 @@ class Member extends CI_Controller {
         $data['js'] = js_load(
             array(
                 $this->config->item('jquery_js'),
-                "https://maps.googleapis.com/maps/api/js?sensor=true&libraries=drawing",
+                "https://maps.googleapis.com/maps/api/js?sensor=true&libraries=drawing,geometry",
                 base_url().'js/map_polygon.js',
             )
         );

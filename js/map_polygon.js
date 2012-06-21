@@ -15,10 +15,16 @@ function update_coordinates(polygon) {
     }
     if (coords.length) {
         document.getElementById("Coordinates").value = coords.join(';');
+        document.getElementById("CalcSize").value = Math.round(google.maps.geometry.spherical.computeArea(vertices)*sq_meters_to_acres*10000)/10000;
     } else {
         document.getElementById("Coordinates").value = '';
+        document.getElementById("CalcSize").value = 0;
     }
 }
+
+//conversion rate: 1 sq. meter (Google default) = 0.000247105381 acres
+var sq_meters_to_acres = 0.000247105381;
+
 
 //set initial location
 var latlng = new google.maps.LatLng(40.877374,-90.676775);
@@ -76,6 +82,10 @@ google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygo
     google.maps.event.addListener(stored_polygon.getPath(), 'insert_at', function() {
         update_coordinates(stored_polygon);
     });
+    
+    google.maps.event.addListener(stored_polygon.getPath(), 'remove_at', function() {
+        update_coordinates(stored_polygon);
+    });
 });
 
 
@@ -109,6 +119,10 @@ $(document).ready(function(){
         });
     
         google.maps.event.addListener(stored_polygon.getPath(), 'insert_at', function() {
+            update_coordinates(stored_polygon);
+        });
+        
+        google.maps.event.addListener(stored_polygon.getPath(), 'remove_at', function() {
             update_coordinates(stored_polygon);
         });
         
