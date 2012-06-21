@@ -20,10 +20,14 @@ function update_coordinates(polygon) {
     }
 }
 
-var myLatlng = new google.maps.LatLng(40.877374,-90.676775);
+//set initial location
+var latlng = new google.maps.LatLng(40.877374,-90.676775);
+
+//set initial bounds
+var latlngbounds = new google.maps.LatLngBounds();
+
 var myOptions = {
-  zoom: 8,
-  center: myLatlng,
+  center: latlng,
   mapTypeId: google.maps.MapTypeId.HYBRID
 }
 
@@ -72,15 +76,18 @@ $(document).ready(function(){
         var stored_array = ($("#Coordinates").val()).split(";");
         var coords_array = [];
         var stored_path = [];
+        var point;
         for (i=0; i<stored_array.length; i++) {
             coords_array = stored_array[i].split(",");
-            stored_path.push(new google.maps.LatLng(coords_array[0],coords_array[1])); 
+            point = new google.maps.LatLng(coords_array[0],coords_array[1]);
+            stored_path.push(point);
+            latlngbounds.extend(point);
         }; 
         stored_polygon = new google.maps.Polygon({ 
             paths: stored_path,
             fillColor: '#ffff00',
             fillOpacity: .3,
-            strokeWeight: 5,
+            strokeWeight: 1,
             clickable: false,
             zIndex: 1,
             editable: true
@@ -95,5 +102,12 @@ $(document).ready(function(){
         });
         
         stored_polygon.setMap(map);
+        
+        //extend bounds to fit polygon
+        map.fitBounds( latlngbounds );
+    }
+    else
+    {
+        map.setZoom(10);
     }
 });
