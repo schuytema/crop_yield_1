@@ -24,6 +24,15 @@ $config['weight_units'] = array(
     'lbs/bu'=>"lbs/bu"
 );
 
+$config['fertilizer_units'] = array(
+    'fl oz/acre'=>"fl oz/acre",
+    'oz/acre'=>"oz/acre",
+    'pt/acre'=>"pt/acre",
+    'qt/acre'=>"qt/acre",
+    'gal/acre'=>"gal/acre",
+    'lbs/acre'=>"lbs/acre",
+);
+
 $config['weather'] = array(
     'Rain'=>"Rain",
     'Hail'=>"Hail",
@@ -50,4 +59,9 @@ $config['planting_row_spacing_units'] = array(
 $config['crop_type'] = array(
     'Corn' => 'Corn',
     'Soybean' => 'Soybean'
+);
+
+$config['no_yes'] = array(
+    'no'=>"no",
+    'yes'=>"yes",
 );

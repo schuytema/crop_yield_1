@@ -29,6 +29,7 @@ class m_eventplant extends CI_Model{
             'RowSpacingUnit' => db_clean(strip_tags($this->input->post('RowSpacingUnit')),2),
             'PercentCrop' => db_clean(strip_tags($this->input->post('PercentCrop')),3),
             'PreviousCrop' => db_clean(strip_tags($this->input->post('PreviousCrop')),8),
+            'VariableRate' => db_clean($this->input->post('VariableRate'),3)
         );
 
         if(!$new){ //update  

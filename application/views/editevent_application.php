@@ -38,6 +38,17 @@
                     ?>
                   </td>
                </tr>
+               <tr valign="top">
+                  <td align="right" width="200">
+                      <b>Variable Rate?:</b>&nbsp;&nbsp;
+                  </td>
+                  <td align="left" width="310">
+                    <?php
+                      //$options = array('Ammonia','Lime');
+                      echo form_dropdown('VariableRate', $this->config->item('no_yes'), set_value('Product',(isset($row->VariableRate)) ? $row->VariableRate : NULL));
+                    ?>
+                  </td>
+               </tr>
           </table>
           <BR CLEAR=LEFT>
     <br><br>

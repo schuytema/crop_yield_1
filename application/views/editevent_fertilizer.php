@@ -47,8 +47,19 @@
                   <td align="left">
                       <?php
                       //$options = array('lbs/acre','lbs/sq. mile');
-                      echo form_dropdown('ApplicationRateUnit', $this->config->item('application_units'), set_value('ApplicationRateUnit',(isset($row->ApplicationRateUnit)) ? $row->ApplicationRateUnit : NULL));
+                      echo form_dropdown('ApplicationRateUnit', $this->config->item('fertilizer_units'), set_value('ApplicationRateUnit',(isset($row->ApplicationRateUnit)) ? $row->ApplicationRateUnit : NULL));
                       ?>
+                  </td>
+               </tr>
+               <tr valign="top">
+                  <td align="right" width="200">
+                      <b>Variable Rate?:</b>&nbsp;&nbsp;
+                  </td>
+                  <td align="left" width="310">
+                    <?php
+                      //$options = array('Ammonia','Lime');
+                      echo form_dropdown('VariableRate', $this->config->item('no_yes'), set_value('Product',(isset($row->VariableRate)) ? $row->VariableRate : NULL));
+                    ?>
                   </td>
                </tr>
           </table>
