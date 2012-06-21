@@ -251,6 +251,19 @@ class Member extends CI_Controller {
                 redirect('member/farm','refresh');
             }
         }
+        else
+        {
+            $farm_info = $this->m_farm->get($auth_data['FarmId']);
+            if ($farm_info->num_rows()) {
+                $row = $farm_info->row();
+                $js_object['farm'] = array(
+                        'address' => $row->Address,
+                        'city' => $row->City,
+                        'state' => $row->State,
+                        'zip' => $row->Zip
+                    );
+            }
+        }
         
         if($this->input->post('submit')){
             $this->load->library('Form_validation');
@@ -294,6 +307,10 @@ class Member extends CI_Controller {
                 base_url().'js/map_polygon.js',
             )
         );
+        
+        //js object builder
+        $js_object['CI'] = array('base_url' => base_url());
+        $data['js_object'] = js_object($js_object);        
         
         //load dropdown list
         $this->load->config('edit_dropdowns');

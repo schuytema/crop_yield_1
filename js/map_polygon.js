@@ -23,15 +23,24 @@ function update_coordinates(polygon) {
 //set initial location
 var latlng = new google.maps.LatLng(40.877374,-90.676775);
 
-//set initial bounds
-var latlngbounds = new google.maps.LatLngBounds();
-
 var myOptions = {
+  zoom: 10,
   center: latlng,
   mapTypeId: google.maps.MapTypeId.HYBRID
 }
 
 var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+//check for farm address availability
+if (window['farm'] != undefined) {
+    var geocoder = new google.maps.Geocoder();
+    geocoder.geocode( { 'address': farm.address+' '+farm.city+', '+farm.state+' '+farm.zip }, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        latlng = results[0].geometry.location;
+        map.fitBounds(results[0].geometry.viewport);
+      }
+    });
+}
 
 var drawingManager = new google.maps.drawing.DrawingManager({
   drawingControl: true,
@@ -42,7 +51,7 @@ var drawingManager = new google.maps.drawing.DrawingManager({
   polygonOptions: {
     fillColor: '#ffff00',
     fillOpacity: .3,
-    strokeWeight: 5,
+    strokeWeight: 1,
     clickable: false,
     zIndex: 1,
     editable: true
@@ -73,6 +82,8 @@ google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygo
 $(document).ready(function(){
     //load existing polygon
     if ($("#Coordinates").val().length) {
+        //set initial bounds
+        var latlngbounds = new google.maps.LatLngBounds();
         var stored_array = ($("#Coordinates").val()).split(";");
         var coords_array = [];
         var stored_path = [];
@@ -105,9 +116,5 @@ $(document).ready(function(){
         
         //extend bounds to fit polygon
         map.fitBounds( latlngbounds );
-    }
-    else
-    {
-        map.setZoom(10);
     }
 });
