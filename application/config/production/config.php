@@ -16,7 +16,7 @@
 $config['base_url'] = "https://".$_SERVER["SERVER_NAME"].'/';
 
 //cookie
-$config['cookie_domain'] = 'DOMAIN_NAME_HERE';
+$config['cookie_domain'] = '.growouryields.com';
 
 //jquery links
 $config['jquery_js'] = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js';
@@ -36,9 +36,7 @@ $config['sys_email'] = 'noreply@growouryields.com';
 | For more info visit:  http://www.php.net/error_reporting
 |
 */
-//error_reporting(0);
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+error_reporting(0);
 
 /*
 |--------------------------------------------------------------------------
