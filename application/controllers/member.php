@@ -376,7 +376,7 @@ class Member extends CI_Controller {
             $this->form_validation->set_rules('Date', 'Date', 'trim|required|max_length[20]');
             //then, set up for application data
             //$this->form_validation->set_rules('Product', 'Product', 'required');
-            $this->form_validation->set_rules('ApplicationRate', 'Application Rate', 'trim|required|decimal');
+            $this->form_validation->set_rules('ApplicationRate', 'Application Rate', 'trim|required|numeric');
             //$this->form_validation->set_rules('ApplicationRateUnit', 'Units', 'required');
             if(!isset($event_id))
             {
@@ -605,7 +605,7 @@ class Member extends CI_Controller {
             $this->form_validation->set_rules('PercentN', 'Percent N', 'trim|required|numeric');
             $this->form_validation->set_rules('PercentP', 'Percent P', 'trim|required|numeric');
             $this->form_validation->set_rules('PercentK', 'Percent K', 'trim|required|numeric');
-            $this->form_validation->set_rules('ApplicationRate', 'Application Rate', 'trim|required|decimal');
+            $this->form_validation->set_rules('ApplicationRate', 'Application Rate', 'trim|required|numeric');
             if(!isset($event_id))
             {
                 $this->form_validation->set_rules('fields', 'Fields', 'required');
