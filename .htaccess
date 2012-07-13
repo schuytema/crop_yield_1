@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteBase /~cropyld/
+RewriteBase /
 
 # Enforce SSL  
 RewriteCond %{HTTPS} !=on

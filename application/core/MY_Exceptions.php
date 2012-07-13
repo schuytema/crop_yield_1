@@ -26,7 +26,7 @@ class MY_Exceptions extends CI_Exceptions {
         //no guarantees CI core will be loaded when error occurs; sense current environment
         $domain = $_SERVER['SERVER_NAME'];
         if(ENVIRONMENT == 'development') { //dev
-            $domain = $_SERVER['SERVER_NAME'].'/~cropyld';
+            $domain = $_SERVER['SERVER_NAME'].'/~devgrow';
         }
         
         $ch = curl_init();

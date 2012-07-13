@@ -13,9 +13,7 @@
 | path to your installation.
 |
 */
-//$config['base_url'] = "http://63.247.138.178/~cropyld/";
-//$config['base_url'] = "http://growyourfields.com/";
-$config['base_url'] = "https://growouryields.com/";
+$config['base_url'] = "http://63.247.138.178/~devgrow/";
 
 //cookie
 $config['cookie_domain'] = '63.247.138.178';
@@ -26,7 +24,7 @@ $config['jquery_ui_js'] = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16
 $config['jquery_ui_css'] = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/ui-lightness/jquery-ui.css';
 
 //system email
-$config['sys_email'] = 'noreply@growouryields.com';
+$config['sys_email'] = 'paul@schuytema.com';
 
 /*
 |---------------------------------------------------------------
