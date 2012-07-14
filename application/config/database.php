@@ -50,9 +50,9 @@ $active_record = TRUE;
 
 if(ENVIRONMENT == 'development'){
     $db['default']['hostname'] = "localhost";
-    $db['default']['username'] = "cropyld";
-    $db['default']['password'] = "crop2012";
-    $db['default']['database'] = "cropyld_db";
+    $db['default']['username'] = "devgrow_appuser";
+    $db['default']['password'] = "kdsXpc?8yPJe";
+    $db['default']['database'] = "devgrow_db";
     $db['default']['dbdriver'] = "mysql";
     $db['default']['dbprefix'] = "";
     $db['default']['pconnect'] = TRUE;
@@ -68,8 +68,8 @@ if(ENVIRONMENT == 'development'){
 }
 elseif(ENVIRONMENT == 'production') {
     $db['default']['hostname'] = "localhost";
-    $db['default']['username'] = "cropyld";
-    $db['default']['password'] = "crop2012";
+    $db['default']['username'] = "cropyld_appuser";
+    $db['default']['password'] = "fcaFqB$7bUWf";
     $db['default']['database'] = "cropyld_db";
     $db['default']['dbdriver'] = "mysql";
     $db['default']['dbprefix'] = "";
