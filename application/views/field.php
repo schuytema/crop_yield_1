@@ -19,8 +19,9 @@
                     echo '<font color="red">No field data found.</font>';
                 }
             ?>
-        </blockquote>             
-    <h3>Field Events</h3>
+        </blockquote> 
+    <BR CLEAR=LEFT>
+    <span class="eventhead">Field Events</span><br>
     <table  id="table-data" width="650">
         <thead>
             <th width="150">Date</th>

@@ -40,6 +40,34 @@ class Member extends CI_Controller {
         redirect('/','refresh');
     }
     
+    public function enterprise()
+    {
+        $data['meta_content'] = meta_content(
+            array(
+                array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
+                array('name'=>'keywords','content'=>'grow our yields, yield, crop, corn, beans, soybeans, field, agriculture')
+            )
+        );
+        
+        $data['link_content'] = link_content(
+            array(
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
+            )
+        );
+        
+        $data['title'] = 'Grow Our Yields - Your Enterprise';
+        
+        //get info for the field table
+        $auth_data = $this->php_session->get('AUTH');
+        $data['user_info'] = $this->m_user->get_by_userid($auth_data['UserId']);
+        $data['farms'] = $this->m_farm->get_farms($auth_data['UserId']);
+        $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
+        
+        $this->load->view('header',$data);
+        $this->load->view('enterprise');
+        $this->load->view('footer',$data);
+    }
+    
     public function farm()
     {
         $data['meta_content'] = meta_content(

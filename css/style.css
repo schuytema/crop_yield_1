@@ -459,3 +459,67 @@ background: #f5f5f5;
 #other_four {
     display: none;
 }
+
+
+/* --------- styles for new graphica headers -------------*/
+
+.farmhead {
+    color:#5B8FBE;
+    font-family:geneva,arial,sans-serif;
+    text-transform:uppercase;
+    word-spacing:4px;
+    letter-spacing:3px;
+    font-size:12px;
+    font-weight:bold;
+    padding-top:20px;
+    padding-bottom:25px;
+    padding-left:130px;
+    margin:0;
+    background:url(images/header_farm.jpg) no-repeat left top;
+    }
+    
+.fieldhead {
+    color:#5B8FBE;
+    font-family:geneva,arial,sans-serif;
+    text-transform:uppercase;
+    word-spacing:4px;
+    letter-spacing:3px;
+    font-size:12px;
+    font-weight:bold;
+    padding-top:20px;
+    padding-bottom:25px;
+    padding-left:130px;
+    margin:0;
+    background:url(images/header_field.jpg) no-repeat left top;
+    }
+
+.shedhead {
+    color:#5B8FBE;
+    font-family:geneva,arial,sans-serif;
+    text-transform:uppercase;
+    word-spacing:4px;
+    letter-spacing:3px;
+    font-size:12px;
+    font-weight:bold;
+    padding-top:20px;
+    padding-bottom:25px;
+    padding-left:130px;
+    margin:0;
+    background:url(images/header_machine.jpg) no-repeat left top;
+    }
+    
+.eventhead {
+    color:#5B8FBE;
+    font-family:geneva,arial,sans-serif;
+    text-transform:uppercase;
+    word-spacing:4px;
+    letter-spacing:3px;
+    font-size:12px;
+    font-weight:bold;
+    padding-top:20px;
+    padding-bottom:25px;
+    padding-left:130px;
+    margin:0;
+    background:url(images/header_event.jpg) no-repeat left top;
+    }
+    

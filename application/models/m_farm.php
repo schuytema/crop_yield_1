@@ -45,6 +45,25 @@ class m_farm extends CI_Model{
     function get($id=NULL){
         return $this->db->get_where('Farm',array('PK_FarmId' => id_clean($id)));
     }
+    
+    //gets farm info for overview
+    function get_farms($user_id=NULL){
+        if(isset($user_id)){
+            $this->db->where('FK_BossId',db_clean($user_id,20));
+        }
+        $this->db->distinct();
+        $this->db->select('Name, City, PK_FarmId');
+        $this->db->order_by('Name');
+        return $this->db->get('Farm');
+    }
+    
+    function get_field_count($farm_id=NULL){
+        if(isset($farm_id)){
+            $this->db->where('FK_FarmId',db_clean($farm_id,20));
+        }
+        $events = $this->db->get('Field');
+        return $events->num_rows();
+    }
         
 }
 /* End of file m_farm.php */

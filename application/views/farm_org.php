@@ -22,10 +22,26 @@
                             ?>
                         </blockquote>
                   </td>
+                  <td align="left" width="300">
+                     <h3>Account Information</h3>
+                        <blockquote>
+                            <?php
+                                if(isset($user_info) && $user_info->num_rows())
+                                {
+                                    $row = $user_info->row();
+                                    echo $row->FirstName.'&nbsp;'.$row->LastName.'<br>';
+                                    echo 'Username:&nbsp;'.$row->Username.'<br>';
+                                    echo 'Email:&nbsp;'.$row->Email.'<br>';
+                                    echo '<a href="'.base_url().'member/editaccount">{edit account information}</a>';
+                                } else {
+                                    echo '<font color="red">No account data found.</font><br><br>';
+                                }
+                            ?>
+                        </blockquote>
+                  </td>
           </tr>
           </table>
     <BR CLEAR=LEFT>
-    <br>
     <span class="fieldhead">Your Fields</span><br>
     <table  id="table-data" width="600">
         <thead>
