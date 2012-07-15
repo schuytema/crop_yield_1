@@ -523,3 +523,6 @@ background: #f5f5f5;
     background:url(images/header_event.jpg) no-repeat left top;
     }
     
+.ui-autocomplete-loading { 
+    background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat; 
+}

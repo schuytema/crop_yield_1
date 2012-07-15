@@ -85,6 +85,23 @@ class m_chemical extends CI_Model{
         return $id;
     }
     
+    //suggest chemical product by keyword
+    function suggest($term){
+        $this->db->distinct();
+        $this->db->select('Product');
+        $this->db->where('Product LIKE','%'.db_clean($term,200).'%');
+        $this->db->order_by('Product');
+        $this->db->limit(10);
+        return $this->db->get('Chemical');
+    }
+    
+    //fetch chemical data by product name
+    function fetch($term){
+        $this->db->where('Product LIKE','%'.db_clean($term,200).'%');
+        $this->db->order_by('Product');
+        return $this->db->get('Chemical');
+    }
+    
 }
 /* End of file m_chemical.php */
 /* Location: ./application/models/m_chemical.php */

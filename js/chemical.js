@@ -47,4 +47,32 @@ $(document).ready(function(){
         }
     });
     
+    $("#keyword").autocomplete({
+        source: function(req, add){
+            $.ajax({
+                url: CI.base_url + "member/chemical_suggest",
+                dataType: 'json',
+                type: 'POST',
+                data: req,
+                success: function(data){
+                    if(data.message != null){
+                        add(data.message);
+                    }
+                }
+            });
+        },
+        minLength: 2
+    });
+    
+    $("#keyword_submit").click(function (e) {
+        e.preventDefault();
+        $('#keyword_submit').attr('disabled', 'disabled');
+        $("#results").html('loading...');
+        $.post(CI.base_url + "member/chemical_fetch", { 'term' : $("#keyword").val() },
+        function(data){
+            $('#keyword_submit').removeAttr('disabled');
+            $("#results").show().html(data.result);
+        }, "json");
+    });
+    
 });

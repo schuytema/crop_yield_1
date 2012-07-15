@@ -1237,7 +1237,10 @@ class Member extends CI_Controller {
     }
 
     
-    //example
+    ////////////////////////////////////////////////////////////////////////////
+    /////////////////// EXAMPLES (remove when necessary) ///////////////////////
+    ////////////////////////////////////////////////////////////////////////////
+    
     function linked_list(){
         //@TODO: load all meta data (i.e. meta description & meta keywords, when applicable), css and js by the following methods:
         
@@ -1269,6 +1272,36 @@ class Member extends CI_Controller {
         // load views
         $this->load->view('header', $data);
         $this->load->view('example', $data);
+        $this->load->view('footer', $data);
+    }
+    
+    function chemical_keyword(){
+        $data['link_content'] = link_content(
+            array(
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>$this->config->item('jquery_ui_css'))
+            )
+        );
+        
+        //js object builder
+        $data['js_object'] = js_object(
+            array(
+                'CI' => array('base_url' => base_url())
+            )
+        );
+                  
+        //js_helper: dynamically build <script> tags
+        $data['js'] = js_load(
+            array(
+                $this->config->item('jquery_js'),
+                $this->config->item('jquery_ui_js'),
+                base_url().'js/chemical.js'
+            )
+        );
+        
+        // load views
+        $this->load->view('header', $data);
+        $this->load->view('chemical_example');
         $this->load->view('footer', $data);
     }
     
@@ -1353,6 +1386,31 @@ class Member extends CI_Controller {
                 }
             }
             echo json_encode($data);
+        }
+    }
+    
+    function chemical_suggest(){
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $data['message'] = NULL;
+            $query = $this->m_chemical->suggest(trim($this->input->post('term')));
+            if($query->num_rows() > 0){
+                $data['message'] = array();
+                foreach($query->result() as $row){
+                    $data['message'][] = array('label'=> $row->Product, 'value'=> $row->Product); 
+                }
+            }
+            echo json_encode($data);
+        }
+    }
+    
+    function chemical_fetch(){
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $array = array('result' =>'Product not found. Please search again.');
+            if($this->input->post('term')){
+                $data['list'] = $this->m_chemical->fetch(trim($this->input->post('term')));
+                $array['result'] = $this->load->view('chemical_list',$data,TRUE);
+            } 
+            echo json_encode($array);
         }
     }
 
