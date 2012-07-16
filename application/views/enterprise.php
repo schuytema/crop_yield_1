@@ -53,7 +53,7 @@
         ?>
 
     </table>
-    <a href="<?php echo base_url(); ?>member/editequipment">{add new implement}</a>
+    <a href="<?php echo base_url(); ?>member/editshed">{add new implement}</a>
     <BR CLEAR=LEFT>
     <br>
     <span class="farmhead">Your Farms</span><br>

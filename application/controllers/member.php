@@ -215,6 +215,103 @@ class Member extends CI_Controller {
         $this->load->view('footer',$data);
     }
     
+    public function editshed($shed_id=NULL)
+    {
+        $auth_data = $this->php_session->get('AUTH');
+        
+        $this->load->library('event_manager');
+      
+        
+        if($this->input->post('submit')){
+            $this->load->library('Form_validation');
+            $this->form_validation->set_rules('Name', 'Name', 'trim|required');
+
+            if (strlen($this->input->post('OtherEquipmentBrand')) == 0 && strlen($this->input->post('OtherEquipmentProduct')) == 0)
+            {
+                $this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required|numeric');             
+            }
+
+            if($this->form_validation->run()){
+                //see if other stuff has been entered... if so, create the new equipment row
+                if (strlen($this->input->post('OtherEquipmentBrand')) > 0 && strlen($this->input->post('OtherEquipmentProduct')) > 0)
+                {
+                    $equipment_id = $this->m_equipment->set_equipment_manually('Harvet', $this->input->post('OtherEquipmentBrand'), $this->input->post('OtherEquipmentProduct'));
+                } else {
+                    $equipment_id = NULL;
+                }
+                
+                if(isset($shed_id))
+                {
+                    $new = false;
+                    $this->m_shed->set($auth_data['UserId'], $new, $equipment_id, $shed_id);    
+                } else {
+
+                    $new = true;
+                    $this->m_eventharvest->set($new_event_id, $new, $equipment_id);
+                }
+                //redirect to overview
+                redirect('member/enterprise','refresh');
+            } 
+        } 
+        
+        $data['meta_content'] = meta_content(
+            array(
+                array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
+                array('name'=>'keywords','content'=>'grow our yields, yield, crop, corn, beans, soybeans, field, agriculture')
+            )
+        );
+        
+        $data['link_content'] = link_content(
+            array(
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>$this->config->item('jquery_ui_css'))
+            )
+        );
+        
+        //js object builder
+        $data['js_object'] = js_object(
+            array(
+                'CI' => array('base_url' => base_url())
+            )
+        );
+        
+        //js_helper: dynamically build <script> tags
+        $data['js'] = js_load(
+            array(
+                $this->config->item('jquery_js'),
+                $this->config->item('jquery_ui_js'),
+                base_url().'js/event.js',
+                base_url().'js/harvest.js'
+            )
+        );
+        
+        $data['title'] = 'Grow Our Yields - Machine Shed';
+        
+        //load dropdown list
+        $this->load->config('edit_dropdowns');
+        
+        
+        if(isset($shed_id)){ 
+            $data['shed_data'] = $this->m_shed->get($shed_id);
+            $data['new_event'] = false;
+            $data['equipment_info'] = $this->m_equipment->get_product_info($harvest_details->FK_EquipmentId);
+        } else {
+            $data['new_event'] = true;
+        }
+            
+
+        //get equipment brand
+        $data['equipment_brands'] = $this->m_equipment->get_brand('Harvester');
+        
+        $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
+        
+        $data['action'] = current_url();
+
+        $this->load->view('header',$data);
+        $this->load->view('editshed',$data);
+        $this->load->view('footer',$data);
+    }
+    
     public function editfarm()
     {
         $auth_data = $this->php_session->get('AUTH');
