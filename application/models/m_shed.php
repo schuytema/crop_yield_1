@@ -17,13 +17,7 @@ class m_shed extends CI_Model{
     function set($user_id=NULL, $new=true, $equipment_id=NULL, $shed_id=NULL){
         $data = array(
             'FK_BossId' => $user_id,
-            'Name' => db_clean(strip_tags($this->input->post('Name')),100),
-            'UserSize' => db_clean(strip_tags($this->input->post('UserSize')),11),
-            'UserSizeUnit' => db_clean($this->input->post('UserSizeUnit'),9),
-            'PercentDrainageEffectiveness' => db_clean(strip_tags($this->input->post('PercentDrainageEffectiveness')),5),
-            'Coordinates' => db_clean($this->input->post('Coordinates')),
-            'CalcSize' => db_clean($this->input->post('CalcSize')),
-            'CalcSizeUnit' => 'acres'
+            'Name' => db_clean(strip_tags($this->input->post('Name')),100)
         );
         
         if(!$new){ //update  
@@ -65,7 +59,7 @@ class m_shed extends CI_Model{
             $this->db->where('FK_BossId',db_clean($user_id,20));
         }
         $this->db->distinct();
-        $this->db->select('Name, PK_EquipmentId');
+        $this->db->select('Name, FK_EquipmentId, PK_ShedId');
         $this->db->order_by('Name');
         return $this->db->get('Shed');
     }

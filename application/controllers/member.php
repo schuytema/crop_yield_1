@@ -19,6 +19,7 @@ class Member extends CI_Controller {
         $this->load->model('m_chemical');
         $this->load->model('m_crop');
         $this->load->model('m_farm');
+        $this->load->model('m_shed');
         $this->load->model('m_field');
         $this->load->model('m_equipment');
         $this->load->model('m_event');
@@ -32,7 +33,7 @@ class Member extends CI_Controller {
         $this->lang->load('main');
         $this->load->helper('language');
         
-        //$this->output->enable_profiler(TRUE);
+        $this->output->enable_profiler(TRUE);
     }
 
     function logout(){
@@ -61,7 +62,7 @@ class Member extends CI_Controller {
         $auth_data = $this->php_session->get('AUTH');
         $data['user_info'] = $this->m_user->get_by_userid($auth_data['UserId']);
         $data['farms'] = $this->m_farm->get_farms($auth_data['UserId']);
-        $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
+        $data['implements'] = $this->m_shed->get_implements($auth_data['UserId']);
         
         $this->load->view('header',$data);
         $this->load->view('enterprise');
@@ -235,7 +236,7 @@ class Member extends CI_Controller {
                 //see if other stuff has been entered... if so, create the new equipment row
                 if (strlen($this->input->post('OtherEquipmentBrand')) > 0 && strlen($this->input->post('OtherEquipmentProduct')) > 0)
                 {
-                    $equipment_id = $this->m_equipment->set_equipment_manually('Harvet', $this->input->post('OtherEquipmentBrand'), $this->input->post('OtherEquipmentProduct'));
+                    $equipment_id = $this->m_equipment->set_equipment_manually($this->input->post('EquipmentType'), $this->input->post('OtherEquipmentBrand'), $this->input->post('OtherEquipmentProduct'));
                 } else {
                     $equipment_id = NULL;
                 }
@@ -247,7 +248,7 @@ class Member extends CI_Controller {
                 } else {
 
                     $new = true;
-                    $this->m_eventharvest->set($new_event_id, $new, $equipment_id);
+                    $this->m_shed->set($auth_data['UserId'], $new, $equipment_id); 
                 }
                 //redirect to overview
                 redirect('member/enterprise','refresh');
@@ -280,8 +281,7 @@ class Member extends CI_Controller {
             array(
                 $this->config->item('jquery_js'),
                 $this->config->item('jquery_ui_js'),
-                base_url().'js/event.js',
-                base_url().'js/harvest.js'
+                base_url().'js/shed.js'
             )
         );
         
@@ -300,10 +300,6 @@ class Member extends CI_Controller {
         }
             
 
-        //get equipment brand
-        $data['equipment_brands'] = $this->m_equipment->get_brand('Harvester');
-        
-        $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
         
         $data['action'] = current_url();
 
@@ -1101,7 +1097,7 @@ class Member extends CI_Controller {
             $owning_farm = $this->m_field->get_farm_id_from_field($field_id);
             if ($owning_farm != $auth_data['FarmId'])
             {
-                redirect('member/farm','refresh');
+                redirect('member/enterprise','refresh');
             }
         }      
         
@@ -1111,40 +1107,34 @@ class Member extends CI_Controller {
             $this->form_validation->set_rules('Date', 'Date', 'trim|required|max_length[20]');
             //then, set up for harvest data
             //$this->form_validation->set_rules('Yield', 'Yield', 'trim|required|numeric');
-            if (strlen($this->input->post('OtherEquipmentBrand')) == 0 && strlen($this->input->post('OtherEquipmentProduct')) == 0)
-            {
-                $this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required|numeric');             
-            }
+            //if (strlen($this->input->post('OtherEquipmentBrand')) == 0 && strlen($this->input->post('OtherEquipmentProduct')) == 0)
+            //{
+            //    $this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required|numeric');             
+            //}
             if(!isset($event_id))
             {
                 $this->form_validation->set_rules('fields', 'Fields', 'required');
             }
 
             if($this->form_validation->run()){
-                //see if other stuff has been entered... if so, create the new equipment row
-                if (strlen($this->input->post('OtherEquipmentBrand')) > 0 && strlen($this->input->post('OtherEquipmentProduct')) > 0)
-                {
-                    $equipment_id = $this->m_equipment->set_equipment_manually('Tiller', $this->input->post('OtherEquipmentBrand'), $this->input->post('OtherEquipmentProduct'));
-                } else {
-                    $equipment_id = NULL;
-                }
+
                 
                 if(isset($event_id))
                 {
                     $this->m_event->set($field_id, $event_id);
                     $new = false;
-                    $this->m_eventtillage->set($event_id, $new, $equipment_id);
+                    $this->m_eventtillage->set($event_id, $new);
                 } else {
                     $fields = $this->event_manager->get_fields_from_event_form();
                     foreach ($fields as $field_id)
                     { 
                         $new_event_id = $this->m_event->set($field_id);
                         $new = true;
-                        $this->m_eventtillage->set($new_event_id, $new, $equipment_id);
+                        $this->m_eventtillage->set($new_event_id, $new);
                     }
                 }
                 //redirect to overview
-                redirect('member/farm','refresh');
+                redirect('member/enterprise','refresh');
             } 
         } 
         
@@ -1187,10 +1177,12 @@ class Member extends CI_Controller {
             $data['new_event'] = false;
             //get the info for the equipment if one's picked
             $tillage_details = $data['tillage_data']->row();
-            $data['equipment_info'] = $this->m_equipment->get_product_info($tillage_details->FK_EquipmentId);
+            //$data['equipment_info'] = $this->m_equipment->get_product_info($tillage_details->FK_EquipmentId);
+            
         } else {
             $data['new_event'] = true;
         }
+        $data['implements'] = $this->m_shed->get_implements($auth_data['UserId']);
         
         $data['event_type'] = 'Tillage';
         
@@ -1203,7 +1195,7 @@ class Member extends CI_Controller {
         
 
         //get equipment brand
-        $data['equipment_brands'] = $this->m_equipment->get_brand('Tiller');
+        //$data['equipment_brands'] = $this->m_equipment->get_brand('Tiller');
         
         $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
         
@@ -1320,6 +1312,11 @@ class Member extends CI_Controller {
         $this->load->view('footer',$data);
     }
     
+    function delete_shed($shed_id=NULL){  
+        $this->m_shed->delete_shed($shed_id);
+        redirect('member/enterprise','refresh');
+    }
+    
     
     function delete_field($field_id=NULL){  
         $this->load->library('event_manager');
@@ -1432,6 +1429,22 @@ class Member extends CI_Controller {
                 $data['list'] = array(); //Create array
                 foreach($result as $row){
                     $data['list'][] = array('value'=> $row->PK_ChemicalId,'display' => $row->Product);
+                }
+            }
+            echo json_encode($data);
+        }
+    }
+    
+    function get_equipment_brand(){
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $data['response'] = false;
+            $query = $this->m_equipment->get_brand(trim($this->input->post('type')));
+            if($query->num_rows()){
+                $result = $query->result();
+                $data['response'] = true; //Set response
+                $data['list'] = array(); //Create array
+                foreach($result as $row){
+                    $data['list'][] = array('value'=> $row->Brand,'display' => $row->Brand);
                 }
             }
             echo json_encode($data);

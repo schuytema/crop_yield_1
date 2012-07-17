@@ -25,30 +25,33 @@
     <BR CLEAR=LEFT>
     <br>
     <span class="shedhead">Machine Shed</span><br>
-    <table  id="table-data" width="600">
+    <table  id="table-data" width="670">
         <thead>
-            <th width="250">Implement</th>
+            <th width="200">Implement Nickname</th>
             <th width="100">Type</th>
             <th width="100">Brand</th>
-            <th width="150">Actions</th>
+            <th width="200">Product</th>
+            <th width="70">Action</th>
         </thead>
         <?php
             
-            if($fields->num_rows()){
-                $result = $fields->result();
+            if($implements->num_rows()){
+                $result = $implements->result();
                 foreach($result AS $row)
                 {
-                    echo '<tr>';
+                    echo '<tr valign="top">';
                     echo '<td>'.$row->Name.'</td>';
-                    echo '<td>'.$row->UserSize.'</td>';
-                    $num_events = $this->m_event->get_event_count($row->PK_FieldId);
-                    echo '<td>'.$num_events.'</td>';
-                    $deleteText = "return confirm('Confirm field delete: ".$row->Name."')";
-                    echo '<td><a href="'.base_url().'member/field/'.$row->PK_FieldId.'">details</a>&nbsp;|&nbsp;'.anchor(base_url().'member/delete_field/'.$row->PK_FieldId,'delete',array('class'=>'delete','onclick'=>$deleteText)).'</td>';
+   
+                    $prod_info = $this->m_equipment->get_product_info($row->FK_EquipmentId);
+                    echo '<td>'.$prod_info['Type'].'</td>';
+                    echo '<td>'.$prod_info['Brand'].'</td>';
+                    echo '<td>'.$prod_info['Product'].'</td>';
+                    $deleteText = "return confirm('Confirm implement delete: ".$row->Name."')";
+                    echo '<td>'.anchor(base_url().'member/delete_shed/'.$row->PK_ShedId,'delete',array('class'=>'delete','onclick'=>$deleteText)).'</td>';
                     echo '</tr>';
                 }
             } else {
-                echo '<tr><td colspan="4"><font color="red">No fields have been defined for this farm.</font></td><tr>';
+                echo '<tr><td colspan="5"><font color="red">No implements have been defined for this enterprise.</font></td><tr>';
             }
         ?>
 
