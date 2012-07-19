@@ -33,7 +33,7 @@ class Member extends CI_Controller {
         $this->lang->load('main');
         $this->load->helper('language');
         
-        $this->output->enable_profiler(TRUE);
+        //$this->output->enable_profiler(TRUE);
     }
 
     function logout(){
