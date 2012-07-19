@@ -28,6 +28,46 @@ class m_event extends CI_Model{
         return $events->num_rows();
     }
     
+    function field_done_for_season($field_id=NULL){
+        $done = false;
+        $got_plant = false;
+        $cur_year = date('Y');
+        if(isset($field_id)){
+            $this->db->where('FK_FieldId',db_clean($field_id,20));
+        }
+        $events = $this->db->get('Event');
+        if($events->num_rows())
+        {
+            $result = $events->result();
+            foreach($result AS $row)
+            {
+                if (($row->EventType == 'Plant') || ($row->EventType == 'Replant'))
+                {
+                    $p_year = substr($row->Date,0,4);
+                    if ($p_year == $cur_year)
+                    {
+                        $got_plant = true;
+                    } else {
+                        $got_plant = false;
+                    }
+                }
+                if (($row->EventType == 'Harvest') && ($got_plant))
+                {
+                    $h_year = substr($row->Date,0,4);
+                    if ($h_year == $p_year)
+                    {
+                        $done = true;
+                    } else {
+                        $got_plant = false;
+                        $done = false;
+                    }
+                }
+                
+            }
+        }
+        return $done;
+    }
+    
     //gets events matching a certain field
     function get_field_events($field_id=NULL){
         if(isset($field_id)){

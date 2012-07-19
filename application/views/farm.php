@@ -27,8 +27,9 @@
     <BR CLEAR=LEFT>
     <br>
     <span class="fieldhead">Your Fields</span><br>
-    <table  id="table-data" width="600">
+    <table  id="table-data" width="650">
         <thead>
+            <th width="50">Done?</th>
             <th width="250">Field Name</th>
             <th width="100">Size (acres)</th>
             <th width="100">Events</th>
@@ -41,6 +42,13 @@
                 foreach($result AS $row)
                 {
                     echo '<tr>';
+                    $field_done = $this->m_event->field_done_for_season($row->PK_FieldId);
+                    if ($field_done)
+                    {
+                        echo '<td><img src="'.base_url().'css/images/done_check_sm.png"></td>';
+                    } else {
+                        echo '<td>&nbsp;</td>';
+                    }
                     echo '<td>'.$row->Name.'</td>';
                     echo '<td>'.$row->UserSize.'</td>';
                     $num_events = $this->m_event->get_event_count($row->PK_FieldId);
