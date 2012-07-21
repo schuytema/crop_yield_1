@@ -13,6 +13,11 @@
                     echo '<b>'.$row->Name.'</b><br>';
                     echo $row->UserSize.'&nbsp;'.$row->UserSizeUnit.' (user)<br>';
                     echo 'Drainage Effectiveness:&nbsp;'.$row->PercentDrainageEffectiveness.'%<br>';
+                    $boolean = ($row->Irrigated == 1) ? "Yes" : "No";
+                    echo 'Irrigated:&nbsp;'.$boolean.'<br>';
+                    $boolean = ($row->Tiled == 1) ? "Yes" : "No";
+                    echo 'Tiled:&nbsp;'.$boolean.'<br>';
+                    echo 'Tillage Practice:&nbsp;'.$row->TillagePractice.'<br>';
                     echo '<a href="'.base_url().'member/editfield/'.$row->PK_FieldId.'">{edit field information}</a>';
                 } else {
                     echo '<input type="hidden" name="Coordinates" id="Coordinates" value="">';

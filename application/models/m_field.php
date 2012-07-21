@@ -24,7 +24,10 @@ class m_field extends CI_Model{
             'PercentDrainageEffectiveness' => db_clean(strip_tags($this->input->post('PercentDrainageEffectiveness')),5),
             'Coordinates' => db_clean($this->input->post('Coordinates')),
             'CalcSize' => db_clean($this->input->post('CalcSize')),
-            'CalcSizeUnit' => 'acres'
+            'CalcSizeUnit' => 'acres',
+            'Irrigated' => db_clean($this->input->post('Irrigated')),
+            'Tiled' => db_clean($this->input->post('Tiled')),
+            'TillagePractice' => db_clean($this->input->post('TillagePractice'))
         );
         
         if(isset($field_id)){ //update

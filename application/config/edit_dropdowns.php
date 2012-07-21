@@ -65,3 +65,24 @@ $config['no_yes'] = array(
     'no'=>"no",
     'yes'=>"yes",
 );
+
+$config['no_yes_boolean'] = array(
+    '0'=>"No",
+    '1'=>"Yes",
+);
+
+$config['tillage_practice'] = array(
+    'Intensive'=>"Intensive",
+    'Reduced'=>"Reduced",
+    'Conservation Tillage'=>"Conservation Tillage",
+    'No-Till'=>"No-Till",
+    'Strip Till'=>"Strip Till"
+);
+
+$config['drainage'] = array(
+    '0'=>"0% - Swamp Land",
+    '25'=>"25% - Poor",
+    '50'=>"50% - Average",
+    '75'=>"75% - Good",
+    '100'=>"100% - Excellent"
+);
