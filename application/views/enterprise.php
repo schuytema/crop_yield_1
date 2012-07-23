@@ -79,7 +79,7 @@
                     $num_fields = $this->m_farm->get_field_count($row->PK_FarmId);
                     echo '<td>'.$num_fields.'</td>';
                     $deleteText = "return confirm('Confirm farm delete: ".$row->Name."')";
-                    echo '<td><a href="'.base_url().'member/farm/'.$row->PK_FarmId.'">details</a>&nbsp;|&nbsp;'.anchor(base_url().'member/delete_farm/'.$row->PK_FarmId,'delete',array('class'=>'delete','onclick'=>$deleteText)).'</td>';
+                    echo '<td><a href="'.base_url().'member/load_farm/'.$row->PK_FarmId.'">details</a>&nbsp;|&nbsp;'.anchor(base_url().'member/delete_farm/'.$row->PK_FarmId,'delete',array('class'=>'delete','onclick'=>$deleteText)).'</td>';
                     echo '</tr>';
                 }
             } else {
@@ -88,7 +88,7 @@
         ?>
 
     </table>
-    <a href="<?php echo base_url(); ?>member/editfarm">{add new farm}</a>
+    <a href="<?php echo base_url(); ?>member/addfarm">{add new farm}</a>
     <br><br>
 </div>
 

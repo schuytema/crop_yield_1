@@ -12,7 +12,7 @@
         $row = $farm_data->row();
     }
       
-    echo form_open('member/editfarm');
+    echo form_open($form_url);
     ?>
     <table  style="float:left;" width="510">
               <tr valign="top">

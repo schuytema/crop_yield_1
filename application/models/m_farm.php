@@ -29,17 +29,14 @@ class m_farm extends CI_Model{
             $this->db->set($data);
             $this->db->where('PK_FarmId',id_clean($id));
             $this->db->update('Farm');
-        } else { //create record (once per subscription)
+        } else { //create record
             $auth_data = $this->php_session->get('AUTH');
             $data['FK_BossId'] = $auth_data['UserId'];
             $this->db->set($data);
             $this->db->insert('Farm');
-            
-            //update session vars & user record
             $id = $this->db->insert_id();
-            $this->m_user->set_farm_id($auth_data['UserId'],$id);
-            $this->auth->update_session(array('FarmId' => $id));
         }
+        return $id; 
     }
     
     function get($id=NULL){
@@ -49,7 +46,7 @@ class m_farm extends CI_Model{
     //gets farm info for overview
     function get_farms($user_id=NULL){
         if(isset($user_id)){
-            $this->db->where('FK_BossId',db_clean($user_id,20));
+            $this->db->where('FK_BossId',id_clean($user_id));
         }
         $this->db->distinct();
         $this->db->select('Name, City, PK_FarmId');
@@ -59,10 +56,30 @@ class m_farm extends CI_Model{
     
     function get_field_count($farm_id=NULL){
         if(isset($farm_id)){
-            $this->db->where('FK_FarmId',db_clean($farm_id,20));
+            $this->db->where('FK_FarmId',id_clean($farm_id));
         }
         $events = $this->db->get('Field');
         return $events->num_rows();
+    }
+    
+    function get_name($id){
+        $this->db->select('Name');
+        $this->db->where('PK_FarmId',id_clean($id));
+        $query = $this->db->get('Farm');
+        if($query->num_rows()){
+            return $query->row()->Name;
+        }
+        return NULL;
+    }
+    
+    function verify_owner($user_id,$farm_id){
+        $this->db->where('FK_BossId',id_clean($user_id));
+        $this->db->where('PK_FarmId',id_clean($farm_id));
+        $query = $this->db->get('Farm');
+        if($query->num_rows()){
+            return TRUE;
+        }
+        return FALSE;
     }
         
 }

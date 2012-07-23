@@ -9,13 +9,7 @@ class Member extends CI_Controller {
         if(!$this->php_session->get('AUTH')){
             redirect('main/login','refresh');
         }         
-        
-        //verify farm record exists; if not - send to farm form
-        $auth_data = $this->php_session->get('AUTH');
-        if(!isset($auth_data['FarmId']) && $this->router->method != 'editfarm' && $this->router->method != 'logout'){
-            redirect('member/editfarm','refresh');
-        }
-        
+                
         $this->load->model('m_chemical');
         $this->load->model('m_crop');
         $this->load->model('m_farm');
@@ -69,8 +63,22 @@ class Member extends CI_Controller {
         $this->load->view('footer',$data);
     }
     
+    public function load_farm(){
+        //set active farm
+        $auth_data = $this->php_session->get('AUTH');
+        if($this->m_farm->verify_owner($auth_data['UserId'],$this->uri->segment(3))){
+            $this->auth->update_session(array('FarmId' => $this->uri->segment(3),'FarmName' => $this->m_farm->get_name($this->uri->segment(3))));
+        }
+        redirect('member/farm','refresh');
+    }
+    
     public function farm()
     {
+        $auth_data = $this->php_session->get('AUTH');
+        if(empty($auth_data['FarmId'])){
+            redirect('member/enterprise','refresh');
+        }
+        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -87,7 +95,7 @@ class Member extends CI_Controller {
         $data['title'] = 'Grow Our Yields - Your Farm';
         
         //get info for the field table
-        $auth_data = $this->php_session->get('AUTH');
+        
         $data['user_info'] = $this->m_user->get_by_userid($auth_data['UserId']);
         $data['farm'] = $this->m_farm->get($auth_data['FarmId']);
         $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
@@ -100,6 +108,10 @@ class Member extends CI_Controller {
     public function field($field_id=NULL)
     {
         $auth_data = $this->php_session->get('AUTH');
+        if(empty($auth_data['FarmId'])){
+            redirect('member/enterprise','refresh');
+        }
+        
         if(isset($field_id))
         {
             $owning_farm = $this->m_field->get_farm_id_from_field($field_id);
@@ -152,6 +164,11 @@ class Member extends CI_Controller {
     
     public function event($event_id = 1)
     {
+        $auth_data = $this->php_session->get('AUTH');
+        if(empty($auth_data['FarmId'])){
+            redirect('member/enterprise','refresh');
+        }
+        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -298,13 +315,45 @@ class Member extends CI_Controller {
         } else {
             $data['new_event'] = true;
         }
-            
-
-        
+          
         $data['action'] = current_url();
 
         $this->load->view('header',$data);
         $this->load->view('editshed',$data);
+        $this->load->view('footer',$data);
+    }
+    
+    public function addfarm(){
+        if($this->input->post('submit')){
+            $this->load->library('Form_validation');
+            $this->load->library('MY_form_validation',NULL,'form_validation');
+            $this->load->config('farm_validation');
+            $this->form_validation->set_rules($this->config->item('farm'));
+            if($this->form_validation->run()){
+                //send to db
+                $id = $this->m_farm->set();
+                //update session; set as active farm
+                $this->auth->update_session(array('FarmId' => $id,'FarmName' => $this->m_farm->get_name($id)));
+                //redirect to overview
+                redirect('member/farm','refresh');
+            }
+        }
+        $data['link_content'] = link_content(
+            array(
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
+            )
+        );
+        
+        //load state list
+        $this->load->config('state_list');
+        
+        $data['title'] = 'Grow Our Yields - Farm Management';
+        $data['page_title'] = lang('farm_new_title');
+        $data['desc'] = lang('farm_new_desc');
+        $data['form_url'] = 'member/addfarm';
+        
+        $this->load->view('header',$data);
+        $this->load->view('editfarm');
         $this->load->view('footer',$data);
     }
     
@@ -314,25 +363,17 @@ class Member extends CI_Controller {
         if($this->input->post('submit')){
             $this->load->library('Form_validation');
             $this->load->library('MY_form_validation',NULL,'form_validation');
-            $this->form_validation->set_rules('Name', 'Farm Name', 'trim|required|max_length[100]');
-            $this->form_validation->set_rules('Address', 'Farm Address', 'trim|required|max_length[100]');
-            $this->form_validation->set_rules('City', 'City', 'trim|required|max_length[50]');
-            $this->form_validation->set_rules('State', 'State', 'trim|required');
-            $this->form_validation->set_rules('Zip', 'Zipcode', 'trim|required|check_zip_code');
-            $this->form_validation->set_rules('Phone', 'Phone', 'trim|required|max_length[20]');
+            $this->load->config('farm_validation');
+            $this->form_validation->set_rules($this->config->item('farm'));
             if($this->form_validation->run()){
                 //send to db
-                $this->m_farm->set($auth_data['FarmId']);
+                $id = $this->m_farm->set($auth_data['FarmId']);
+                //update session var
+                $this->auth->update_session(array('FarmName' => $this->m_farm->get_name($id)));
                 //redirect to overview
                 redirect('member/farm','refresh');
             } 
         }
-        $data['meta_content'] = meta_content(
-            array(
-                array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
-                array('name'=>'keywords','content'=>'grow our yields, yield, crop, corn, beans, soybeans, field, agriculture')
-            )
-        );
         
         $data['link_content'] = link_content(
             array(
@@ -346,23 +387,20 @@ class Member extends CI_Controller {
         $data['title'] = 'Grow Our Yields - Farm Management';
         $data['page_title'] = lang('farm_edit_title');
         $data['desc'] = lang('farm_edit_desc');
-        
-        
-        if(!isset($auth_data['FarmId'])){ //farm record does not exist; display first-time user info
-            $data['page_title'] = lang('farm_new_title');
-            $data['desc'] = lang('farm_new_desc');
-        } else {
-            $data['farm_data'] = $this->m_farm->get($auth_data['FarmId']);
-        }
+        $data['farm_data'] = $this->m_farm->get($auth_data['FarmId']);
+        $data['form_url'] = 'member/editfarm';
         
         $this->load->view('header',$data);
         $this->load->view('editfarm');
         $this->load->view('footer',$data);
     }
-    
+        
     public function editfield($field_id=NULL)
     {
         $auth_data = $this->php_session->get('AUTH');
+        if(empty($auth_data['FarmId'])){
+            redirect('member/enterprise','refresh');
+        }
         
         if(isset($field_id))
         {
@@ -459,6 +497,11 @@ class Member extends CI_Controller {
     
     public function editevent()
     {
+        $auth_data = $this->php_session->get('AUTH');
+        if(empty($auth_data['FarmId'])){
+            redirect('member/enterprise','refresh');
+        }
+        
         $data['meta_content'] = meta_content(
             array(
                 array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
@@ -481,6 +524,9 @@ class Member extends CI_Controller {
     public function editevent_application($event_id=NULL, $field_id=NULL)
     {
         $auth_data = $this->php_session->get('AUTH');
+        if(empty($auth_data['FarmId'])){
+            redirect('member/enterprise','refresh');
+        }
         $this->load->library('event_manager');
         
         if(isset($field_id))
@@ -587,6 +633,9 @@ class Member extends CI_Controller {
     public function editevent_chemical($event_id=NULL, $field_id=NULL)
     {
         $auth_data = $this->php_session->get('AUTH');
+        if(empty($auth_data['FarmId'])){
+            redirect('member/enterprise','refresh');
+        }
         
         $this->load->library('event_manager');
         
@@ -707,6 +756,9 @@ class Member extends CI_Controller {
     public function editevent_fertilizer($event_id=NULL, $field_id=NULL)
     {
         $auth_data = $this->php_session->get('AUTH');
+        if(empty($auth_data['FarmId'])){
+            redirect('member/enterprise','refresh');
+        }
         
         $this->load->library('event_manager');
         
@@ -815,6 +867,9 @@ class Member extends CI_Controller {
     public function editevent_harvest($event_id=NULL, $field_id=NULL)
     {
         $auth_data = $this->php_session->get('AUTH');
+        if(empty($auth_data['FarmId'])){
+            redirect('member/enterprise','refresh');
+        }
         
         $this->load->library('event_manager');
         
@@ -940,6 +995,9 @@ class Member extends CI_Controller {
     public function editevent_plant($type = 'Plant', $event_id=NULL, $field_id=NULL)
     {
         $auth_data = $this->php_session->get('AUTH');
+        if(empty($auth_data['FarmId'])){
+            redirect('member/enterprise','refresh');
+        }
         
         $this->load->library('event_manager');
         
@@ -1089,6 +1147,9 @@ class Member extends CI_Controller {
     public function editevent_tillage($event_id=NULL, $field_id=NULL)
     {
         $auth_data = $this->php_session->get('AUTH');
+        if(empty($auth_data['FarmId'])){
+            redirect('member/enterprise','refresh');
+        }
         
         $this->load->library('event_manager');
         
@@ -1210,6 +1271,9 @@ class Member extends CI_Controller {
     public function editevent_weather($event_id=NULL, $field_id=NULL)
     {
         $auth_data = $this->php_session->get('AUTH');
+        if(empty($auth_data['FarmId'])){
+            redirect('member/enterprise','refresh');
+        }
         
         $this->load->library('event_manager');
         

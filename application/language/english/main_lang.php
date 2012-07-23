@@ -24,8 +24,8 @@ $lang['auth_reset_pass_fail'] = 'An error occurred while updating your password.
 
 
 //Add/Edit Farm
-$lang['farm_new_title'] = 'Welcome to Grow Our Yields!';
-$lang['farm_new_desc'] = 'Before moving on, let\'s first create a farm record. Please complete the form below and you\'ll be on your way to adding field data.';
+$lang['farm_new_title'] = 'Add a New Farm';
+$lang['farm_new_desc'] = 'Use this form to create a new farm record.';
 $lang['farm_edit_title'] = 'Edit Farm';
 $lang['farm_edit_desc'] = 'Use this form to update your basic farm information.';
 
