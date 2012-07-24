@@ -22,7 +22,7 @@
                   <td align="left" width="310">
                       <select name="EventPick" onchange="window.location=this.value;">
                         <option value="<?php echo base_url(); ?>member/editevent">Select Event Type</option>
-                        <option value="<?php echo base_url(); ?>member/editevent_application">Application</option>
+                        <option value="<?php echo base_url(); ?>member/editevent_application">Lime Application</option>
                         <option value="<?php echo base_url(); ?>member/editevent_chemical">Chemical</option>
                         <option value="<?php echo base_url(); ?>member/editevent_fertilizer">Fertilizer</option>
                         <option value="<?php echo base_url(); ?>member/editevent_harvest">Harvest</option>

@@ -23,7 +23,7 @@
                   </td>
                   <td align="left" width="310">
                       <select name="EventPicker" onchange="window.location=this.value;">
-                        <option value="<?php echo base_url(); ?>member/editevent_application"<?php if ($event_type == 'Application') { echo ' selected="selected"'; } ?>>Application</option>
+                        <option value="<?php echo base_url(); ?>member/editevent_application"<?php if ($event_type == 'Application') { echo ' selected="selected"'; } ?>>Lime Application</option>
                         <option value="<?php echo base_url(); ?>member/editevent_chemical"<?php if ($event_type == 'Chemical') { echo ' selected="selected"'; } ?>>Chemical</option>
                         <option value="<?php echo base_url(); ?>member/editevent_fertilizer"<?php if ($event_type == 'Fertilizer') { echo ' selected="selected"'; } ?>>Fertilizer</option>
                         <option value="<?php echo base_url(); ?>member/editevent_harvest"<?php if ($event_type == 'Harvest') { echo ' selected="selected"'; } ?>>Harvest</option>

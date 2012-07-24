@@ -568,8 +568,14 @@ class Member extends CI_Controller {
                         $this->m_eventapplication->set($new_event_id, $new);
                     }
                 }
-                //redirect to overview
-                redirect('member/farm','refresh');
+                //redirect to proper overview
+                if($new)
+                {
+                    redirect('member/farm','refresh');
+                } else {
+                    
+                    redirect('member/field/'.$field_id,'refresh');
+                }
             } 
         }
         
@@ -802,8 +808,13 @@ class Member extends CI_Controller {
                         $this->m_eventfertilizer->set($new_event_id, $new);
                     }
                 }
-                //redirect to overview
-                redirect('member/farm','refresh');
+                //redirect to proper overview
+                if($new)
+                {
+                    redirect('member/farm','refresh');
+                } else {        
+                    redirect('member/field/'.$field_id,'refresh');
+                }
             } 
         } 
         
@@ -1389,9 +1400,12 @@ class Member extends CI_Controller {
     }
     
     function delete_event($event_id=NULL){  
+        //first, get the field ID of the event to delete
+        $event_data = $this->m_event->get($event_id);
+        $row = $event_data->row();
         $this->load->library('event_manager');
         $this->event_manager->delete_event($event_id);
-        redirect('member/farm','refresh');
+        redirect('member/field/'.$row->FK_FieldId,'refresh');
     }
 
     

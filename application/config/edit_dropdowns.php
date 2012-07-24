@@ -25,12 +25,16 @@ $config['weight_units'] = array(
 );
 
 $config['fertilizer_units'] = array(
-    'fl oz/acre'=>"fl oz/acre",
-    'oz/acre'=>"oz/acre",
-    'pt/acre'=>"pt/acre",
-    'qt/acre'=>"qt/acre",
     'gal/acre'=>"gal/acre",
     'lbs/acre'=>"lbs/acre",
+    'tons/acre'=>"tons/acre"
+);
+
+$config['fertilizer_form'] = array(
+    'liquid'=>"liquid",
+    'granular'=>"granular",
+    'gas/NH3/anhydrous'=>"gas/NH3/anhydrous",
+    'manure'=>"manure"
 );
 
 $config['weather'] = array(
