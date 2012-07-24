@@ -71,7 +71,8 @@ $(document).ready(function(){
         $.post(CI.base_url + "member/chemical_fetch", { 'term' : $("#keyword").val() },
         function(data){
             $('#keyword_submit').removeAttr('disabled');
-            $("#results").show().html(data.result);
+            //$("#results").show().html(data.result);
+            $("#FK_ChemicalId").val(data.result);
         }, "json");
     });
     

@@ -744,6 +744,8 @@ class Member extends CI_Controller {
             $data['new_event'] = true;
         }
         
+        $data['implements'] = $this->m_shed->get_implements($auth_data['UserId']);
+        
         $data['event_type'] = 'Chemical';
                 
         //get chemical type
@@ -1205,8 +1207,14 @@ class Member extends CI_Controller {
                         $this->m_eventtillage->set($new_event_id, $new);
                     }
                 }
-                //redirect to overview
-                redirect('member/enterprise','refresh');
+                //redirect to proper overview
+                if($new)
+                {
+                    redirect('member/farm','refresh');
+                } else {
+                    
+                    redirect('member/field/'.$field_id,'refresh');
+                }
             } 
         } 
         
@@ -1231,8 +1239,7 @@ class Member extends CI_Controller {
             array(
                 $this->config->item('jquery_js'),
                 $this->config->item('jquery_ui_js'),
-                base_url().'js/event.js',
-                base_url().'js/tillage.js'
+                base_url().'js/event.js'
             )
         );
         
@@ -1325,8 +1332,14 @@ class Member extends CI_Controller {
                         $this->m_eventweather->set($new_event_id, $new);
                     }
                 }
-                //redirect to overview
-                redirect('member/farm','refresh');
+                //redirect to proper overview
+                if($new)
+                {
+                    redirect('member/farm','refresh');
+                } else {
+                    
+                    redirect('member/field/'.$field_id,'refresh');
+                }
             } 
         } 
         
