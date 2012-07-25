@@ -78,8 +78,7 @@
                     echo '<td>'.$row->City.'</td>';
                     $num_fields = $this->m_farm->get_field_count($row->PK_FarmId);
                     echo '<td>'.$num_fields.'</td>';
-                    $deleteText = "return confirm('Confirm farm delete: ".$row->Name."')";
-                    echo '<td><a href="'.base_url().'member/load_farm/'.$row->PK_FarmId.'">details</a>&nbsp;|&nbsp;'.anchor(base_url().'member/delete_farm/'.$row->PK_FarmId,'delete',array('class'=>'delete','onclick'=>$deleteText)).'</td>';
+                    echo '<td><a href="'.base_url().'member/load_farm/'.$row->PK_FarmId.'">details</a>&nbsp;|&nbsp;'.anchor(base_url().'member/delete_farm/'.$row->PK_FarmId,'delete',array('class'=>'delete','onclick'=>'return confirm(\'Do you want to delete '.$row->Name.'?\n\nPlease confirm you want to delete this farm, along with all associated fields and events.\')')).'</td>';
                     echo '</tr>';
                 }
             } else {
