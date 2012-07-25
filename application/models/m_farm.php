@@ -81,6 +81,22 @@ class m_farm extends CI_Model{
         }
         return FALSE;
     }
+    
+    function delete($farm_id){
+        //delete fields w/ events
+        $query = $this->m_field->get_fields($farm_id);
+        if($query->num_rows()){
+            $this->load->library('event_manager');
+            $result = $query->result();
+            foreach($result AS $row){
+                $this->event_manager->delete_field_with_events($row->PK_FieldId);
+            }
+        }
+        
+        //delete farm
+        $this->db->where('PK_FarmId', id_clean($farm_id));
+        $this->db->delete('Farm');
+    }
         
 }
 /* End of file m_farm.php */

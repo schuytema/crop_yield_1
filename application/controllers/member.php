@@ -1415,6 +1415,18 @@ class Member extends CI_Controller {
         redirect('member/field/'.$row->FK_FieldId,'refresh');
     }
 
+    function delete_farm(){
+        $auth_data = $this->php_session->get('AUTH');
+        if($this->m_farm->verify_owner($auth_data['UserId'],$this->uri->segment(3))){
+            $this->m_farm->delete($this->uri->segment(3));
+            
+            //check active farm status
+            if($auth_data['FarmId'] == $this->uri->segment(3)){
+                $this->auth->update_session(array('FarmId' => NULL,'FarmName' => NULL));
+            }
+        }
+        redirect('member/enterprise','refresh');
+    }
     
     ////////////////////////////////////////////////////////////////////////////
     /////////////////// EXAMPLES (remove when necessary) ///////////////////////
