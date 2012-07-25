@@ -36,6 +36,9 @@ $lang['field_new_desc'] = 'You can now create your new field\'s polygon and ente
 $lang['field_edit_title'] = 'Edit Existing Field Information';
 $lang['field_edit_desc'] = 'Use this form to update this field\'s information.';
 
+//Footer
+$lang['footer_copyright'] = '&copy; 2012 GrowOurYields, LLC (all rights reserved)';
+
 //Help System
 $lang['h_field_title'] = 'Field Overview';
 $lang['h_field_descr'] = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam consectetur, enim ac hendrerit semper, felis erat gravida nulla, suscipit ullamcorper sem justo nec neque. Ut quis ipsum vel magna iaculis tincidunt. Vestibulum ultricies hendrerit enim, eget convallis enim mattis non. Morbi suscipit gravida volutpat. Aenean vel ligula lectus, sit amet ornare urna. Nam libero libero, pellentesque non imperdiet eget, iaculis vel eros. Sed sollicitudin rhoncus tellus a ullamcorper. Fusce feugiat sapien eu mi convallis quis scelerisque mi viverra.

@@ -1,6 +1,6 @@
 
 <div id="footer">
-<span class="style5">&copy; 2012 GrowOurYields, LLC (all rights reserved)</span><br />
+<span class="style5"><?php echo lang('footer_copyright'); ?></span><br />
 <br />
 </div>
 
