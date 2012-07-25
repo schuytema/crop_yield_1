@@ -26,7 +26,7 @@ class Member extends CI_Controller {
         $this->load->model('m_eventweather');
         $this->lang->load('main');
         $this->load->helper('language');
-        
+        $this->load->helper('help_system');
         //$this->output->enable_profiler(TRUE);
     }
 
@@ -1426,6 +1426,27 @@ class Member extends CI_Controller {
             }
         }
         redirect('member/enterprise','refresh');
+    }
+    
+    function help(){
+        $this->load->config('help_system');
+        $data['meta_content'] = meta_content(
+            array(
+                array('name'=>'description','content'=>'Grow our Yields Help Documentation.')
+            )
+        );
+        
+        $data['link_content'] = link_content(
+            array(
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/help.css')
+            )
+        );
+        
+        $data['title'] = 'Grow Our Yields - Help Documentation';
+        
+        $this->load->view('help_header',$data);
+        $this->load->view('help');
+        $this->load->view('help_footer',$data);
     }
     
     ////////////////////////////////////////////////////////////////////////////

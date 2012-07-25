@@ -5,22 +5,22 @@
               <tr valign="top">
                   <td align="left" width="300">
                     <h3>Farm Information</h3>
-                        <blockquote>
-                            <?php
-                                if(isset($farm) && $farm->num_rows())
-                                {
-                                    $row = $farm->row();
-                                    echo '<b>'.$row->Name.'</b><br>';
-                                    echo $row->Address.'<br>';
-                                    echo $row->City.',&nbsp;'.$row->State.'&nbsp;&nbsp;'.$row->Zip.'<br>';
-                                    echo $row->Phone.'<br>';
-                                    echo '<a href="'.base_url().'member/editfarm">{edit farm information}</a>';
-                                } else {
-                                    echo '<font color="red">No farm data entered yet.</font><br><br>';
-                                    echo '<a href="'.base_url().'member/editfarm">{enter initial farm information}</a>';
-                                }
-                            ?>
-                        </blockquote>
+                    <blockquote>
+                        <?php
+                            if(isset($farm) && $farm->num_rows())
+                            {
+                                $row = $farm->row();
+                                echo '<b>'.$row->Name.'</b><br>';
+                                echo $row->Address.'<br>';
+                                echo $row->City.',&nbsp;'.$row->State.'&nbsp;&nbsp;'.$row->Zip.'<br>';
+                                echo $row->Phone.'<br>';
+                                echo '<a href="'.base_url().'member/editfarm">{edit farm information}</a>';
+                            } else {
+                                echo '<font color="red">No farm data entered yet.</font><br><br>';
+                                echo '<a href="'.base_url().'member/editfarm">{enter initial farm information}</a>';
+                            }
+                        ?>
+                      </blockquote>
                   </td>
           </tr>
           </table>
