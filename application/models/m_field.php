@@ -25,8 +25,8 @@ class m_field extends CI_Model{
             'Coordinates' => db_clean($this->input->post('Coordinates')),
             'CalcSize' => db_clean($this->input->post('CalcSize')),
             'CalcSizeUnit' => 'acres',
-            'Irrigated' => db_clean($this->input->post('Irrigated')),
-            'Tiled' => db_clean($this->input->post('Tiled')),
+            'Irrigated' => db_clean($this->input->post('Irrigated'), false),
+            'Tiled' => db_clean($this->input->post('Tiled'), false),
             'TillagePractice' => db_clean($this->input->post('TillagePractice'))
         );
         

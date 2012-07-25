@@ -46,8 +46,9 @@ $config['weather'] = array(
 );
 
 $config['chemical_units'] = array(
-    'lbs'=>"lbs",
-    'kgs'=>"kgs",
+    'oz/acre'=>"oz/acre",
+    'lbs/acre'=>"lbs/acre",
+    'gal/acre'=>"gal/acre",
 );
 
 $config['planting_rate_units'] = array(
