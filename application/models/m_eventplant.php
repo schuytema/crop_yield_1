@@ -20,28 +20,22 @@ class m_eventplant extends CI_Model{
         return $this->db->get_where('EventPlant',array('FK_EventId' => id_clean($event_id)));
     }
     
-    function set($event_id=NULL, $new=true, $equipment_id=NULL, $crop_id=NULL){
+    function set($event_id=NULL, $new=true, $crop_id=NULL){
         $data = array(            
             'FK_EventId' => id_clean($event_id),
+            'FK_EquipmentId' => id_clean($this->input->post('EquipmentProduct'),8),
             'PlantingRate' => db_clean(strip_tags($this->input->post('PlantingRate')),8),
             'PlantingRateUnit' => db_clean(strip_tags($this->input->post('PlantingRateUnit')),14),
             'RowSpacing' => db_clean(strip_tags($this->input->post('RowSpacing')),3),
             'RowSpacingUnit' => db_clean(strip_tags($this->input->post('RowSpacingUnit')),2),
             'PercentCrop' => db_clean(strip_tags($this->input->post('PercentCrop')),3),
             'PreviousCrop' => db_clean(strip_tags($this->input->post('PreviousCrop')),8),
-            'VariableRate' => db_clean($this->input->post('VariableRate'),3)
+            'VariableRate' => db_clean($this->input->post('VariableRate'),3),
+            'SeedDepth' => db_clean(strip_tags($this->input->post('SeedDepth')),3),
+            'SeedDepthUnit' => db_clean(strip_tags($this->input->post('SeedDepthUnit')),2)
         );
 
         if(!$new){ //update  
-            if (isset($equipment_id))
-            {
-                $data['FK_EquipmentId'] = id_clean($equipment_id);
-            } else {
-                if (strlen($this->input->post('EquipmentProduct')) > 0)
-                {
-                    $data['FK_EquipmentId'] = id_clean($this->input->post('EquipmentProduct'));
-                }
-            }
             
             if (isset($crop_id))
             {
@@ -56,13 +50,6 @@ class m_eventplant extends CI_Model{
             $this->db->where('FK_EventId',id_clean($event_id));
             $this->db->update('EventPlant');
         } else { //create record
-            if (isset($equipment_id))
-            {
-                $data['FK_EquipmentId'] = id_clean($equipment_id);
-            } else {
-                $data['FK_EquipmentId'] = id_clean($this->input->post('EquipmentProduct'));
-            }
-            
             if (isset($crop_id))
             {
                 $data['FK_CropId'] = id_clean($crop_id);

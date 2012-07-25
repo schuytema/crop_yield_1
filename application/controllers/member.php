@@ -1019,7 +1019,7 @@ class Member extends CI_Controller {
             $owning_farm = $this->m_field->get_farm_id_from_field($field_id);
             if ($owning_farm != $auth_data['FarmId'])
             {
-                redirect('member/farm','refresh');
+                redirect('member/enterprise','refresh');
             }
         }      
         
@@ -1028,25 +1028,22 @@ class Member extends CI_Controller {
             //first, set up for master event data
             $this->form_validation->set_rules('Date', 'Date', 'trim|required|max_length[20]');
             //then, set up for planting data
-            //$this->form_validation->set_rules('EquipmentBrand', 'Equipment Brand', 'trim|required');
-            //$this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required');
-            //$this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required|numeric');
-            if (strlen($this->input->post('OtherEquipmentBrand')) == 0 && strlen($this->input->post('OtherEquipmentProduct')) == 0)
-            {
-                $this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required|numeric');             
-            }
+            $this->form_validation->set_rules('EquipmentProduct', 'Implement', 'trim|required|numeric');             
             if (strlen($this->input->post('OtherCropBrand')) == 0 && strlen($this->input->post('OtherCropProduct')) == 0)
             {
                 $this->form_validation->set_rules('CropProduct', 'Crop Product', 'trim|required|numeric');             
+            } else {
+                $this->form_validation->set_rules('CropProduct', 'Crop Product', 'trim|required|numeric');
+                $this->form_validation->set_rules('CropType', 'Crop Type', 'trim|required');
+                $this->form_validation->set_rules('CropBrand', 'Crop Brand', 'trim|required');
+                $this->form_validation->set_rules('CropProduct', 'Crop Product', 'trim|required');
             }
-            //$this->form_validation->set_rules('CropProduct', 'Crop Product', 'trim|required|numeric');
-            //$this->form_validation->set_rules('CropType', 'Crop Type', 'trim|required');
-            //$this->form_validation->set_rules('CropBrand', 'Crop Brand', 'trim|required');
-            //$this->form_validation->set_rules('CropProduct', 'Crop Product', 'trim|required');
             $this->form_validation->set_rules('PlantingRate', 'Planting Rate', 'trim|required');
             $this->form_validation->set_rules('PlantingRateUnit', 'Planting Rate Unit', 'trim|required');
             $this->form_validation->set_rules('RowSpacing', 'Row Spacing', 'trim|required');
             $this->form_validation->set_rules('RowSpacingUnit', 'Row Spacing Unit', 'trim|required');
+            $this->form_validation->set_rules('SeedDepth', 'Seed Depth', 'trim|required');
+            $this->form_validation->set_rules('SeedDepthUnit', 'Seed Depth Unit', 'trim|required');
             $this->form_validation->set_rules('PercentCrop', 'Percent Planted', 'trim|required|numeric');
             if(!isset($event_id))
             {
@@ -1054,13 +1051,6 @@ class Member extends CI_Controller {
             }
 
             if($this->form_validation->run()){
-                //see if other stuff has been entered... if so, create the new equipment row
-                if (strlen($this->input->post('OtherEquipmentBrand')) > 0 && strlen($this->input->post('OtherEquipmentProduct')) > 0)
-                {
-                    $equipment_id = $this->m_equipment->set_equipment_manually('Planter', $this->input->post('OtherEquipmentBrand'), $this->input->post('OtherEquipmentProduct'));
-                } else {
-                    $equipment_id = NULL;
-                }
                 //see if other stuff has been entered... if so, create the new crop row
                 if (strlen($this->input->post('OtherCropBrand')) > 0 && strlen($this->input->post('OtherCropProduct')) > 0)
                 {
@@ -1073,18 +1063,23 @@ class Member extends CI_Controller {
                 {
                     $this->m_event->set($field_id, $event_id);
                     $new = false;
-                    $this->m_eventplant->set($event_id, $new, $equipment_id, $crop_id);
+                    $this->m_eventplant->set($event_id, $new, $crop_id);
                 } else {
                     $fields = $this->event_manager->get_fields_from_event_form();
                     foreach ($fields as $field_id)
                     { 
                         $new_event_id = $this->m_event->set($field_id);
                         $new = true;
-                        $this->m_eventplant->set($new_event_id, $new, $equipment_id, $crop_id);
+                        $this->m_eventplant->set($new_event_id, $new, $crop_id);
                     }
                 }
-                //redirect to overview
-                redirect('member/farm','refresh');
+                //redirect to proper overview
+                if($new)
+                {
+                    redirect('member/farm','refresh');
+                } else {
+                    redirect('member/field/'.$field_id,'refresh');
+                }
             } 
         }        
         
@@ -1130,9 +1125,8 @@ class Member extends CI_Controller {
             $data['plant_data'] = $this->m_eventplant->get($event_id);
             $data['field_name'] = $this->m_field->get_field_name($field_id);
             $data['new_event'] = false;
-            //get the info for the equipment if one's picked
             $plant_details = $data['plant_data']->row();
-            $data['equipment_info'] = $this->m_equipment->get_product_info($plant_details->FK_EquipmentId);
+            
             //get the info for the crop if one's picked
             $data['crop_info'] = $this->m_crop->get_product_info($plant_details->FK_CropId);
         } else {
@@ -1141,8 +1135,8 @@ class Member extends CI_Controller {
         
         $data['event_type'] = $type;
         
-        //get equipment brand
-        $data['equipment_brands'] = $this->m_equipment->get_brand('Planter');
+        //get implements
+        $data['implements'] = $this->m_shed->get_implements($auth_data['UserId']);
         
         //get crop type
         $data['crop_types'] = $this->m_crop->get_type();

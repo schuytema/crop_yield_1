@@ -7,12 +7,33 @@
     if(isset($plant_data) && $plant_data->num_rows()){
         $datarow = $plant_data->row();
     }
+    ?>
     
-    if(isset($equipment_info))
-    {
-        echo '<blockquote>Current Equipment:<br>Brand:&nbsp;'.$equipment_info['Brand'].'<br>Product:&nbsp;'.$equipment_info['Product'].'</blockquote>';;
-    }
-    ?>    
+    <h4>Equipment Used</h4>
+    
+    <table  style="float:left;" width="510">
+              <?php
+            if($implements->num_rows()){
+                $result = $implements->result();
+
+                //brands
+                echo '<tr valign="top"><td align="right" width="200"><b>Implement:</b>&nbsp;&nbsp;</td><td align="left" width="310">';
+
+                $imps[0] = 'Select Implement';
+                foreach($result AS $item){
+                    $imps[$item->FK_EquipmentId] = $item->Name;
+                }
+                
+                echo form_dropdown('EquipmentProduct', $imps, set_value('EquipmentProduct',(isset($row->FK_EquipmentId)) ? $row->FK_EquipmentId : NULL));
+
+                echo '</td></tr>';
+            } else {
+                echo '<tr><td colspan="2"><font color="red>Implement data not found.</font></td></tr>';
+            }
+
+        ?>
+    </table>   
+    <BR CLEAR=LEFT>
     
     <table  style="float:left;" width="510">
         <?php
@@ -151,6 +172,18 @@
                     ?>
                 </td>
             </tr>  
+            
+            <tr valign="top">
+                <td align="right">
+                    <b>Seed Depth</b>&nbsp;&nbsp;
+                </td>
+                <td align="left">
+                    <input type="text" size="10" name="SeedDepth" value="<?php echo set_value('SeedDepth',(isset($datarow->SeedDepth)) ? $datarow->SeedDepth : NULL); ?>">
+                    <?php
+                    echo form_dropdown('SeedDepthUnit', $this->config->item('seed_depth_spacing_units'), set_value('SeedDepthUnit',(isset($datarow->SeedDepthUnit)) ? $datarow->SeedDepthUnit : NULL));
+                    ?>
+                </td>
+            </tr>           
             
             <tr valign="top">
                 <td align="right">

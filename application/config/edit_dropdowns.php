@@ -60,6 +60,11 @@ $config['planting_row_spacing_units'] = array(
     'cm' => 'cm'
 );
 
+$config['seed_depth_spacing_units'] = array(
+    'in' => 'in',
+    'cm' => 'cm'
+);
+
 $config['crop_type'] = array(
     'Corn' => 'Corn',
     'Soybean' => 'Soybean'
