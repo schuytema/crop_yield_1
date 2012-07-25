@@ -1,5 +1,6 @@
 <div class="splitleft">
-    <h1>Edit Event</h1>
+    <h1>Edit Event <?php help_link('h_event'); ?></h1>
+    
     <?php
     if(validation_errors()){
         echo '<div class="error_msg">'.validation_errors().'</div>';
