@@ -17,7 +17,7 @@
     <h3>Field location</h3>
     <div id="map_canvas"></div>
     <input type="hidden" name="Coordinates" id="Coordinates" value="<?php echo set_value('Coordinates',(isset($row->Coordinates)) ? $row->Coordinates : NULL); ?>">
-    <h3>Basic Field Data</h3>
+    <h3>Basic Field Data <?php help_link('h_field');?> </h3>
         <table  style="float:left;" width="510">
               <tr valign="top">
                   <td align="right" width="200">
