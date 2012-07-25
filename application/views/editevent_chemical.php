@@ -44,6 +44,20 @@
         ?>
           </table>
           <BR CLEAR=LEFT>
+    <h4>Timing</h4>
+        <table  style="float:left;" width="510">
+            <tr valign="top">
+                <td align="right" width="200">
+                    <b>Pre Emergence?:</b>&nbsp;&nbsp;
+                </td>
+                <td align="left" width="310">
+                    <?php
+                    echo form_dropdown('PreEmergence', $this->config->item('no_yes_boolean'), set_value('PreEmergence',(isset($datarow->PreEmergence)) ? $datarow->PreEmergence : NULL));
+                    ?>
+                </td>
+            </tr>
+          </table>
+          <BR CLEAR=LEFT>
     <h4>Tank Mix</h4>
         <table  style="float:left;" width="640">   
             <tr valign="top">
@@ -123,9 +137,9 @@
                 <td align="left" colspan="2">
                     <div id="Prod3">
                     <?php
-                    if (isset($datarow->FK_ChemicalI3))
+                    if (isset($datarow->FK_ChemicalId3))
                     {
-                        $prod_info = $this->m_chemical->get_product_info($datarow->FK_ChemicalI3);
+                        $prod_info = $this->m_chemical->get_product_info($datarow->FK_ChemicalId3);
                         echo 'Brand: '.$prod_info['Brand'].' Product: '.$prod_info['Product'];
                     } else {
                         echo 'No Product 3 selected (required)';

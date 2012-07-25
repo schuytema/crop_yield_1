@@ -24,18 +24,19 @@ class m_eventchemical extends CI_Model{
         $data = array(   
             'FK_EventId' => id_clean($event_id),
             'FK_EquipmentId' => db_clean($this->input->post('FK_EquipmentId'),9),
+            'PreEmergence' => db_clean($this->input->post('PreEmergence'),9),
             'FK_ChemicalId' => db_clean($this->input->post('FK_ChemicalId'),9),
             'AmountActiveIngredient' => db_clean(strip_tags($this->input->post('AmountActiveIngredient')),20),
             'AmountActiveIngredientUnit' => db_clean($this->input->post('AmountActiveIngredientUnit'),10),
             'FK_ChemicalId2' => db_clean($this->input->post('FK_ChemicalId2'),9, false),
-            'AmountActiveIngredient2' => db_clean(strip_tags($this->input->post('AmountActiveIngredient2')),20, false),
-            'AmountActiveIngredientUnit2' => db_clean($this->input->post('AmountActiveIngredientUnit2'),10, false),
-            'FK_ChemicalId3' => db_clean($this->input->post('FK_ChemicalId3'),9, false),
-            'AmountActiveIngredient3' => db_clean(strip_tags($this->input->post('AmountActiveIngredient3')),20, false),
-            'AmountActiveIngredientUnit3' => db_clean($this->input->post('AmountActiveIngredientUnit3'),10, false),
-            'FK_ChemicalId4' => db_clean($this->input->post('FK_ChemicalId4'),9, false),
-            'AmountActiveIngredient4' => db_clean(strip_tags($this->input->post('AmountActiveIngredient4')),20, false),
-            'AmountActiveIngredientUnit4' => db_clean($this->input->post('AmountActiveIngredientUnit4'),10, false)
+            'AmountActiveIngredient2' => db_clean(strip_tags($this->input->post('AmountActiveIngredient2')),20),
+            'AmountActiveIngredientUnit2' => db_clean($this->input->post('AmountActiveIngredientUnit2'),10),
+            'FK_ChemicalId3' => db_clean($this->input->post('FK_ChemicalId3'),9),
+            'AmountActiveIngredient3' => db_clean(strip_tags($this->input->post('AmountActiveIngredient3')),20),
+            'AmountActiveIngredientUnit3' => db_clean($this->input->post('AmountActiveIngredientUnit3'),10),
+            'FK_ChemicalId4' => db_clean($this->input->post('FK_ChemicalId4'),9),
+            'AmountActiveIngredient4' => db_clean(strip_tags($this->input->post('AmountActiveIngredient4')),20),
+            'AmountActiveIngredientUnit4' => db_clean($this->input->post('AmountActiveIngredientUnit4'),10)
         );
 
         if(!$new){ //update  
