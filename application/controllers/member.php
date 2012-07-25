@@ -660,38 +660,37 @@ class Member extends CI_Controller {
             $this->form_validation->set_rules('Date', 'Date', 'trim|required|max_length[20]');
             //then, set up for chemica; data
             $this->form_validation->set_rules('AmountActiveIngredient', 'Amount Active Ingredient', 'trim|required|numeric');
-            $this->form_validation->set_rules('Product', 'Chemical Product', 'trim|required|numeric');
+            $this->form_validation->set_rules('FK_ChemicalId', 'Product 1', 'trim|required');
             if(!isset($event_id))
             {
                 $this->form_validation->set_rules('fields', 'Fields', 'required');
             }
 
             if($this->form_validation->run()){
-                //see if other stuff has been entered... if so, crearte the new chemical row
-                if (($this->input->post('OtherBrand') != '') && ($this->input->post('OtherProduct') != ''))
-                {
-                    $chem_id = $this->m_chemical->set_chemical_manually($this->input->post('ChemicalType'), $this->input->post('OtherBrand'), $this->input->post('OtherProduct'));
-                    //echo $chem_id;
-                } else {
-                    $chem_id = NULL;
-                }
+                
                 //send to db
                 if(isset($event_id))
                 {
                     $this->m_event->set($field_id, $event_id);
                     $new = false;
-                    $this->m_eventchemical->set($event_id, $new, $chem_id);
+                    $this->m_eventchemical->set($event_id, $new);
                 } else {
                     $fields = $this->event_manager->get_fields_from_event_form();
                     foreach ($fields as $field_id)
                     { 
                         $new_event_id = $this->m_event->set($field_id);
                         $new = true;
-                        $this->m_eventchemical->set($new_event_id, $new, $chem_id);
+                        $this->m_eventchemical->set($new_event_id, $new);
                     }
                 }
-                //redirect to overview
-                redirect('member/farm','refresh');
+                //redirect to proper overview
+                if($new)
+                {
+                    redirect('member/farm','refresh');
+                } else {
+                    
+                    redirect('member/field/'.$field_id,'refresh');
+                }
             } 
         }
         
@@ -738,8 +737,8 @@ class Member extends CI_Controller {
             $data['field_name'] = $this->m_field->get_field_name($field_id);
             $data['new_event'] = false;
             //get the info for the chemical if one's picked
-            $chemical_details = $data['chemical_data']->row();
-            $data['chemical_info'] = $this->m_chemical->get_product_info($chemical_details->FK_ChemicalId);
+            //$chemical_details = $data['chemical_data']->row();
+            //$data['chemical_info'] = $this->m_chemical->get_product_info($chemical_details->FK_ChemicalId);
         } else {
             $data['new_event'] = true;
         }
@@ -1615,6 +1614,10 @@ class Member extends CI_Controller {
             $array = array('result' =>'Product not found. Please search again.');
             if($this->input->post('term')){
                 $data['list'] = $this->m_chemical->fetch(trim($this->input->post('term')));
+                $result = $data['list']->result();
+                foreach($result AS $row){
+                   $array['prod_id'] = $row->PK_ChemicalId;
+                }
                 $array['result'] = $this->load->view('chemical_list',$data,TRUE);
             } 
             echo json_encode($array);
