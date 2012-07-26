@@ -33,8 +33,9 @@
     </table>   
     <BR CLEAR=LEFT>
        
-    <h4>Planting Data</h4>  
-          
+
+       
+<!--
     <?php
     if(isset($crop_info))
     {
@@ -80,7 +81,7 @@
         ?>
             <tr>
                 <td align="right" colspan="2">
-                    <a href="javascript:void(0);" id="show_other_two">{my product isn't in these lists}</a>
+                    <a href="javascript:void(0);" id="show_other_two">{echo '</td></tr>'}</a>
                     <div id="other_two">
                         <br>Please enter manually (select Type above):<br>
                         Brand:&nbsp;<input type="text" size="40" name="OtherCropBrand"><br>
@@ -88,7 +89,86 @@
                     </div>
                 </td>
             </tr>
+-->
+   
+<!-- new crop info area -->
+    <h4>Crop Data</h4>
+        <?php
+        if(!isset($crop_info))
+        {
+            //initialize array (to build at least one crop form)
+            $crop_info = array(0=>array());
+        }
 
+        foreach($crop_info as $key => $crop) {
+            $form_num = $key + 1;
+
+            //create form elements related to this crop
+            echo '<fieldset style="width:510px;" class="crop_entry"><legend>Crop '.$form_num.'</legend>';
+            if (!empty($crop)) {
+                //display existing crop
+                echo '<blockquote>Current Crop:<br>Type:&nbsp;'.$crop['Type'].'<br>Brand:&nbsp;'.$crop['Brand'].'<br>Product:&nbsp;'.$crop['Product'].'<br>Acres Planted:&nbsp;'.$crop['AcresPlanted'].'</blockquote>';
+            }
+            echo '<table  style="float:left;" width="510">';
+
+            if($crop_types->num_rows()){
+                $result = $crop_types->result();
+
+                //types
+
+                echo '<tr valign="top"><td align="right" width="200"><b>Type:</b>&nbsp;&nbsp;</td><td align="left" width="310">';
+                echo '<select id="CropType'.$form_num.'" name="CropType'.$form_num.'"><option value ="">Select Type</option>';
+                foreach($result AS $row){
+                echo '<option value ="'.$row->CropType.'">'.$row->CropType.'</option>';
+                }
+                echo '</select>';
+                echo '</td></tr>';
+
+                //brands
+                echo '<tr valign="top"><td align="right" width="200"><b>Brand:</b>&nbsp;&nbsp;</td><td align="left" width="310">';
+
+                echo '<select id="CropBrand'.$form_num.'" name="CropBrand'.$form_num.'"><option>select type...</option></select>';
+                echo '<input type="text" size="40" id="OtherCropBrand'.$form_num.'" name="OtherCropBrand'.$form_num.'">';
+
+                echo '</td></tr>';
+
+                //products
+                echo '<tr valign="top"><td align="right" width="200"><b>Product:</b>&nbsp;&nbsp;</td><td align="left" width="310">';
+
+                echo '<select id="CropProduct'.$form_num.'" name="CropProduct'.$form_num.'"><option value="">select brand...</option></select>';
+                echo '<input type="text" size="40" id="OtherCropProduct'.$form_num.'" name="OtherCropProduct'.$form_num.'">';
+
+                echo '</td></tr>';
+                
+                //acres planted
+                echo '<tr valign="top"><td align="right" width="200"><b>Planted:</b>&nbsp;&nbsp;</td><td align="left" width="310">';
+
+                echo '<input type="text" size="5" id="AcresPlanted'.$form_num.'" name="AcresPlanted'.$form_num.'"> acres';
+
+                echo '</td></tr>';
+                
+                //custom entry flag
+                echo '<tr><td></td><td>';
+
+                echo '<span><input type="checkbox" class="custom_crop_entry_toggle">My product isn\'t in these lists.</span>';
+
+                echo '</td></tr>';
+
+            } else {
+                echo '<tr><td colspan="2"><font color="red>Crop data not found.</font></td></tr>';
+            }
+
+            echo '</table>';
+            echo '</fieldset>';
+        }
+        echo '<table  style="float:left;" width="510"><tr style="text-align:right;"><td><button id="add_new_crop_entry" type="button">Add Another Crop</button></td></tr></table>';
+        ?>
+    
+    <BR CLEAR=LEFT>
+
+    <h4>Planting Data</h4> 
+
+        <table  style="float:left;" width="510">
             <tr valign="top">
                 <td align="right">
                     <b>Planting Rate</b>&nbsp;&nbsp;
@@ -135,15 +215,6 @@
                     ?>
                 </td>
             </tr> 
-            
-            <tr valign="top">
-                  <td align="right">
-                      <b>Percent Planted:</b>&nbsp;&nbsp;
-                  </td>
-                  <td align="left">
-                      <input type="text" size="3" name="PercentCrop" value="<?php echo set_value('PercentCrop',(isset($datarow->PercentCrop)) ? $datarow->PercentCrop : NULL); ?>">&nbsp;%
-                  </td>
-               </tr>
                
                <tr valign="top">
                   <td align="right" width="200">

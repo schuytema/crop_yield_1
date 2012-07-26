@@ -12,6 +12,7 @@ class Member extends CI_Controller {
                 
         $this->load->model('m_chemical');
         $this->load->model('m_crop');
+        $this->load->model('m_cropinstance');
         $this->load->model('m_farm');
         $this->load->model('m_shed');
         $this->load->model('m_field');
@@ -1027,23 +1028,24 @@ class Member extends CI_Controller {
             //first, set up for master event data
             $this->form_validation->set_rules('Date', 'Date', 'trim|required|max_length[20]');
             //then, set up for planting data
-            $this->form_validation->set_rules('EquipmentProduct', 'Implement', 'trim|required|numeric');             
-            if ((strlen($this->input->post('OtherCropBrand')) == 0 && strlen($this->input->post('OtherCropProduct')) == 0) && !isset($event_id))
-            {
-                $this->form_validation->set_rules('CropProduct', 'Crop Product', 'trim|required|numeric');             
-            } //else {
-                //$this->form_validation->set_rules('CropProduct', 'Crop Product', 'trim|required|numeric');
-                //$this->form_validation->set_rules('CropType', 'Crop Type', 'trim|required');
-                //$this->form_validation->set_rules('CropBrand', 'Crop Brand', 'trim|required');
-                //$this->form_validation->set_rules('CropProduct', 'Crop Product', 'trim|required');
-            //}
+            $this->form_validation->set_rules('EquipmentProduct', 'Implement', 'trim|required|numeric'); 
+            
+            //process crop inputs
+            $i = 1;
+            while($this->input->post('AcresPlanted'.$i)) {
+                if ((strlen($this->input->post('OtherCropBrand'.$i)) == 0 && strlen($this->input->post('OtherCropProduct'.$i)) == 0) && !isset($event_id)) {
+                    $this->form_validation->set_rules('CropProduct'.$i, 'Crop '.$i.' Product', 'trim|required|numeric');
+                }
+                $this->form_validation->set_rules('AcresPlanted'.$i, 'Acres Planted (Crop '.$i.')', 'trim|required|numeric');
+                $i++;
+            }
+            
             $this->form_validation->set_rules('PlantingRate', 'Planting Rate', 'trim|required');
             $this->form_validation->set_rules('PlantingRateUnit', 'Planting Rate Unit', 'trim|required');
             $this->form_validation->set_rules('RowSpacing', 'Row Spacing', 'trim|required');
             $this->form_validation->set_rules('RowSpacingUnit', 'Row Spacing Unit', 'trim|required');
             $this->form_validation->set_rules('SeedDepth', 'Seed Depth', 'trim|required');
             $this->form_validation->set_rules('SeedDepthUnit', 'Seed Depth Unit', 'trim|required');
-            $this->form_validation->set_rules('PercentCrop', 'Percent Planted', 'trim|required|numeric');
             if ($this->input->post('VariableRate')) {
                 $this->form_validation->set_rules('VariableRate', 'Variable Rate', 'trim|required|numeric');
             }
@@ -1056,28 +1058,53 @@ class Member extends CI_Controller {
             }
 
             if($this->form_validation->run()){
-                //see if other stuff has been entered... if so, create the new crop row
-                if (strlen($this->input->post('OtherCropBrand')) > 0 && strlen($this->input->post('OtherCropProduct')) > 0)
-                {
-                    $crop_id = $this->m_crop->set_crop_manually($this->input->post('CropType'), $this->input->post('OtherCropBrand'), $this->input->post('OtherCropProduct'));
-                } else {
-                    $crop_id = NULL;
-                }
+                
                 //send to db
                 if(isset($event_id))
                 {
                     $this->m_event->set($field_id, $event_id);
                     $new = false;
-                    $this->m_eventplant->set($event_id, $new, $crop_id);
+                    $this->m_eventplant->set($event_id, $new);
+                    //delete existing crop instance records for this event
+                    $this->m_cropinstance->delete_crop_instance($plantevent_id=$event_id);
                 } else {
                     $fields = $this->event_manager->get_fields_from_event_form();
+                    $new_event_ids = array();
                     foreach ($fields as $field_id)
                     { 
                         $new_event_id = $this->m_event->set($field_id);
                         $new = true;
-                        $this->m_eventplant->set($new_event_id, $new, $crop_id);
+                        $this->m_eventplant->set($new_event_id, $new);
+                        $new_event_ids[] = $new_event_id;
                     }
                 }
+                
+                
+                $plant_event_id = ($new) ? $new_event_id : $event_id;
+                
+                for ($j = 1; $j < $i; $j++) {
+                    //check each crop submitted
+                    if (strlen($this->input->post('OtherCropBrand'.$j)) > 0 && strlen($this->input->post('OtherCropProduct'.$j)) > 0)
+                    {
+                        $crop_id = $this->m_crop->set_crop_manually($this->input->post('CropType'.$j), $this->input->post('OtherCropBrand'.$j), $this->input->post('OtherCropProduct'.$j));
+                    } else {
+                        if (strlen($this->input->post('CropProduct'.$j)) > 0) {
+                            $crop_id = $this->input->post('CropProduct'.$j);
+                        }
+                    }
+                    
+                    if (isset($new_event_ids) && count($new_event_ids)) {
+                        foreach($new_event_ids as $plant_event_id) {
+                            //send crop instance to database (always new) for each field
+                            $this->m_cropinstance->set_plant($plant_event_id, $crop_id, $this->input->post('AcresPlanted'.$j));
+                        }
+                    } else {
+                        //send crop instance to database (always new) for one field
+                        $this->m_cropinstance->set_plant($event_id, $crop_id, $this->input->post('AcresPlanted'.$j));
+                    }
+                }
+                    
+
                 //redirect to proper overview
                 if($new)
                 {
@@ -1132,8 +1159,16 @@ class Member extends CI_Controller {
             $data['new_event'] = false;
             $plant_details = $data['plant_data']->row();
             
-            //get the info for the crop if one's picked
-            $data['crop_info'] = $this->m_crop->get_product_info($plant_details->FK_CropId);
+            //get the crop instance details, if available (acres planted & crop ID)
+            $data['crop_data'] = $this->m_cropinstance->get($event_id);
+            if ($data['crop_data']->num_rows()) {
+                $result = $data['crop_data']->result();
+                $data['crop_info'] = array();
+                foreach($result as $row) {
+                    //get the info for the crop if one's picked (type/brand/product)
+                    $data['crop_info'][] = array_merge($this->m_crop->get_product_info($row->FK_CropId),array('AcresPlanted'=>$row->AcresPlanted));
+                }
+            }
         } else {
             $data['new_event'] = true;
         }

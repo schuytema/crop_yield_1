@@ -20,7 +20,7 @@ class m_eventplant extends CI_Model{
         return $this->db->get_where('EventPlant',array('FK_EventId' => id_clean($event_id)));
     }
     
-    function set($event_id=NULL, $new=true, $crop_id=NULL){
+    function set($event_id=NULL, $new=true){
         $data = array(            
             'FK_EventId' => id_clean($event_id),
             'FK_EquipmentId' => id_clean($this->input->post('EquipmentProduct'),8),
@@ -28,7 +28,6 @@ class m_eventplant extends CI_Model{
             'PlantingRateUnit' => db_clean(strip_tags($this->input->post('PlantingRateUnit')),14),
             'RowSpacing' => db_clean(strip_tags($this->input->post('RowSpacing')),3),
             'RowSpacingUnit' => db_clean(strip_tags($this->input->post('RowSpacingUnit')),2),
-            'PercentCrop' => db_clean(strip_tags($this->input->post('PercentCrop')),3),
             'PreviousCrop' => db_clean(strip_tags($this->input->post('PreviousCrop')),8),
             'VariableRate' => id_clean($this->input->post('VariableRate'),1),
             'SeedDepth' => db_clean(strip_tags($this->input->post('SeedDepth')),3),
@@ -37,26 +36,10 @@ class m_eventplant extends CI_Model{
         );
 
         if(!$new){ //update  
-            
-            if (isset($crop_id))
-            {
-                $data['FK_CropId'] = id_clean($crop_id);
-            } else {
-                if (strlen($this->input->post('CropProduct')) > 0)
-                {
-                    $data['FK_CropId'] = id_clean($this->input->post('CropProduct'));
-                }
-            }
             $this->db->set($data);
             $this->db->where('FK_EventId',id_clean($event_id));
             $this->db->update('EventPlant');
         } else { //create record
-            if (isset($crop_id))
-            {
-                $data['FK_CropId'] = id_clean($crop_id);
-            } else {
-                $data['FK_CropId'] = id_clean($this->input->post('CropProduct'));
-            }
             $this->db->set($data);
             $this->db->insert('EventPlant');
         }
