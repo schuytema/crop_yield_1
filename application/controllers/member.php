@@ -1028,15 +1028,15 @@ class Member extends CI_Controller {
             $this->form_validation->set_rules('Date', 'Date', 'trim|required|max_length[20]');
             //then, set up for planting data
             $this->form_validation->set_rules('EquipmentProduct', 'Implement', 'trim|required|numeric');             
-            if (strlen($this->input->post('OtherCropBrand')) == 0 && strlen($this->input->post('OtherCropProduct')) == 0)
+            if ((strlen($this->input->post('OtherCropBrand')) == 0 && strlen($this->input->post('OtherCropProduct')) == 0) && !isset($event_id))
             {
                 $this->form_validation->set_rules('CropProduct', 'Crop Product', 'trim|required|numeric');             
-            } else {
-                $this->form_validation->set_rules('CropProduct', 'Crop Product', 'trim|required|numeric');
-                $this->form_validation->set_rules('CropType', 'Crop Type', 'trim|required');
-                $this->form_validation->set_rules('CropBrand', 'Crop Brand', 'trim|required');
-                $this->form_validation->set_rules('CropProduct', 'Crop Product', 'trim|required');
-            }
+            } //else {
+                //$this->form_validation->set_rules('CropProduct', 'Crop Product', 'trim|required|numeric');
+                //$this->form_validation->set_rules('CropType', 'Crop Type', 'trim|required');
+                //$this->form_validation->set_rules('CropBrand', 'Crop Brand', 'trim|required');
+                //$this->form_validation->set_rules('CropProduct', 'Crop Product', 'trim|required');
+            //}
             $this->form_validation->set_rules('PlantingRate', 'Planting Rate', 'trim|required');
             $this->form_validation->set_rules('PlantingRateUnit', 'Planting Rate Unit', 'trim|required');
             $this->form_validation->set_rules('RowSpacing', 'Row Spacing', 'trim|required');
@@ -1044,6 +1044,12 @@ class Member extends CI_Controller {
             $this->form_validation->set_rules('SeedDepth', 'Seed Depth', 'trim|required');
             $this->form_validation->set_rules('SeedDepthUnit', 'Seed Depth Unit', 'trim|required');
             $this->form_validation->set_rules('PercentCrop', 'Percent Planted', 'trim|required|numeric');
+            if ($this->input->post('VariableRate')) {
+                $this->form_validation->set_rules('VariableRate', 'Variable Rate', 'trim|required|numeric');
+            }
+            if ($this->input->post('TwinRows')) {
+                $this->form_validation->set_rules('TwinRows', 'Twin Rows', 'trim|required|numeric');
+            }
             if(!isset($event_id))
             {
                 $this->form_validation->set_rules('fields', 'Fields', 'required');

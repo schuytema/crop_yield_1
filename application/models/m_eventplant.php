@@ -30,9 +30,10 @@ class m_eventplant extends CI_Model{
             'RowSpacingUnit' => db_clean(strip_tags($this->input->post('RowSpacingUnit')),2),
             'PercentCrop' => db_clean(strip_tags($this->input->post('PercentCrop')),3),
             'PreviousCrop' => db_clean(strip_tags($this->input->post('PreviousCrop')),8),
-            'VariableRate' => db_clean($this->input->post('VariableRate'),3),
+            'VariableRate' => id_clean($this->input->post('VariableRate'),1),
             'SeedDepth' => db_clean(strip_tags($this->input->post('SeedDepth')),3),
-            'SeedDepthUnit' => db_clean(strip_tags($this->input->post('SeedDepthUnit')),2)
+            'SeedDepthUnit' => db_clean(strip_tags($this->input->post('SeedDepthUnit')),2),
+            'TwinRows' => id_clean($this->input->post('TwinRows'),1)
         );
 
         if(!$new){ //update  

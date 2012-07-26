@@ -151,8 +151,18 @@
                   </td>
                   <td align="left" width="310">
                     <?php
-                      //$options = array('Ammonia','Lime');
-                      echo form_dropdown('VariableRate', $this->config->item('no_yes'), set_value('Product',(isset($row->VariableRate)) ? $row->VariableRate : NULL));
+                      echo form_dropdown('VariableRate', $this->config->item('no_yes_bool'), set_value('VariableRate',(isset($datarow->VariableRate)) ? $datarow->VariableRate : NULL));
+                    ?>
+                  </td>
+               </tr>
+               
+               <tr valign="top">
+                  <td align="right" width="200">
+                      <b>Twin Rows?:</b>&nbsp;&nbsp;
+                  </td>
+                  <td align="left" width="310">
+                    <?php
+                      echo form_dropdown('TwinRows', $this->config->item('no_yes_bool'), set_value('TwinRows',(isset($datarow->TwinRows)) ? $datarow->TwinRows : NULL));
                     ?>
                   </td>
                </tr>
@@ -161,8 +171,6 @@
         
           <BR CLEAR=LEFT>
     <br><br>
-    
-   
           
 	<footer>
 	  <input type="submit" class="btnLogin" name="submit" value="Submit" tabindex="4">

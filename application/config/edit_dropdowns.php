@@ -81,6 +81,11 @@ $config['no_yes_boolean'] = array(
     '1'=>"Yes",
 );
 
+$config['no_yes_bool'] = array(
+    0=>"No",
+    1=>"Yes",
+);
+
 $config['tillage_practice'] = array(
     'Intensive'=>"Intensive",
     'Reduced'=>"Reduced",
