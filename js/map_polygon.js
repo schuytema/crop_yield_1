@@ -86,6 +86,13 @@ google.maps.event.addListener(drawingManager, 'polygoncomplete', function(polygo
     google.maps.event.addListener(stored_polygon.getPath(), 'remove_at', function() {
         update_coordinates(stored_polygon);
     });
+    
+    var deleteNode = function(mev) {
+  if (mev.vertex != null) {
+    stored_polygon.getPath().removeAt(mev.vertex);
+  }
+}
+google.maps.event.addListener(stored_polygon, 'rightclick', deleteNode);
 });
 
 
@@ -125,6 +132,13 @@ $(document).ready(function(){
         google.maps.event.addListener(stored_polygon.getPath(), 'remove_at', function() {
             update_coordinates(stored_polygon);
         });
+        
+        var deleteNode = function(mev) {
+        if (mev.vertex != null) {
+            stored_polygon.getPath().removeAt(mev.vertex);
+        }
+        }
+        google.maps.event.addListener(stored_polygon, 'rightclick', deleteNode);
         
         stored_polygon.setMap(map);
         
