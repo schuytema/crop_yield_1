@@ -9,8 +9,6 @@
     }
     ?>
     
-    <h4>Equipment Used</h4>
-    
     <table  style="float:left;" width="510">
               <?php
             if($implements->num_rows()){
@@ -24,7 +22,7 @@
                     $imps[$item->FK_EquipmentId] = $item->Name;
                 }
                 
-                echo form_dropdown('EquipmentProduct', $imps, set_value('EquipmentProduct',(isset($row->FK_EquipmentId)) ? $row->FK_EquipmentId : NULL));
+                echo form_dropdown('EquipmentProduct', $imps, set_value('EquipmentProduct',(isset($datarow->FK_EquipmentId)) ? $datarow->FK_EquipmentId : NULL));
 
                 echo '</td></tr>';
             } else {
@@ -97,19 +95,11 @@
                 </td>
                 <td align="left">
                     <input type="text" size="10" name="PlantingRate" value="<?php echo set_value('PlantingRate',(isset($datarow->PlantingRate)) ? $datarow->PlantingRate : NULL); ?>">
-                </td>
-            </tr>
-            
-            <tr valign="top">
-                <td align="right">
-                    <b>Planting Rate Units:</b>&nbsp;&nbsp;
-                </td>
-                <td align="left">
                     <?php
                     echo form_dropdown('PlantingRateUnit', $this->config->item('planting_rate_units'), set_value('PlantingRateUnit',(isset($datarow->PlantingRateUnit)) ? $datarow->PlantingRateUnit : NULL));
                     ?>
                 </td>
-            </tr>            
+            </tr>      
             
             <tr valign="top">
                 <td align="right">
@@ -117,19 +107,11 @@
                 </td>
                 <td align="left">
                     <input type="text" size="10" name="RowSpacing" value="<?php echo set_value('RowSpacing',(isset($datarow->RowSpacing)) ? $datarow->RowSpacing : NULL); ?>">
-                </td>
-            </tr>           
-            
-            <tr valign="top">
-                <td align="right">
-                    <b>Row Spacing Units:</b>&nbsp;&nbsp;
-                </td>
-                <td align="left">
                     <?php
                     echo form_dropdown('RowSpacingUnit', $this->config->item('planting_row_spacing_units'), set_value('RowSpacingUnit',(isset($datarow->RowSpacingUnit)) ? $datarow->RowSpacingUnit : NULL));
                     ?>
                 </td>
-            </tr>  
+            </tr>           
             
             <tr valign="top">
                 <td align="right">
