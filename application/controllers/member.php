@@ -254,7 +254,7 @@ class Member extends CI_Controller {
                 //see if other stuff has been entered... if so, create the new equipment row
                 if (strlen($this->input->post('OtherEquipmentBrand')) > 0 && strlen($this->input->post('OtherEquipmentProduct')) > 0)
                 {
-                    $equipment_id = $this->m_equipment->set_equipment_manually($this->input->post('EquipmentType'), $this->input->post('OtherEquipmentBrand'), $this->input->post('OtherEquipmentProduct'));
+                    $equipment_id = $this->m_equipment->set_equipment_manually($this->input->post('EquipmentType'), $this->input->post('OtherEquipmentBrand'), $this->input->post('OtherEquipmentProduct'), $this->input->post('TillageType'));
                 } else {
                     $equipment_id = NULL;
                 }

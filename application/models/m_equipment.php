@@ -70,12 +70,13 @@ class m_equipment extends CI_Model{
         return $info;
     }
     
-    function set_equipment_manually($type, $brand, $product)
+    function set_equipment_manually($type, $brand, $product, $tillage_type)
     {
         $data = array(
             'EquipmentType' => db_clean(($type),20),
             'Brand' => db_clean(strip_tags(($brand)),100),
             'Product' => db_clean(strip_tags(($product)),200),
+            'TillageType' => db_clean(strip_tags(($tillage_type)),100),
             'Verified' => 0
         );
         //print_r($data);

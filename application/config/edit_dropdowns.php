@@ -82,8 +82,8 @@ $config['no_yes_boolean'] = array(
 );
 
 $config['no_yes_bool'] = array(
-    0=>"No",
-    1=>"Yes",
+    '0'=>"No",
+    '1'=>"Yes",
 );
 
 $config['tillage_practice'] = array(
@@ -100,4 +100,26 @@ $config['drainage'] = array(
     '50'=>"50% - Average",
     '75'=>"75% - Good",
     '100'=>"100% - Excellent"
+);
+
+$config['tillage_type'] = array(
+    '0'=>"Select Tillage Type",
+    'Chisel Plow'=>"Chisel Plow",
+    'Disk Offset'=>"Disk Offset",
+    'Disk Ripper'=>"Disk Ripper",
+    'Disk Tandem'=>"Disk Tandem",
+    'Field Cultivator'=>"Field Cultivator",
+    'Flail Shredder'=>"Flail Shredder",
+    'Harrow'=>"Harrow",
+    'In Line Ripper'=>"In Line Ripper",
+    'Moldboard Plow'=>"Moldboard Plow",
+    'Mulch Tiller (Chisel Plow w/Disks)'=>"Mulch Tiller (Chisel Plow w/Disks)",
+    'Rod Weeder'=>"Rod Weeder",
+    'Rolling Packer'=>"Rolling Packer",
+    'Rotary Hoe'=>"Rotary Hoe",
+    'Row Crop Cultivator'=>"Row Crop Cultivator",
+    'Seed Bed Conditioner'=>"Seed Bed Conditioner",
+    'Seed Bed Finisher'=>"Seed Bed Finisher",
+    'Strip Tillage'=>"Strip Tillage",
+    'Other'=>"Other"
 );
