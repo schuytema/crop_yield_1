@@ -44,6 +44,7 @@
                       </select>
                   </td>
                </tr>
+               
               <?php
 
 
@@ -83,6 +84,11 @@
                           <br>Please enter equipment manually (select Type above):<br>
                           Brand:&nbsp;<input type="text" size="40" name="OtherEquipmentBrand"><br>
                           Product:&nbsp;<input type="text" size="40" name="OtherEquipmentProduct"><br>
+                          Power:&nbsp;
+                            <?php
+                            echo form_dropdown('Power', $this->config->item('no_yes_boolean'));
+                            ?>
+                          <br>
                           <div id="other_two">
                           Tillage Type:&nbsp;
                           <?php

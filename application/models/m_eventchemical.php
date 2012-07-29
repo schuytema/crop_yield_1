@@ -23,12 +23,13 @@ class m_eventchemical extends CI_Model{
     function set($event_id=NULL, $new=true){
         $data = array(   
             'FK_EventId' => id_clean($event_id),
-            'FK_EquipmentId' => db_clean($this->input->post('FK_EquipmentId'),9),
-            'PreEmergence' => db_clean($this->input->post('PreEmergence'),9),
-            'FK_ChemicalId' => db_clean($this->input->post('FK_ChemicalId'),9),
+            'FK_EquipmentId' => db_clean($this->input->post('EquipmentProduct'),25,false),
+            'FK_EquipmentId_Power' => db_clean($this->input->post('Power'),25),
+            'PreEmergence' => db_clean($this->input->post('PreEmergence'),9, false),
+            'FK_ChemicalId' => db_clean($this->input->post('FK_ChemicalId'),9, false),
             'AmountActiveIngredient' => db_clean(strip_tags($this->input->post('AmountActiveIngredient')),20),
             'AmountActiveIngredientUnit' => db_clean($this->input->post('AmountActiveIngredientUnit'),10),
-            'FK_ChemicalId2' => db_clean($this->input->post('FK_ChemicalId2'),9, false),
+            'FK_ChemicalId2' => db_clean($this->input->post('FK_ChemicalId2'),9),
             'AmountActiveIngredient2' => db_clean(strip_tags($this->input->post('AmountActiveIngredient2')),20),
             'AmountActiveIngredientUnit2' => db_clean($this->input->post('AmountActiveIngredientUnit2'),10),
             'FK_ChemicalId3' => db_clean($this->input->post('FK_ChemicalId3'),9),
