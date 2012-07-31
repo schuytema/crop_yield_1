@@ -87,6 +87,40 @@
             </tr>
           </table>
           <BR CLEAR=LEFT>
+    <h4>Additives</h4>
+        <table  style="float:left;" width="510">
+            <tr valign="top">
+                <td align="right" width="200">
+                    <b>Chelated Zinc:</b>&nbsp;&nbsp;
+                </td>
+                <td align="left" width="310">
+                    <?php
+                    echo form_dropdown('ChelatedZinc', $this->config->item('no_yes_boolean'), set_value('ChelatedZinc',(isset($datarow->ChelatedZinc)) ? $datarow->ChelatedZinc : NULL));
+                    ?>
+                </td>
+            </tr>
+            <tr valign="top">
+                <td align="right" width="200">
+                    <b>Sulphur:</b>&nbsp;&nbsp;
+                </td>
+                <td align="left" width="310">
+                    <?php
+                    echo form_dropdown('Sulphur', $this->config->item('no_yes_boolean'), set_value('Sulphur',(isset($datarow->Sulphur)) ? $datarow->Sulphur : NULL));
+                    ?>
+                </td>
+            </tr>
+            <tr valign="top">
+                <td align="right" width="200">
+                    <b>Boron:</b>&nbsp;&nbsp;
+                </td>
+                <td align="left" width="310">
+                    <?php
+                    echo form_dropdown('Boron', $this->config->item('no_yes_boolean'), set_value('Boron',(isset($datarow->Boron)) ? $datarow->Boron : NULL));
+                    ?>
+                </td>
+            </tr>
+          </table>
+          <BR CLEAR=LEFT>
     <h4>Tank Mix</h4>
         <table  style="float:left;" width="640">   
             <tr valign="top">
@@ -122,7 +156,7 @@
             </tr>
             <tr valign="top">
                 <td align="left" colspan="2">
-                    <b>Amt. Active Ingredient:</b>&nbsp;&nbsp;<input type="text" size="10" name="AmountActiveIngredient" value="<?php echo set_value('AmountActiveIngredient',(isset($datarow->AmountActiveIngredient)) ? $datarow->AmountActiveIngredient : NULL); ?>">&nbsp;&nbsp;
+                    <b>Amount of Product:</b>&nbsp;&nbsp;<input type="text" size="10" name="AmountActiveIngredient" value="<?php echo set_value('AmountActiveIngredient',(isset($datarow->AmountActiveIngredient)) ? $datarow->AmountActiveIngredient : NULL); ?>">&nbsp;&nbsp;
                       <?php
                       echo form_dropdown('AmountActiveIngredientUnit', $this->config->item('chemical_units'), set_value('AmountActiveIngredientUnit',(isset($datarow->AmountActiveIngredientUnit)) ? $datarow->AmountActiveIngredientUnit : NULL));
                       ?>
@@ -151,7 +185,7 @@
             </tr>
             <tr valign="top">
                 <td align="left" colspan="2">
-                    <b>Amt. Active Ingredient:</b>&nbsp;&nbsp;<input type="text" size="10" name="AmountActiveIngredient2" value="<?php echo set_value('AmountActiveIngredient2',(isset($datarow->AmountActiveIngredient2)) ? $datarow->AmountActiveIngredient2 : NULL); ?>">&nbsp;&nbsp;
+                    <b>Amount of Product:</b>&nbsp;&nbsp;<input type="text" size="10" name="AmountActiveIngredient2" value="<?php echo set_value('AmountActiveIngredient2',(isset($datarow->AmountActiveIngredient2)) ? $datarow->AmountActiveIngredient2 : NULL); ?>">&nbsp;&nbsp;
                       <?php
                       echo form_dropdown('AmountActiveIngredientUnit2', $this->config->item('chemical_units'), set_value('AmountActiveIngredientUnit2',(isset($datarow->AmountActiveIngredientUnit2)) ? $datarow->AmountActiveIngredientUnit2 : NULL));
                       ?>
@@ -171,7 +205,7 @@
                         $prod_info = $this->m_chemical->get_product_info($datarow->FK_ChemicalId3);
                         echo 'Brand: '.$prod_info['Brand'].' Product: '.$prod_info['Product'];
                     } else {
-                        echo 'No Product 3 selected (required)';
+                        echo 'No Product 3 selected (optional)';
                     }
                     ?>
                     </div>
@@ -180,7 +214,7 @@
             </tr>
             <tr valign="top">
                 <td align="left" colspan="2">
-                    <b>Amt. Active Ingredient:</b>&nbsp;&nbsp;<input type="text" size="10" name="AmountActiveIngredient3" value="<?php echo set_value('AmountActiveIngredient3',(isset($datarow->AmountActiveIngredient3)) ? $datarow->AmountActiveIngredient3 : NULL); ?>">&nbsp;&nbsp;
+                    <b>Amount of Product:</b>&nbsp;&nbsp;<input type="text" size="10" name="AmountActiveIngredient3" value="<?php echo set_value('AmountActiveIngredient3',(isset($datarow->AmountActiveIngredient3)) ? $datarow->AmountActiveIngredient3 : NULL); ?>">&nbsp;&nbsp;
                       <?php
                       echo form_dropdown('AmountActiveIngredientUnit3', $this->config->item('chemical_units'), set_value('AmountActiveIngredientUnit3',(isset($datarow->AmountActiveIngredientUnit3)) ? $datarow->AmountActiveIngredientUnit3 : NULL));
                       ?>
@@ -209,7 +243,7 @@
             </tr>
             <tr valign="top">
                 <td align="left" colspan="2">
-                    <b>Amt. Active Ingredient:</b>&nbsp;&nbsp;<input type="text" size="10" name="AmountActiveIngredient4" value="<?php echo set_value('AmountActiveIngredient4',(isset($datarow->AmountActiveIngredient4)) ? $datarow->AmountActiveIngredient4 : NULL); ?>">&nbsp;&nbsp;
+                    <b>Amount of Product:</b>&nbsp;&nbsp;<input type="text" size="10" name="AmountActiveIngredient4" value="<?php echo set_value('AmountActiveIngredient4',(isset($datarow->AmountActiveIngredient4)) ? $datarow->AmountActiveIngredient4 : NULL); ?>">&nbsp;&nbsp;
                       <?php
                       echo form_dropdown('AmountActiveIngredientUnit4', $this->config->item('chemical_units'), set_value('AmountActiveIngredientUnit4',(isset($datarow->AmountActiveIngredientUnit4)) ? $datarow->AmountActiveIngredientUnit4 : NULL));
                       ?>

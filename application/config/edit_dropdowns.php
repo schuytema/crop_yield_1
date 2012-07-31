@@ -12,7 +12,7 @@ $config['application_product'] = array(
 
 $config['application_units'] = array(
     'lbs/acre'=>"lbs/acre",  
-    'lbs/sq. mile'=>"lbs/sq. mile"
+    'tons/acre'=>"tons/acre"
 );
 
 $config['yield_units'] = array(
@@ -47,8 +47,10 @@ $config['weather'] = array(
 
 $config['chemical_units'] = array(
     'oz/acre'=>"oz/acre",
-    'lbs/acre'=>"lbs/acre",
+    'pt/acre'=>"pt/acre",
+    'qt/acre'=>"qt/acre",
     'gal/acre'=>"gal/acre",
+    'lbs/acre'=>"lbs/acre"
 );
 
 $config['planting_rate_units'] = array(
@@ -87,11 +89,10 @@ $config['no_yes_bool'] = array(
 );
 
 $config['tillage_practice'] = array(
-    'Intensive'=>"Intensive",
-    'Reduced'=>"Reduced",
-    'Conservation Tillage'=>"Conservation Tillage",
+    'Conventional'=>"Conventional",
+    'Conservation'=>"Conservation",
     'No-Till'=>"No-Till",
-    'Strip Till'=>"Strip Till"
+    'Strip-Till'=>"Strip-Till"
 );
 
 $config['drainage'] = array(
