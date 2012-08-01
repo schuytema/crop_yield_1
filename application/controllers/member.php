@@ -529,6 +529,7 @@ class Member extends CI_Controller {
             redirect('member/enterprise','refresh');
         }
         $this->load->library('event_manager');
+        $this->load->config('events');
         
         if(isset($field_id))
         {
@@ -645,6 +646,7 @@ class Member extends CI_Controller {
         }
         
         $this->load->library('event_manager');
+        $this->load->config('events');
         
         if(isset($field_id))
         {
@@ -771,6 +773,7 @@ class Member extends CI_Controller {
         }
         
         $this->load->library('event_manager');
+        $this->load->config('events');
         
         if(isset($field_id))
         {
@@ -887,6 +890,7 @@ class Member extends CI_Controller {
         }
         
         $this->load->library('event_manager');
+        $this->load->config('events');
         
         if(isset($field_id))
         {
@@ -1015,6 +1019,7 @@ class Member extends CI_Controller {
         }
         
         $this->load->library('event_manager');
+        $this->load->config('events');
         
         if(isset($field_id))
         {
@@ -1056,7 +1061,7 @@ class Member extends CI_Controller {
             }
             if(!isset($event_id))
             {
-                $this->form_validation->set_rules('fields', 'Fields', 'required');
+                $this->form_validation->set_rules('fields', 'Field', 'required');
             }
 
             if($this->form_validation->run()){
@@ -1069,20 +1074,14 @@ class Member extends CI_Controller {
                     $this->m_eventplant->set($event_id, $new);
                     //delete existing crop instance records for this event
                     $this->m_cropinstance->delete_crop_instance($plantevent_id=$event_id);
+                    $plant_event_id = $event_id;
                 } else {
-                    $fields = $this->event_manager->get_fields_from_event_form();
-                    $new_event_ids = array();
-                    foreach ($fields as $field_id)
-                    { 
-                        $new_event_id = $this->m_event->set($field_id);
-                        $new = true;
-                        $this->m_eventplant->set($new_event_id, $new);
-                        $new_event_ids[] = $new_event_id;
-                    }
+                    $field_id = $this->input->post('fields'); 
+                    $new_event_id = $this->m_event->set($field_id);
+                    $new = true;
+                    $this->m_eventplant->set($new_event_id, $new);
+                    $plant_event_id = $new_event_id;
                 }
-                
-                
-                $plant_event_id = ($new) ? $new_event_id : $event_id;
                 
                 for ($j = 1; $j < $i; $j++) {
                     //check each crop submitted
@@ -1095,15 +1094,8 @@ class Member extends CI_Controller {
                         }
                     }
                     
-                    if (isset($new_event_ids) && count($new_event_ids)) {
-                        foreach($new_event_ids as $plant_event_id) {
-                            //send crop instance to database (always new) for each field
-                            $this->m_cropinstance->set_plant($plant_event_id, $crop_id, $this->input->post('AcresPlanted'.$j));
-                        }
-                    } else {
-                        //send crop instance to database (always new) for one field
-                        $this->m_cropinstance->set_plant($event_id, $crop_id, $this->input->post('AcresPlanted'.$j));
-                    }
+                    //send crop instance to database (always new) for one field
+                    $this->m_cropinstance->set_plant($plant_event_id, $crop_id, $this->input->post('AcresPlanted'.$j));
                 }
                     
 
@@ -1201,6 +1193,7 @@ class Member extends CI_Controller {
         }
         
         $this->load->library('event_manager');
+        $this->load->config('events');
         
         if(isset($field_id))
         {
@@ -1328,6 +1321,7 @@ class Member extends CI_Controller {
         }
         
         $this->load->library('event_manager');
+        $this->load->config('events');
         
         if(isset($field_id))
         {

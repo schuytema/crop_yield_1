@@ -75,9 +75,23 @@
                             if($fields->num_rows())
                             {
                                 $result = $fields->result();
-                                foreach($result AS $row)
+                                if (in_array($event_type,$this->config->item('single_field_events'))) {
+                                    //only allowed to pick one field
+                                    echo '<select name="fields">';
+                                    foreach($result AS $row)
+                                    {
+                                        
+                                        echo '<option value="'.$row->PK_FieldId.'">'.$row->Name.'</option>';
+                                    }
+                                    echo '</select>';
+                                }
+                                else 
                                 {
-                                    echo '<input type="checkbox" name="fields[]" value="'.$row->PK_FieldId.'">'.$row->Name.'<br>';
+                                    //allowed to pick multiple fields
+                                    foreach($result AS $row)
+                                    {
+                                        echo '<input type="checkbox" name="fields[]" value="'.$row->PK_FieldId.'">'.$row->Name.'<br>';
+                                    }
                                 }
                             }
                         } else {
