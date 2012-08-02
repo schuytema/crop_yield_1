@@ -53,5 +53,5 @@ $(document).ready(function(){
         $('#other_one').show();
     });
     
-
+    
 });

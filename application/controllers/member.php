@@ -254,7 +254,7 @@ class Member extends CI_Controller {
                 //see if other stuff has been entered... if so, create the new equipment row
                 if (strlen($this->input->post('OtherEquipmentBrand')) > 0 && strlen($this->input->post('OtherEquipmentProduct')) > 0)
                 {
-                    $equipment_id = $this->m_equipment->set_equipment_manually($this->input->post('EquipmentType'), $this->input->post('OtherEquipmentBrand'), $this->input->post('OtherEquipmentProduct'));
+                    $equipment_id = $this->m_equipment->set_equipment_manually($this->input->post('EquipmentType'), $this->input->post('OtherEquipmentBrand'), $this->input->post('OtherEquipmentProduct'), $this->input->post('TillageType'), $this->input->post('Power'));
                 } else {
                     $equipment_id = NULL;
                 }
@@ -529,6 +529,7 @@ class Member extends CI_Controller {
             redirect('member/enterprise','refresh');
         }
         $this->load->library('event_manager');
+        $this->load->config('events');
         
         if(isset($field_id))
         {
@@ -645,6 +646,7 @@ class Member extends CI_Controller {
         }
         
         $this->load->library('event_manager');
+        $this->load->config('events');
         
         if(isset($field_id))
         {
@@ -662,6 +664,7 @@ class Member extends CI_Controller {
             //then, set up for chemica; data
             $this->form_validation->set_rules('AmountActiveIngredient', 'Amount Active Ingredient', 'trim|required|numeric');
             $this->form_validation->set_rules('FK_ChemicalId', 'Product 1', 'trim|required');
+            $this->form_validation->set_rules('Power', 'Power', 'required');
             if(!isset($event_id))
             {
                 $this->form_validation->set_rules('fields', 'Fields', 'required');
@@ -744,7 +747,8 @@ class Member extends CI_Controller {
             $data['new_event'] = true;
         }
         
-        $data['implements'] = $this->m_shed->get_implements($auth_data['UserId']);
+        $data['power'] = $this->m_shed->get_implements($auth_data['UserId'],1);
+        $data['implements'] = $this->m_shed->get_implements($auth_data['UserId'],0);
         
         $data['event_type'] = 'Chemical';
                 
@@ -769,6 +773,7 @@ class Member extends CI_Controller {
         }
         
         $this->load->library('event_manager');
+        $this->load->config('events');
         
         if(isset($field_id))
         {
@@ -885,6 +890,7 @@ class Member extends CI_Controller {
         }
         
         $this->load->library('event_manager');
+        $this->load->config('events');
         
         if(isset($field_id))
         {
@@ -1013,6 +1019,7 @@ class Member extends CI_Controller {
         }
         
         $this->load->library('event_manager');
+        $this->load->config('events');
         
         if(isset($field_id))
         {
@@ -1054,7 +1061,7 @@ class Member extends CI_Controller {
             }
             if(!isset($event_id))
             {
-                $this->form_validation->set_rules('fields', 'Fields', 'required');
+                $this->form_validation->set_rules('fields', 'Field', 'required');
             }
 
             if($this->form_validation->run()){
@@ -1067,20 +1074,14 @@ class Member extends CI_Controller {
                     $this->m_eventplant->set($event_id, $new);
                     //delete existing crop instance records for this event
                     $this->m_cropinstance->delete_crop_instance($plantevent_id=$event_id);
+                    $plant_event_id = $event_id;
                 } else {
-                    $fields = $this->event_manager->get_fields_from_event_form();
-                    $new_event_ids = array();
-                    foreach ($fields as $field_id)
-                    { 
-                        $new_event_id = $this->m_event->set($field_id);
-                        $new = true;
-                        $this->m_eventplant->set($new_event_id, $new);
-                        $new_event_ids[] = $new_event_id;
-                    }
+                    $field_id = $this->input->post('fields'); 
+                    $new_event_id = $this->m_event->set($field_id);
+                    $new = true;
+                    $this->m_eventplant->set($new_event_id, $new);
+                    $plant_event_id = $new_event_id;
                 }
-                
-                
-                $plant_event_id = ($new) ? $new_event_id : $event_id;
                 
                 for ($j = 1; $j < $i; $j++) {
                     //check each crop submitted
@@ -1093,15 +1094,8 @@ class Member extends CI_Controller {
                         }
                     }
                     
-                    if (isset($new_event_ids) && count($new_event_ids)) {
-                        foreach($new_event_ids as $plant_event_id) {
-                            //send crop instance to database (always new) for each field
-                            $this->m_cropinstance->set_plant($plant_event_id, $crop_id, $this->input->post('AcresPlanted'.$j));
-                        }
-                    } else {
-                        //send crop instance to database (always new) for one field
-                        $this->m_cropinstance->set_plant($event_id, $crop_id, $this->input->post('AcresPlanted'.$j));
-                    }
+                    //send crop instance to database (always new) for one field
+                    $this->m_cropinstance->set_plant($plant_event_id, $crop_id, $this->input->post('AcresPlanted'.$j));
                 }
                     
 
@@ -1199,6 +1193,7 @@ class Member extends CI_Controller {
         }
         
         $this->load->library('event_manager');
+        $this->load->config('events');
         
         if(isset($field_id))
         {
@@ -1213,12 +1208,9 @@ class Member extends CI_Controller {
             $this->load->library('Form_validation');
             //first, set up for master event data
             $this->form_validation->set_rules('Date', 'Date', 'trim|required|max_length[20]');
-            //then, set up for harvest data
-            //$this->form_validation->set_rules('Yield', 'Yield', 'trim|required|numeric');
-            //if (strlen($this->input->post('OtherEquipmentBrand')) == 0 && strlen($this->input->post('OtherEquipmentProduct')) == 0)
-            //{
-            //    $this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required|numeric');             
-            //}
+            //then, set up for tillage data
+            $this->form_validation->set_rules('Power', 'Power', 'required');
+            
             if(!isset($event_id))
             {
                 $this->form_validation->set_rules('fields', 'Fields', 'required');
@@ -1295,7 +1287,8 @@ class Member extends CI_Controller {
         } else {
             $data['new_event'] = true;
         }
-        $data['implements'] = $this->m_shed->get_implements($auth_data['UserId']);
+        $data['power'] = $this->m_shed->get_implements($auth_data['UserId'],1);
+        $data['implements'] = $this->m_shed->get_implements($auth_data['UserId'],0);
         
         $data['event_type'] = 'Tillage';
         
@@ -1328,6 +1321,7 @@ class Member extends CI_Controller {
         }
         
         $this->load->library('event_manager');
+        $this->load->config('events');
         
         if(isset($field_id))
         {

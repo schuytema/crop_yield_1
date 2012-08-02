@@ -33,16 +33,18 @@
                       <b>Type:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left" width="310">
-                      <select name="EquipmentType" id="EquipmentType">
+                      <select name="EquipmentType" id="EquipmentType" onchange="javascript:changeToVisible(this.value);">
                         <option value="">Select Type</option>
                         <option value="Tractor">Tractor</option>
                         <option value="Planter">Planter</option>
                         <option value="Harvester">Harvester</option>
-                        <option value="Tiller">Tiller</option>
+                        <option value="Tillage">Tillage</option>
                         <option value="Sprayer">Sprayer</option>
+                        <option value="Sprayer">Spreader</option>
                       </select>
                   </td>
                </tr>
+               
               <?php
 
 
@@ -79,9 +81,20 @@
                     <td align="right" colspan="2">
                         <a href="javascript:Void(0);" id="show_other_one">{my equipment isn't in these lists}</a>
                         <div id="other_one">
-                          <br>Please enter equipment manually:<br>
+                          <br>Please enter equipment manually (select Type above):<br>
                           Brand:&nbsp;<input type="text" size="40" name="OtherEquipmentBrand"><br>
                           Product:&nbsp;<input type="text" size="40" name="OtherEquipmentProduct"><br>
+                          Power:&nbsp;
+                            <?php
+                            echo form_dropdown('Power', $this->config->item('no_yes_boolean'));
+                            ?>
+                          <br>
+                          <div id="other_two">
+                          Tillage Type:&nbsp;
+                          <?php
+                            echo form_dropdown('TillageType', $this->config->item('tillage_type'));
+                          ?>
+                        </div>
                         </div>
                     </td>
                 </tr>
@@ -101,4 +114,19 @@
     <br><br>
 </div>
 
+
+<script type="text/javascript">
+
+function changeToVisible(item)
+{
+    obj = document.getElementById('other_two');
+    if (item == 'Tillage')
+    {
+        obj.style.display = 'inline';
+    } else {
+        obj.style.display = 'none';
+    }
+}
+
+</script>
 

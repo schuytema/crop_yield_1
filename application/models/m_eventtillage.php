@@ -31,7 +31,8 @@ class m_eventtillage extends CI_Model{
     
     function set($event_id=NULL, $new=true){
         $data = array(
-            'FK_EquipmentId' => db_clean($this->input->post('EquipmentProduct'),25),
+            'FK_EquipmentId' => db_clean($this->input->post('EquipmentProduct'),25,false),
+            'FK_EquipmentId_Power' => db_clean($this->input->post('Power'),25),
             'FK_EventId' => id_clean($event_id)
         );
 

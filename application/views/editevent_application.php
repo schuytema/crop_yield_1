@@ -23,7 +23,7 @@
             -->
                <tr valign="top">
                   <td align="right" width="200">
-                      <b>Application Rate:</b>&nbsp;&nbsp;
+                      <b>Average Application Rate:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left" width="100">
                       <input type="text" size="10" name="ApplicationRate" value="<?php echo set_value('ApplicationRate',(isset($row->ApplicationRate)) ? $row->ApplicationRate : NULL); ?>">
