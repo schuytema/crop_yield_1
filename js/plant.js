@@ -75,7 +75,7 @@ $(document).ready(function(){
         var new_index = index+1;
         var new_form = $('fieldset.crop_entry').last().clone();
         
-        new_form.find('legend').html('Crop '+new_index);
+        new_form.find('legend').html('Crop/Variety '+new_index);
         new_form.find('blockquote').remove();
         new_form.find('select[name^="CropType'+index+'"]').attr('id','CropType'+new_index).attr('name','CropType'+new_index);
         new_form.find('select[name^="CropBrand'+index+'"]').attr('id','CropBrand'+new_index).attr('name','CropBrand'+new_index);

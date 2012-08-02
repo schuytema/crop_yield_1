@@ -55,7 +55,7 @@ $config['chemical_units'] = array(
 
 $config['planting_rate_units'] = array(
     'seeds/acre' => 'seeds/acre',
-    'seeds/sq. mile' => 'seeds/sq. mile'
+    'lbs/acre' => 'lbs/acre'
 );
 
 $config['planting_row_spacing_units'] = array(
@@ -70,7 +70,12 @@ $config['seed_depth_spacing_units'] = array(
 
 $config['crop_type'] = array(
     'Corn' => 'Corn',
-    'Soybean' => 'Soybean'
+    'Soybean' => 'Soybean',
+    'Corn/Bean Intercrop' => 'Corn/Bean Intercrop', 
+    'Wheat' => 'Wheat',
+    'Oats' => 'Oats',
+    'Alfalfa' => 'Alfalfa',
+    'Pennycress' => 'Pennycress'
 );
 
 $config['no_yes'] = array(
