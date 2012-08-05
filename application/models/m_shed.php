@@ -56,9 +56,16 @@ class m_shed extends CI_Model{
     //gets implement names
     function get_implements($user_id=NULL, $power=0){
         $this->db->trans_start();
-        $query =    "SELECT Shed.FK_EquipmentId, Shed.Name, Shed.PK_ShedId FROM Shed ".
-                    "LEFT JOIN Equipment ON Shed.FK_EquipmentId = Equipment.PK_EquipmentId ".
-                    "WHERE (Shed.FK_BossId = $user_id) AND (Equipment.Power = $power);";
+        if ($power > 1)
+        {
+            $query =    "SELECT Shed.FK_EquipmentId, Shed.Name, Shed.PK_ShedId FROM Shed ".
+                        "LEFT JOIN Equipment ON Shed.FK_EquipmentId = Equipment.PK_EquipmentId ".
+                        "WHERE (Shed.FK_BossId = $user_id);";
+        } else {
+            $query =    "SELECT Shed.FK_EquipmentId, Shed.Name, Shed.PK_ShedId FROM Shed ".
+                        "LEFT JOIN Equipment ON Shed.FK_EquipmentId = Equipment.PK_EquipmentId ".
+                        "WHERE (Shed.FK_BossId = $user_id) AND (Equipment.Power = $power);";
+        }
         $results = $this->db->query($query);
         $this->db->trans_complete();
         return $results;

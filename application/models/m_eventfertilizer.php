@@ -29,6 +29,9 @@ class m_eventfertilizer extends CI_Model{
             'ApplicationRateUnit' => db_clean($this->input->post('ApplicationRateUnit'),25),
             'VariableRate' => db_clean($this->input->post('VariableRate'),3, false),
             'NitrogenStabilizer' => db_clean($this->input->post('NitrogenStabilizer'),3, false),
+            'ChelatedZinc' => db_clean($this->input->post('ChelatedZinc'),9, false),
+            'Sulphur' => db_clean($this->input->post('Sulphur'),9, false),
+            'Boron' => db_clean($this->input->post('Boron'),9, false),
             'Form' => db_clean($this->input->post('Form'),35),
             'FK_EventId' => id_clean($event_id)
         );

@@ -57,7 +57,7 @@ class Member extends CI_Controller {
         $auth_data = $this->php_session->get('AUTH');
         $data['user_info'] = $this->m_user->get_by_userid($auth_data['UserId']);
         $data['farms'] = $this->m_farm->get_farms($auth_data['UserId']);
-        $data['implements'] = $this->m_shed->get_implements($auth_data['UserId']);
+        $data['implements'] = $this->m_shed->get_implements($auth_data['UserId'],2);
         
         $this->load->view('header',$data);
         $this->load->view('enterprise');
