@@ -13,19 +13,19 @@
                       <b>N:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left" width="100">
-                      <input type="text" size="3" name="PercentN" value="<?php echo set_value('PercentN',(isset($row->PercentN)) ? $row->PercentN : NULL); ?>">&nbsp;lbs/100
+                      <input type="text" size="4" name="PercentN" value="<?php echo set_value('PercentN',(isset($row->PercentN)) ? $row->PercentN : NULL); ?>">&nbsp;lbs/100
                   </td>
                   <td align="right" width="50">
                       <b>P:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left" width="100">
-                      <input type="text" size="3" name="PercentP" value="<?php echo set_value('PercentP',(isset($row->PercentP)) ? $row->PercentP : NULL); ?>">&nbsp;lbs/100
+                      <input type="text" size="4" name="PercentP" value="<?php echo set_value('PercentP',(isset($row->PercentP)) ? $row->PercentP : NULL); ?>">&nbsp;lbs/100
                   </td>
                   <td align="right" width="50">
                       <b>K:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left" width="100">
-                      <input type="text" size="3" name="PercentK" value="<?php echo set_value('PercentK',(isset($row->PercentK)) ? $row->PercentK : NULL); ?>">&nbsp;lbs/100
+                      <input type="text" size="4" name="PercentK" value="<?php echo set_value('PercentK',(isset($row->PercentK)) ? $row->PercentK : NULL); ?>">&nbsp;lbs/100
                   </td>
                </tr>
                <tr valign="top">
@@ -52,16 +52,7 @@
                     ?>
                   </td>
                </tr>
-               <tr valign="top">
-                  <td align="right" colspan="3">
-                      <b>Nitrogen Stabilizer?:</b>&nbsp;&nbsp;
-                  </td>
-                  <td align="left" colspan="3">
-                    <?php
-                      echo form_dropdown('NitrogenStabilizer', $this->config->item('no_yes_boolean'), set_value('NitrogenStabilizer',(isset($row->NitrogenStabilizer)) ? $row->NitrogenStabilizer : NULL));
-                    ?>
-                  </td>
-               </tr>
+               
                <tr valign="top">
                   <td align="right" colspan="3">
                       <b>Form:</b>&nbsp;&nbsp;
@@ -72,6 +63,50 @@
                     ?>
                   </td>
                </tr>
+          </table>
+          <BR CLEAR=LEFT>
+          <h4>Additives</h4>
+        <table  style="float:left;" width="510">
+            <tr valign="top">
+                  <td align="right" width="200">
+                      <b>Nitrogen Stabilizer?:</b>&nbsp;&nbsp;
+                  </td>
+                  <td align="left" width="310">
+                    <?php
+                      echo form_dropdown('NitrogenStabilizer', $this->config->item('no_yes_boolean'), set_value('NitrogenStabilizer',(isset($row->NitrogenStabilizer)) ? $row->NitrogenStabilizer : NULL));
+                    ?>
+                  </td>
+               </tr>
+            <tr valign="top">
+                <td align="right" width="200">
+                    <b>Chelated Zinc:</b>&nbsp;&nbsp;
+                </td>
+                <td align="left" width="310">
+                    <?php
+                    echo form_dropdown('ChelatedZinc', $this->config->item('no_yes_boolean'), set_value('ChelatedZinc',(isset($row->ChelatedZinc)) ? $row->ChelatedZinc : NULL));
+                    ?>
+                </td>
+            </tr>
+            <tr valign="top">
+                <td align="right" width="200">
+                    <b>Sulphur:</b>&nbsp;&nbsp;
+                </td>
+                <td align="left" width="310">
+                    <?php
+                    echo form_dropdown('Sulphur', $this->config->item('no_yes_boolean'), set_value('Sulphur',(isset($row->Sulphur)) ? $row->Sulphur : NULL));
+                    ?>
+                </td>
+            </tr>
+            <tr valign="top">
+                <td align="right" width="200">
+                    <b>Boron:</b>&nbsp;&nbsp;
+                </td>
+                <td align="left" width="310">
+                    <?php
+                    echo form_dropdown('Boron', $this->config->item('no_yes_boolean'), set_value('Boron',(isset($row->Boron)) ? $row->Boron : NULL));
+                    ?>
+                </td>
+            </tr>
           </table>
           <BR CLEAR=LEFT>
     <br><br>

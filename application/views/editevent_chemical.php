@@ -87,40 +87,7 @@
             </tr>
           </table>
           <BR CLEAR=LEFT>
-    <h4>Additives</h4>
-        <table  style="float:left;" width="510">
-            <tr valign="top">
-                <td align="right" width="200">
-                    <b>Chelated Zinc:</b>&nbsp;&nbsp;
-                </td>
-                <td align="left" width="310">
-                    <?php
-                    echo form_dropdown('ChelatedZinc', $this->config->item('no_yes_boolean'), set_value('ChelatedZinc',(isset($datarow->ChelatedZinc)) ? $datarow->ChelatedZinc : NULL));
-                    ?>
-                </td>
-            </tr>
-            <tr valign="top">
-                <td align="right" width="200">
-                    <b>Sulphur:</b>&nbsp;&nbsp;
-                </td>
-                <td align="left" width="310">
-                    <?php
-                    echo form_dropdown('Sulphur', $this->config->item('no_yes_boolean'), set_value('Sulphur',(isset($datarow->Sulphur)) ? $datarow->Sulphur : NULL));
-                    ?>
-                </td>
-            </tr>
-            <tr valign="top">
-                <td align="right" width="200">
-                    <b>Boron:</b>&nbsp;&nbsp;
-                </td>
-                <td align="left" width="310">
-                    <?php
-                    echo form_dropdown('Boron', $this->config->item('no_yes_boolean'), set_value('Boron',(isset($datarow->Boron)) ? $datarow->Boron : NULL));
-                    ?>
-                </td>
-            </tr>
-          </table>
-          <BR CLEAR=LEFT>
+    
     <h4>Tank Mix</h4>
         <table  style="float:left;" width="640">   
             <tr valign="top">
