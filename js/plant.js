@@ -76,18 +76,37 @@ $(document).ready(function(){
         //disable button and change to loading text
         $('#add_new_crop_entry').attr("disabled","disabled").html('Loading...');
         //get name/id index of last CropType select (parse string as int)
-        var form_num = parseInt($('select[id^="CropType"]').last().attr('id').replace(/[^\d]/g, ""),10);
+        var form_num = 0;
+        if ($('select[id^="CropType"]').last().attr('id')) {
+            form_num = parseInt($('select[id^="CropType"]').last().attr('id').replace(/[^\d]/g, ""),10);
+        }
         //increment for new crop box
         form_num++;
         
         //grab new crop box via AJAX
         $.post(CI.base_url + "member/add_crop_instance", { 'event_type' : 'Plant', 'form_num' : form_num },
         function(data){
+            response = $(data.result);
+            
+            //set the new crop box to hide fields initially
+            response.find('select[id^="CropBrand"]').attr("disabled","disabled");
+            response.find('select[id^="CropProduct"]').attr("disabled","disabled");
+            response.find('input[id^="OtherCropBrand"]').hide();
+            response.find('input[id^="OtherCropProduct"]').hide();
+            
             //add result after last crop box
-            $('fieldset.crop_entry').last().after(data.result);
+            $('#add_new_crop_entry').closest('table').before(response);
             
             //return button to original form
             $('#add_new_crop_entry').removeAttr('disabled').html(orig_button_html);
         }, "json");
     });
+    
+    $("body").on("click", '.delete_crop', function(e) {
+        e.preventDefault();
+        if (confirm('Deleting this crop/variety will delete any harvest data associated with it.')) {
+            $(this).closest('fieldset.crop_entry').remove();
+        }
+    });
+    
 });

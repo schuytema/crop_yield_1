@@ -23,7 +23,8 @@ class m_eventplant extends CI_Model{
     function set($event_id=NULL, $new=true){
         $data = array(            
             'FK_EventId' => id_clean($event_id),
-            'FK_EquipmentId' => id_clean($this->input->post('EquipmentProduct'),8),
+            'FK_EquipmentId' => id_clean($this->input->post('EquipmentImplement'),8),
+            'FK_EquipmentId_Power' => id_clean($this->input->post('EquipmentPower'),8),
             'PlantingRate' => db_clean(strip_tags($this->input->post('PlantingRate')),8),
             'PlantingRateUnit' => db_clean(strip_tags($this->input->post('PlantingRateUnit')),14),
             'RowSpacing' => db_clean(strip_tags($this->input->post('RowSpacing')),3),

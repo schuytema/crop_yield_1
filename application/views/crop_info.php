@@ -1,6 +1,10 @@
 <?php
     //create form elements related to this crop
-    echo '<fieldset style="width:510px;" class="crop_entry"><legend>Crop/Variety '.$form_num.'</legend>';
+    echo '<fieldset style="width:510px;" class="crop_entry"><legend>Crop/Variety';
+    if ($event_type != 'Harvest') {
+        echo ' <a class="delete_crop" id="DeleteCrop'.$form_num.'" href="#">Delete</a>';
+    }
+    echo '</legend>';
     echo '<table  style="float:left;" width="510">';
 
     if($crop_types->num_rows()){
@@ -56,18 +60,16 @@
             echo '<input type="text" size="6" id="Aflatoxin'.$form_num.'" name="crop['.$form_num.'][aflatoxin]"> ppb';
             echo '</td></tr>';
         } else { //Plant/Replant
+            //custom entry flag
+            echo '<tr><td></td><td>';
+            echo '<span><input type="checkbox" class="custom_crop_entry_toggle" name="crop['.$form_num.'][other]" value="1">My product isn\'t in these lists.</span>';
+            echo '</td></tr>';
+        
             //acres planted
             echo '<tr valign="top"><td align="right" width="200"><b>Planted:</b>&nbsp;&nbsp;</td><td align="left" width="310">';
             echo '<input type="text" size="5" id="AcresPlanted'.$form_num.'" name="crop['.$form_num.'][acres_planted]"> acres';
             echo '</td></tr>';
         }
-
-        //custom entry flag
-        echo '<tr><td></td><td>';
-
-        echo '<span><input type="checkbox" class="custom_crop_entry_toggle" name="crop['.$form_num.'][other]">My product isn\'t in these lists.</span>';
-
-        echo '</td></tr>';
 
     } else {
         echo '<tr><td colspan="2"><font color="red>Crop/Variety data not found.</font></td></tr>';

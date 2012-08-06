@@ -33,21 +33,32 @@ class m_cropinstance extends CI_Model{
         return $this->db->get('CropInstance');
     }    
     
-    function set_plant($event_id=NULL, $crop_id=NULL, $acres_planted=NULL){
+    function set_plant($event_id=NULL, $crop_id=NULL, $acres_planted=NULL, $crop_instance_id=NULL){
         $data = array(
             'FK_PlantEventId' => id_clean($event_id),
-            'AcresPlanted' => db_clean(strip_tags($acres_planted))
+            'AcresPlanted' => db_clean(strip_tags($acres_planted)),
+            'FK_CropId' => id_clean($crop_id)
         );
-
-        //create record
-        if (isset($crop_id))
-        {
-            $data['FK_CropId'] = id_clean($crop_id);
-        } else {
-            $data['FK_CropId'] = id_clean($this->input->post('CropProduct'));
+        
+        if (isset($crop_instance_id)) { //update
+            $this->db->set($data);
+            $this->db->where('PK_CropInstanceId',id_clean($crop_instance_id));
+            $this->db->update('CropInstance');
+        } else { //create record
+            
         }
-        $this->db->set($data);
-        $this->db->insert('CropInstance');
+
+        if(isset($id)){ //update
+            $this->db->set($data);
+            $this->db->where('PK_FarmId',id_clean($id));
+            $this->db->update('Farm');
+        } else { //create record
+            $this->db->set($data);
+            $this->db->insert('CropInstance');
+            $crop_instance_id = $this->db->insert_id();
+        }
+        
+        return $crop_instance_id;
     }    
      
     function delete_crop_instance($plantevent_id=NULL,$harvestevent_id=NULL){
