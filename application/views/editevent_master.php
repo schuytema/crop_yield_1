@@ -78,7 +78,7 @@
                                 {
                                     $field_arr[$item->PK_FieldId] = $item->Name;
                                 }
-                                echo form_dropdown('fields', $field_arr, (isset($row->FK_FieldId)) ? $row->FK_FieldId : NULL); 
+                                echo form_dropdown('fields', $field_arr, set_value('fields',(isset($row->FK_FieldId)) ? $row->FK_FieldId : NULL)); 
                             }
                         }
                         else

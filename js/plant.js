@@ -1,19 +1,46 @@
 $(document).ready(function(){
-    //initial page load; disable linked lists    
-    //$(".crop_entry").find('select[id^="CropBrand"]').attr("disabled","disabled");
-    //$(".crop_entry").find('select[id^="CropProduct"]').attr("disabled","disabled");
-    //$(".crop_entry").find('input[id^="OtherCropBrand"]').hide();
-    //$(".crop_entry").find('input[id^="OtherCropProduct"]').hide();
-    //$(".crop_entry").find('.custom_crop_entry_toggle').closest('span').hide();
+    //initial page load
+
+    //check custom crop entry checkbox status
+    $('.custom_crop_entry_toggle').each(function() {
+        
+        if($(this).prop('checked')) { //checked
+
+            //hide brand/product lists          
+            $(this).closest('fieldset.crop_entry').find('select[id^="CropBrand"]').hide();
+            $(this).closest('fieldset.crop_entry').find('select[id^="CropProduct"]').hide();
+        } else { //unchecked
+            
+            //hide custom brand/product input fields
+            $(this).closest('fieldset.crop_entry').find('input[id^="OtherCropBrand"]').hide();
+            $(this).closest('fieldset.crop_entry').find('input[id^="OtherCropProduct"]').hide();
+            
+            if (!$(this).closest('fieldset.crop_entry').find('select[id^="CropType"]').val().length) { //crop type empty      
+                //hide custom input toggle checkbox
+                $(this).closest('span').hide();
+            }
+            
+            if (!$(this).closest('fieldset.crop_entry').find('select[id^="CropBrand"]').val().length) { //crop brand empty
+                //disable brand list
+                $(this).closest('fieldset.crop_entry').find('select[id^="CropBrand"]').attr("disabled","disabled");
+            }
+            
+            if (!$(this).closest('fieldset.crop_entry').find('select[id^="CropProduct"]').val().length) { //crop product empty
+                //disable brand list
+                $(this).closest('fieldset.crop_entry').find('select[id^="CropProduct"]').attr("disabled","disabled");
+            }
+        }
+    });
     
     //crop type change  
     $("body").on("change", 'select[id^="CropType"]', function(){
         var type = $(this).val();
+        var custom_checkbox = $(this).closest('fieldset.crop_entry').find('.custom_crop_entry_toggle').closest('span');
+        var brand = $(this).closest('fieldset.crop_entry').find('select[id^="CropBrand"]');
+        var product = $(this).closest('fieldset.crop_entry').find('select[id^="CropProduct"]');
+        var custom_brand = $(this).closest('fieldset.crop_entry').find('input[id^="OtherCropBrand"]');
+        var custom_product = $(this).closest('fieldset.crop_entry').find('input[id^="OtherCropProduct"]');
         if(type.length){
-            var brand = $(this).closest('fieldset.crop_entry').find('select[id^="CropBrand"]');
-            var product = $(this).closest('fieldset.crop_entry').find('select[id^="CropProduct"]');
-            var custom_checkbox = $(this).closest('fieldset.crop_entry').find('.custom_crop_entry_toggle').closest('span');
-         
             brand.attr("disabled","disabled");
             product.attr("disabled","disabled");
             brand.html("<option>wait...</option>");
@@ -29,8 +56,16 @@ $(document).ready(function(){
                     brand.removeAttr("disabled");
                     product.html("<option>select brand...</option>");
                     custom_checkbox.show();
+                    custom_brand.removeAttr("disabled");
+                    custom_product.removeAttr("disabled");
                 } 
             }, "json");
+        } else {
+            custom_checkbox.hide();
+            brand.attr("disabled","disabled");
+            product.attr("disabled","disabled");
+            custom_brand.attr("disabled","disabled");
+            custom_product.attr("disabled","disabled");
         }
     });
     
@@ -46,7 +81,7 @@ $(document).ready(function(){
             $.post(CI.base_url + "member/get_crop_product", {'type' : type, 'brand' : brand },
             function(data){
                 if(data.response == true){
-                    var options = '';
+                    var options = '<option value="">Select Product</option>';
                     for (var i = 0; i < data.list.length; i++) {
                         options += '<option value="' + data.list[i].value + '">' + data.list[i].display + '</option>';
                     }
@@ -57,17 +92,11 @@ $(document).ready(function(){
         }
     });
     
-    $("body").on("click", '.custom_crop_entry_toggle', function() {
-        $(this).closest('fieldset.crop_entry').find('input[id^="OtherCropBrand"]').toggle(this.checked).val('');
-        $(this).closest('fieldset.crop_entry').find('input[id^="OtherCropProduct"]').toggle(this.checked).val('');
-        if (this.checked) {
-            $(this).closest('fieldset.crop_entry').find('select[id^="CropBrand"]').attr("disabled","disabled").html('<option>select type...</option>').val('').hide();
-            $(this).closest('fieldset.crop_entry').find('select[id^="CropProduct"]').attr("disabled","disabled").html('<option>select brand...</option>').val('').hide();
-        } else {
-            $(this).closest('fieldset.crop_entry').find('select[id^="CropBrand"]').show();
-            $(this).closest('fieldset.crop_entry').find('select[id^="CropProduct"]').show(); 
-            $(this).closest('fieldset.crop_entry').find('select[id^="CropType"]').change();
-        }
+    $("body").on("click", '.custom_crop_entry_toggle', function(){
+        $(this).closest('fieldset.crop_entry').find('input[id^="OtherCropBrand"]').toggle();
+        $(this).closest('fieldset.crop_entry').find('input[id^="OtherCropProduct"]').toggle();
+        $(this).closest('fieldset.crop_entry').find('select[id^="CropBrand"]').toggle();
+        $(this).closest('fieldset.crop_entry').find('select[id^="CropProduct"]').toggle();
     });
     
     $("#add_new_crop_entry").click(function() {
@@ -93,6 +122,8 @@ $(document).ready(function(){
             response.find('select[id^="CropProduct"]').attr("disabled","disabled");
             response.find('input[id^="OtherCropBrand"]').hide();
             response.find('input[id^="OtherCropProduct"]').hide();
+            response.find('.custom_crop_entry_toggle').closest('span').hide();
+            
             
             //add result after last crop box
             $('#add_new_crop_entry').closest('table').before(response);

@@ -1076,6 +1076,7 @@ class Member extends CI_Controller {
                     array('field' => 'RowSpacingUnit','label' => 'Row Spacing Unit','rules' => 'trim|required'),
                     array('field' => 'SeedDepth','label' => 'Seed Depth','rules' => 'trim|required|numeric'),
                     array('field' => 'SeedDepthUnit','label' => 'Seed Depth Unit','rules' => 'trim|required'),
+                    array('field' => 'PreviousCrop','label' => 'Previous Crop','rules' => 'trim|required'),
                     array('field' => 'VariableRate','label' => 'Variable Rate','rules' => 'trim|numeric'),
                     array('field' => 'TwinRows','label' => 'Twin Rows','rules' => 'trim|numeric')
                 )
@@ -1087,14 +1088,23 @@ class Member extends CI_Controller {
                 $counter++;
                 $this->form_validation->set_rules('crop['.$key.'][type]', 'Crop/Variety #'.$counter.': Type', 'trim|required');
                 $this->form_validation->set_rules('crop['.$key.'][acres_planted]', 'Crop/Variety #'.$counter.': Acres Planted', 'trim|required|numeric');
+                $this->form_validation->set_rules('crop['.$key.'][other]', 'Crop/Variety #'.$counter.': Checkbox', 'trim');
+                $this->form_validation->set_rules('crop['.$key.'][brand]', 'Crop/Variety #'.$counter.': Brand', 'trim'); 
                 if (isset($arr['other'])) { //custom brand/product
                     //custom brand
                     $this->form_validation->set_rules('crop['.$key.'][other_brand]', 'Crop/Variety #'.$counter.': Brand', 'trim|required|max_length[100]');
                     //custom product
                     $this->form_validation->set_rules('crop['.$key.'][other_product]', 'Crop/Variety #'.$counter.': Product', 'trim|required|max_length[200]');
+                    //product id
+                    $this->form_validation->set_rules('crop['.$key.'][product]', 'Crop/Variety #'.$counter.': Product', 'trim'); 
                 } 
                 else 
                 { //standard product
+                    //custom brand
+                    $this->form_validation->set_rules('crop['.$key.'][other_brand]', 'Crop/Variety #'.$counter.': Brand', 'trim');
+                    //custom product
+                    $this->form_validation->set_rules('crop['.$key.'][other_product]', 'Crop/Variety #'.$counter.': Product', 'trim');
+                    //product id
                     $this->form_validation->set_rules('crop['.$key.'][product]', 'Crop/Variety #'.$counter.': Product', 'trim|required|numeric');
                 }
             }
@@ -1222,6 +1232,8 @@ class Member extends CI_Controller {
                     $crop_detail_array['brand_list'] = $this->m_crop->get_brand($crop_detail_array['Type']);
                     //attach relevant product list
                     $crop_detail_array['product_list'] = $this->m_crop->get_product($crop_detail_array['Type'],$crop_detail_array['Brand']);
+                    //attach relevant product id
+                    $crop_detail_array['product'] = $row->FK_CropId;
                     //attach crop instance id
                     $crop_detail_array['crop_instance_id'] = $row->PK_CropInstanceId;
                     
@@ -1239,19 +1251,19 @@ class Member extends CI_Controller {
                 foreach($this->input->post('crop') as $key => $arr) {
                     if (isset($arr['type'])) {
                         //attach relevant type
-                        $crop_detail_array['Type'] = $arr['type'];
+                        //$crop_detail_array['Type'] = $arr['type'];
                         //attach relevant brand list
                         $crop_detail_array['brand_list'] = $this->m_crop->get_brand($arr['type']);
                         
                         if (isset($arr['brand'])) {
                             //attach relevant brand
-                            $crop_detail_array['Brand'] = $arr['brand'];
+                            //$crop_detail_array['Brand'] = $arr['brand'];
                             //attach relevant product list
                             $crop_detail_array['product_list'] = $this->m_crop->get_product($arr['type'],$arr['brand']);
                         }
                         if (isset($arr['product'])) {
                             //attach relevant product
-                            $crop_detail_array['Product'] = $arr['product'];
+                            //$crop_detail_array['Product'] = $arr['product'];
                         }
                     }
                     //place into array for view

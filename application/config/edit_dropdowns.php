@@ -89,8 +89,8 @@ $config['no_yes_boolean'] = array(
 );
 
 $config['no_yes_bool'] = array(
-    '0'=>"No",
-    '1'=>"Yes",
+    0=>"No",
+    1=>"Yes",
 );
 
 $config['tillage_practice'] = array(

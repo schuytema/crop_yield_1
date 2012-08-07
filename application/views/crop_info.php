@@ -22,14 +22,12 @@
 
         //brands (list)
         echo '<tr valign="top"><td align="right" width="200"><b>Brand:</b>&nbsp;&nbsp;</td><td align="left" width="310">';
-        $items = array();
+        $items = array(''=>'Select Type');
         if (isset($crop['brand_list']) && $crop['brand_list']->num_rows()) {
             $result = $crop['brand_list']->result();
             foreach($result AS $row){
                 $items[$row->Brand] = $row->Brand;
             }
-        } else {
-            $items = array(''=>'Select Type');
         }
         
         echo form_dropdown('crop['.$form_num.'][brand]',$items, set_value('crop['.$form_num.'][brand]',(isset($crop['Brand'])) ? $crop['Brand'] : NULL), 'id="CropBrand'.$form_num.'"');
@@ -49,17 +47,15 @@
         
         //products (list)
         echo '<tr valign="top"><td align="right" width="200"><b>Product:</b>&nbsp;&nbsp;</td><td align="left" width="310">';
-        $items = array();
+        $items = array(''=>'Select Brand');
         if (isset($crop['product_list']) && $crop['product_list']->num_rows()) {
             $result = $crop['product_list']->result();
             foreach($result AS $row){
                 $items[$row->PK_CropId] = $row->Product;
             }
-        } else {
-            $items = array(''=>'Select Brand');
         }
         
-        echo form_dropdown('crop['.$form_num.'][product]',$items, set_value('crop['.$form_num.'][product]',(isset($crop['Product'])) ? $crop['Product'] : NULL), 'id="CropProduct'.$form_num.'"');
+        echo form_dropdown('crop['.$form_num.'][product]',$items, set_value('crop['.$form_num.'][product]',(isset($crop['product'])) ? $crop['product'] : NULL), 'id="CropProduct'.$form_num.'"');
         
         //products (custom input)
         $data = array(
