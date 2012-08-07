@@ -10,32 +10,71 @@
     if($crop_types->num_rows()){
         $result = $crop_types->result();
 
-        //types
-
+        //types (list)
         echo '<tr valign="top"><td align="right" width="200"><b>Type:</b>&nbsp;&nbsp;</td><td align="left" width="310">';
-        echo '<select id="CropType'.$form_num.'" name="crop['.$form_num.'][type]"><option value ="">Select Type</option>';
+        $items = array(''=>'Select Type');
         foreach($result AS $row){
-            echo '<option value ="'.$row->CropType.'">'.$row->CropType.'</option>';
+            $items[$row->CropType] = $row->CropType;
         }
-        echo '</select>';
+        
+        echo form_dropdown('crop['.$form_num.'][type]',$items, set_value('crop['.$form_num.'][type]',(isset($crop['Type'])) ? $crop['Type'] : NULL), 'id="CropType'.$form_num.'"');
         echo '</td></tr>';
 
-        //brands
+        //brands (list)
         echo '<tr valign="top"><td align="right" width="200"><b>Brand:</b>&nbsp;&nbsp;</td><td align="left" width="310">';
-
-        echo '<select id="CropBrand'.$form_num.'" name="crop['.$form_num.'][brand]"><option>select type...</option></select>';
-        echo '<input type="text" size="40" id="OtherCropBrand'.$form_num.'" name="crop['.$form_num.'][other_brand]">';
+        $items = array();
+        if (isset($crop['brand_list']) && $crop['brand_list']->num_rows()) {
+            $result = $crop['brand_list']->result();
+            foreach($result AS $row){
+                $items[$row->Brand] = $row->Brand;
+            }
+        } else {
+            $items = array(''=>'Select Type');
+        }
+        
+        echo form_dropdown('crop['.$form_num.'][brand]',$items, set_value('crop['.$form_num.'][brand]',(isset($crop['Brand'])) ? $crop['Brand'] : NULL), 'id="CropBrand'.$form_num.'"');
+        
+        //brands (custom input)
+        $data = array(
+              'name'        => 'crop['.$form_num.'][other_brand]',
+              'id'          => 'OtherCropBrand'.$form_num,
+              'maxlength'   => '100',
+              'size'        => '40',
+              'value'       => set_value('crop['.$form_num.'][other_brand]')
+            );
+        echo form_input($data);
 
         echo '</td></tr>';
 
-        //products
+        
+        //products (list)
         echo '<tr valign="top"><td align="right" width="200"><b>Product:</b>&nbsp;&nbsp;</td><td align="left" width="310">';
+        $items = array();
+        if (isset($crop['product_list']) && $crop['product_list']->num_rows()) {
+            $result = $crop['product_list']->result();
+            foreach($result AS $row){
+                $items[$row->PK_CropId] = $row->Product;
+            }
+        } else {
+            $items = array(''=>'Select Brand');
+        }
+        
+        echo form_dropdown('crop['.$form_num.'][product]',$items, set_value('crop['.$form_num.'][product]',(isset($crop['Product'])) ? $crop['Product'] : NULL), 'id="CropProduct'.$form_num.'"');
+        
+        //products (custom input)
+        $data = array(
+              'name'        => 'crop['.$form_num.'][other_product]',
+              'id'          => 'OtherCropProduct'.$form_num,
+              'maxlength'   => '200',
+              'size'        => '40',
+              'value'       => set_value('crop['.$form_num.'][other_product]')
+            );
+        echo form_input($data);
 
-        echo '<select id="CropProduct'.$form_num.'" name="crop['.$form_num.'][product]"><option value="">select brand...</option></select>';
-        echo '<input type="text" size="40" id="OtherCropProduct'.$form_num.'" name="crop['.$form_num.'][other_product]">';
+        echo '</td></tr>';       
         
         //crop instance ID - hidden
-        echo '<input type="hidden" id="CropInstanceId'.$form_num.'" name="crop['.$form_num.'][crop_instance_id]">';
+        echo form_hidden('crop['.$form_num.'][crop_instance_id]', (isset($crop['crop_instance_id'])) ? $crop['crop_instance_id'] : NULL);
 
         echo '</td></tr>';
 
@@ -61,13 +100,27 @@
             echo '</td></tr>';
         } else { //Plant/Replant
             //custom entry flag
-            echo '<tr><td></td><td>';
-            echo '<span><input type="checkbox" class="custom_crop_entry_toggle" name="crop['.$form_num.'][other]" value="1">My product isn\'t in these lists.</span>';
-            echo '</td></tr>';
+            
+            $data = array(
+                'class'       => 'custom_crop_entry_toggle',
+                'name'        => 'crop['.$form_num.'][other]',
+                'value'       => '1',
+                'checked'     => set_value('crop['.$form_num.'][other]')
+                );
+
+            echo '<tr><td></td><td><span>'.form_checkbox($data)."My product isn't in these lists.</span></td></tr>";
         
             //acres planted
+            $data = array(
+                'name'        => 'crop['.$form_num.'][acres_planted]',
+                'id'          => 'AcresPlanted'.$form_num,
+                'maxlength'   => '5',
+                'size'        => '5',
+                'value'       => set_value('crop['.$form_num.'][acres_planted]',(isset($crop['acres_planted'])) ? $crop['acres_planted'] : NULL)
+                );
+            
             echo '<tr valign="top"><td align="right" width="200"><b>Planted:</b>&nbsp;&nbsp;</td><td align="left" width="310">';
-            echo '<input type="text" size="5" id="AcresPlanted'.$form_num.'" name="crop['.$form_num.'][acres_planted]"> acres';
+            echo form_input($data).' acres';
             echo '</td></tr>';
         }
 

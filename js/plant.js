@@ -1,9 +1,9 @@
 $(document).ready(function(){
     //initial page load; disable linked lists    
-    $(".crop_entry").find('select[id^="CropBrand"]').attr("disabled","disabled");
-    $(".crop_entry").find('select[id^="CropProduct"]').attr("disabled","disabled");
-    $(".crop_entry").find('input[id^="OtherCropBrand"]').hide();
-    $(".crop_entry").find('input[id^="OtherCropProduct"]').hide();
+    //$(".crop_entry").find('select[id^="CropBrand"]').attr("disabled","disabled");
+    //$(".crop_entry").find('select[id^="CropProduct"]').attr("disabled","disabled");
+    //$(".crop_entry").find('input[id^="OtherCropBrand"]').hide();
+    //$(".crop_entry").find('input[id^="OtherCropProduct"]').hide();
     //$(".crop_entry").find('.custom_crop_entry_toggle').closest('span').hide();
     
     //crop type change  

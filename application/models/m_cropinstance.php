@@ -45,24 +45,15 @@ class m_cropinstance extends CI_Model{
             $this->db->where('PK_CropInstanceId',id_clean($crop_instance_id));
             $this->db->update('CropInstance');
         } else { //create record
-            
-        }
-
-        if(isset($id)){ //update
-            $this->db->set($data);
-            $this->db->where('PK_FarmId',id_clean($id));
-            $this->db->update('Farm');
-        } else { //create record
             $this->db->set($data);
             $this->db->insert('CropInstance');
             $crop_instance_id = $this->db->insert_id();
-        }
-        
+        }        
         return $crop_instance_id;
     }    
      
     function delete_crop_instance($plantevent_id=NULL,$harvestevent_id=NULL){
-        if ((!isset($plantevent_id)) && (!isset($harvestevent_id))) {
+        if ((empty($plantevent_id)) && (empty($harvestevent_id))) {
             return FALSE;
         }
         
@@ -74,11 +65,29 @@ class m_cropinstance extends CI_Model{
             $this->db->where('FK_HarvestEventId',id_clean($harvestevent_id));
         }
         
-        if(isset($event_id))
-        {
-            $this->db->delete('CropInstance');
-        }
+        $this->db->delete('CropInstance');
     }     
+    
+    function delete_excluded($preserved_crop_instances=array(),$plantevent_id=NULL,$harvestevent_id=NULL) {
+        if ((empty($plantevent_id)) && (empty($harvestevent_id))) {
+            return FALSE;
+        }
+        
+        if (isset($plantevent_id)) {
+            $this->db->where('FK_PlantEventId',id_clean($plantevent_id));
+        }
+        
+        if (isset($harvestevent_id)) {
+            $this->db->where('FK_HarvestEventId',id_clean($harvestevent_id));
+        }
+        
+        if(isset($preserved_crop_instances))
+        {
+            $this->db->where_not_in('PK_CropInstanceId',$preserved_crop_instances);
+        }
+        
+        $this->db->delete('CropInstance');
+    }
 }
 /* End of file m_eventplant.php */
 /* Location: ./application/models/m_eventplant.php */
