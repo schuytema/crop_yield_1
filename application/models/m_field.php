@@ -24,7 +24,10 @@ class m_field extends CI_Model{
             'PercentDrainageEffectiveness' => db_clean(strip_tags($this->input->post('PercentDrainageEffectiveness')),5),
             'Coordinates' => db_clean($this->input->post('Coordinates')),
             'CalcSize' => db_clean($this->input->post('CalcSize')),
-            'CalcSizeUnit' => 'acres'
+            'CalcSizeUnit' => 'acres',
+            'Irrigated' => db_clean($this->input->post('Irrigated'), false),
+            'Tiled' => db_clean($this->input->post('Tiled'), false),
+            'TillagePractice' => db_clean($this->input->post('TillagePractice'))
         );
         
         if(isset($field_id)){ //update
@@ -55,7 +58,7 @@ class m_field extends CI_Model{
     //gets field info for overview
     function get_fields($farm_id=NULL){
         if(isset($farm_id)){
-            $this->db->where('FK_FarmId',db_clean($farm_id,20));
+            $this->db->where('FK_FarmId',id_clean($farm_id));
         }
         $this->db->distinct();
         $this->db->select('Name, UserSize, PK_FieldId');
@@ -64,7 +67,7 @@ class m_field extends CI_Model{
     }
     
     function get_field_name($field_id=NULL){
-        $this->db->where('PK_FieldId',db_clean($field_id,20));
+        $this->db->where('PK_FieldId',id_clean($field_id));
         $this->db->select('Name');
         $field = $this->db->get('Field');
         if($field->num_rows())

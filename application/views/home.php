@@ -1,5 +1,5 @@
 <div class="splitleft">
-    <p><span class="style4">Welcome to Grow Our Yields Beta (version 1.2a)</span></p>
+    <p><span class="style4">Welcome to Grow Our Yields Beta (version 2.0a)</span></p>
     
     <p>Welcome to the beta build of the <b>Grow Our Yields</b> project - helping America's farmers to make better decisions, one field at a time. During this alpha build, we are simply collecting field data from a sampling of farms in Henderson, Knox, Mercer and Warren counties.
     </p>

@@ -56,16 +56,21 @@ class event_manager {
                     break;
                     case 'Harvest':
                         //remove harvest event - there can be only one per master event
-                        $harvest = $this->CI->m_eventharvest->get_harvest_event($row->PK_EventId);
+                        $harvest = $this->CI->m_eventharvest->get($row->PK_EventId);
                         if($harvest->num_rows()){
                             $this->CI->m_eventharvest->delete_harvest_event($row->PK_EventId);
+                            //remove all crop instance records - there can be several per event
+                            $this->CI->m_cropinstance->delete_crop_instance(NULL,$row->PK_EventId);
                         }
                     break;
                     case 'Plant':
+                    case 'Replant':
                         //remove plant event - there can be only one per master event
                         $plant = $this->CI->m_eventplant->get_plant_event($row->PK_EventId);
                         if($plant->num_rows()){
                             $this->CI->m_eventplant->delete_plant_event($row->PK_EventId);
+                            //remove all crop instance records - there can be several per event
+                            $this->CI->m_cropinstance->delete_crop_instance($row->PK_EventId,NULL);
                         }
                     break;
                     case 'Tillage':
@@ -124,16 +129,21 @@ class event_manager {
                     break;
                     case 'Harvest':
                         //remove harvest event - there can be only one per master event
-                        $harvest = $this->CI->m_eventharvest->get_harvest_event($event_id);
+                        $harvest = $this->CI->m_eventharvest->get($event_id);
                         if($harvest->num_rows()){
                             $this->CI->m_eventharvest->delete_harvest_event($event_id);
+                            //set harvest portions of crop instance records to NULL - there can be several per event
+                            $this->CI->m_cropinstance->clear_harvest($event_id);
                         }
                     break;
                     case 'Plant':
+                    case 'Replant':
                         //remove plant event - there can be only one per master event
                         $plant = $this->CI->m_eventplant->get_plant_event($event_id);
                         if($plant->num_rows()){
                             $this->CI->m_eventplant->delete_plant_event($event_id);
+                            //remove all crop instance records - there can be several per event
+                            $this->CI->m_cropinstance->delete_crop_instance($event_id,NULL);
                         }
                     break;
                     case 'Tillage':

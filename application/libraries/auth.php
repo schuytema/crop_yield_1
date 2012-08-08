@@ -55,7 +55,7 @@ class Auth {
                 //verify password
                 if($this->check_password($pass,$row->Password)){
                     //set session for direct access to member's area
-                    $this->_set_session(array('PK_UserId' => $row->PK_UserId,'FK_FarmId' => $row->FK_FarmId));
+                    $this->_set_session(array('PK_UserId' => $row->PK_UserId));
                     $this->CI->m_user->update_visit($row->PK_UserId,$row->VisitCount);
                     return TRUE;
                 }
@@ -117,7 +117,7 @@ class Auth {
         
         if($val = $this->CI->m_user->create_user($data)){
             //set session for direct access to member's area
-            $this->_set_session(array('PK_UserId' => $val,'FK_FarmId' => NULL));
+            $this->_set_session(array('PK_UserId' => $val));
             
             //send welcome message
             $this->CI->load->library('mail');
@@ -273,7 +273,8 @@ class Auth {
         //initialize data
         $arr = array();
         $arr['UserId'] = $data['PK_UserId'];
-        $arr['FarmId'] = $data['FK_FarmId'];
+        $arr['FarmId'] = NULL;
+        $arr['FarmName'] = NULL;
         $this->CI->php_session->set('AUTH',$arr);
     }
     

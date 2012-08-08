@@ -25,7 +25,7 @@ class m_eventapplication extends CI_Model{
             'Product' => db_clean($this->input->post('Product'),25),
             'ApplicationRate' => db_clean(strip_tags($this->input->post('ApplicationRate')),9),
             'ApplicationRateUnit' => db_clean($this->input->post('ApplicationRateUnit'),25),
-            'VariableRate' => db_clean($this->input->post('VariableRate'),3),
+            'VariableRate' => db_clean($this->input->post('VariableRate'),3, false),
             'FK_EventId' => id_clean($event_id)
         );
 

@@ -20,33 +20,31 @@ class m_eventchemical extends CI_Model{
         return $this->db->get_where('EventChemical',array('FK_EventId' => id_clean($event_id)));
     }
     
-    function set($event_id=NULL, $new=true, $chem_id=NULL){
-        $data = array(
+    function set($event_id=NULL, $new=true){
+        $data = array(   
+            'FK_EventId' => id_clean($event_id),
+            'FK_EquipmentId' => db_clean($this->input->post('EquipmentProduct'),25,false),
+            'FK_EquipmentId_Power' => db_clean($this->input->post('Power'),25),
+            'PreEmergence' => db_clean($this->input->post('PreEmergence'),9, false),
+            'FK_ChemicalId' => db_clean($this->input->post('FK_ChemicalId'),9, false),
             'AmountActiveIngredient' => db_clean(strip_tags($this->input->post('AmountActiveIngredient')),20),
-            'AmountActiveIngredientUnit' => db_clean($this->input->post('AmountActiveIngredientUnit'),3),
-            'FK_EventId' => id_clean($event_id)
+            'AmountActiveIngredientUnit' => db_clean($this->input->post('AmountActiveIngredientUnit'),10),
+            'FK_ChemicalId2' => db_clean($this->input->post('FK_ChemicalId2'),9),
+            'AmountActiveIngredient2' => db_clean(strip_tags($this->input->post('AmountActiveIngredient2')),20),
+            'AmountActiveIngredientUnit2' => db_clean($this->input->post('AmountActiveIngredientUnit2'),10),
+            'FK_ChemicalId3' => db_clean($this->input->post('FK_ChemicalId3'),9),
+            'AmountActiveIngredient3' => db_clean(strip_tags($this->input->post('AmountActiveIngredient3')),20),
+            'AmountActiveIngredientUnit3' => db_clean($this->input->post('AmountActiveIngredientUnit3'),10),
+            'FK_ChemicalId4' => db_clean($this->input->post('FK_ChemicalId4'),9),
+            'AmountActiveIngredient4' => db_clean(strip_tags($this->input->post('AmountActiveIngredient4')),20),
+            'AmountActiveIngredientUnit4' => db_clean($this->input->post('AmountActiveIngredientUnit4'),10)
         );
 
         if(!$new){ //update  
-            if (isset($chem_id))
-            {
-                $data['FK_ChemicalId'] = db_clean($chem_id,9);
-            } else {
-                if ($this->input->post('Product') != '')
-                {
-                    $data['FK_ChemicalId'] = db_clean($this->input->post('Product'),9);
-                }
-            }
             $this->db->set($data);
             $this->db->where('FK_EventId',id_clean($event_id));
             $this->db->update('EventChemical');
         } else { //create record
-            if (isset($chem_id))
-            {
-                $data['FK_ChemicalId'] = db_clean($chem_id,9);
-            } else {
-                $data['FK_ChemicalId'] = db_clean($this->input->post('Product'),9);
-            }
             $this->db->set($data);
             $this->db->insert('EventChemical');
         }

@@ -84,6 +84,20 @@ class m_crop extends CI_Model{
         return $this->db->insert_id();
     }
     
+    //return first product that matches brand
+    function get_existing_product($type,$brand,$product,$verified=NULL){
+        //verified check (optional)
+        if (isset($verified)) {
+            $this->db->where('Verified',id_clean($verified));
+        }
+        $this->db->where('CropType',db_clean($type,20));
+        $this->db->where('Brand',db_clean($brand,100));
+        $this->db->where('Product',db_clean($product,200));
+        $this->db->order_by('PK_CropId','asc');
+        $this->db->limit(1);
+        return $this->db->get('Crop');
+    }
+    
 }
 /* End of file m_equipment.php */
 /* Location: ./application/models/m_equipment.php */

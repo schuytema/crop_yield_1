@@ -5,46 +5,31 @@
               <tr valign="top">
                   <td align="left" width="300">
                     <h3>Farm Information</h3>
-                        <blockquote>
-                            <?php
-                                if(isset($farm) && $farm->num_rows())
-                                {
-                                    $row = $farm->row();
-                                    echo '<b>'.$row->Name.'</b><br>';
-                                    echo $row->Address.'<br>';
-                                    echo $row->City.',&nbsp;'.$row->State.'&nbsp;&nbsp;'.$row->Zip.'<br>';
-                                    echo $row->Phone.'<br>';
-                                    echo '<a href="'.base_url().'member/editfarm">{edit farm information}</a>';
-                                } else {
-                                    echo '<font color="red">No farm data entered yet.</font><br><br>';
-                                    echo '<a href="'.base_url().'member/editfarm">{enter initial farm information}</a>';
-                                }
-                            ?>
-                        </blockquote>
-                  </td>
-                  <td align="left" width="300">
-                     <h3>Account Information</h3>
-                        <blockquote>
-                            <?php
-                                if(isset($user_info) && $user_info->num_rows())
-                                {
-                                    $row = $user_info->row();
-                                    echo $row->FirstName.'&nbsp;'.$row->LastName.'<br>';
-                                    echo 'Username:&nbsp;'.$row->Username.'<br>';
-                                    echo 'Email:&nbsp;'.$row->Email.'<br>';
-                                    echo '<a href="'.base_url().'member/editaccount">{edit account information}</a>';
-                                } else {
-                                    echo '<font color="red">No account data found.</font><br><br>';
-                                }
-                            ?>
-                        </blockquote>
+                    <blockquote>
+                        <?php
+                            if(isset($farm) && $farm->num_rows())
+                            {
+                                $row = $farm->row();
+                                echo '<b>'.$row->Name.'</b><br>';
+                                echo $row->Address.'<br>';
+                                echo $row->City.',&nbsp;'.$row->State.'&nbsp;&nbsp;'.$row->Zip.'<br>';
+                                echo $row->Phone.'<br>';
+                                echo '<a href="'.base_url().'member/editfarm">{edit farm information}</a>';
+                            } else {
+                                echo '<font color="red">No farm data entered yet.</font><br><br>';
+                                echo '<a href="'.base_url().'member/editfarm">{enter initial farm information}</a>';
+                            }
+                        ?>
+                      </blockquote>
                   </td>
           </tr>
           </table>
     <BR CLEAR=LEFT>
-    <h3>Your Fields</h3>
-    <table  id="table-data" width="600">
+    <br>
+    <span class="fieldhead">Your Fields</span><br>
+    <table  id="table-data" width="650">
         <thead>
+            <th width="50">Done?</th>
             <th width="250">Field Name</th>
             <th width="100">Size (acres)</th>
             <th width="100">Events</th>
@@ -57,6 +42,13 @@
                 foreach($result AS $row)
                 {
                     echo '<tr>';
+                    $field_done = $this->m_event->field_done_for_season($row->PK_FieldId);
+                    if ($field_done)
+                    {
+                        echo '<td><img src="'.base_url().'css/images/done_check_sm.png"></td>';
+                    } else {
+                        echo '<td>&nbsp;</td>';
+                    }
                     echo '<td>'.$row->Name.'</td>';
                     echo '<td>'.$row->UserSize.'</td>';
                     $num_events = $this->m_event->get_event_count($row->PK_FieldId);

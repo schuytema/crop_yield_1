@@ -108,15 +108,7 @@ class m_user extends CI_Model{
         }
         return FALSE;
     }
-    
-    //user created a new farm record; save foreign key
-    function set_farm_id($user_id,$farm_id){
-        $data = array('FK_FarmId' => $farm_id);
-        $this->db->set($data);
-        $this->db->where('PK_UserId',id_clean($user_id));
-        $this->db->update('User');
-    }
-    
+        
     //verify password recovery params
     function verify_pwr($id,$key){
         $this->db->where('PK_UserId',id_clean($id));

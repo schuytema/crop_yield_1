@@ -1,5 +1,6 @@
 <div class="splitleft">
-    <h1>Edit Event</h1>
+    <h1>Edit Event <?php help_link('h_event'); ?></h1>
+    
     <?php
     if(validation_errors()){
         echo '<div class="error_msg">'.validation_errors().'</div>';
@@ -23,7 +24,7 @@
                   </td>
                   <td align="left" width="310">
                       <select name="EventPicker" onchange="window.location=this.value;">
-                        <option value="<?php echo base_url(); ?>member/editevent_application"<?php if ($event_type == 'Application') { echo ' selected="selected"'; } ?>>Application</option>
+                        <option value="<?php echo base_url(); ?>member/editevent_application"<?php if ($event_type == 'Application') { echo ' selected="selected"'; } ?>>Lime Application</option>
                         <option value="<?php echo base_url(); ?>member/editevent_chemical"<?php if ($event_type == 'Chemical') { echo ' selected="selected"'; } ?>>Chemical</option>
                         <option value="<?php echo base_url(); ?>member/editevent_fertilizer"<?php if ($event_type == 'Fertilizer') { echo ' selected="selected"'; } ?>>Fertilizer</option>
                         <option value="<?php echo base_url(); ?>member/editevent_harvest"<?php if ($event_type == 'Harvest') { echo ' selected="selected"'; } ?>>Harvest</option>
@@ -69,25 +70,33 @@
                   </td>
                   <td align="left" width="310">
                     <?php
-                        if ($new_event)
-                        {
-                            if($fields->num_rows())
-                            {
-                                $result = $fields->result();
-                                foreach($result AS $row)
+                    if ($new_event)
+                    {
+                        if($fields->num_rows()) {
+                            $result = $fields->result();
+                            if (in_array($event_type,$this->config->item('single_field_events'))) { //single field events
+                                $field_arr = array();
+                                foreach($result AS $item)
                                 {
-                                    echo '<input type="checkbox" name="fields[]" value="'.$row->PK_FieldId.'">'.$row->Name.'<br>';
+                                    $field_arr[$item->PK_FieldId] = $item->Name;
+                                }
+                                echo form_dropdown('fields', $field_arr, set_value('fields',(isset($row->FK_FieldId)) ? $row->FK_FieldId : NULL)); 
+                            }
+                            else
+                            {
+                                //allowed to pick multiple fields
+                                foreach($result AS $item)
+                                {
+                                    echo '<input type="checkbox" name="fields[]" value="'.$item->PK_FieldId.'">'.$item->Name.'<br>';
                                 }
                             }
-                        } else {
-                            echo $field_name;
                         }
+                    } else {
+                        echo $field_name;
+                    }
                     ?>
                   </td>
                </tr>
           </table>
           <BR CLEAR=LEFT>
           <br>
-    
-    
-

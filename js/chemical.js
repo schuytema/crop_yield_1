@@ -47,4 +47,81 @@ $(document).ready(function(){
         }
     });
     
+    $("#keyword").autocomplete({
+        source: function(req, add){
+            $.ajax({
+                url: CI.base_url + "member/chemical_suggest",
+                dataType: 'json',
+                type: 'POST',
+                data: req,
+                success: function(data){
+                    if(data.message != null){
+                        add(data.message);
+                    }
+                }
+            });
+        },
+        minLength: 2
+    });
+    
+    $("#keyword_submit").click(function (e) {
+        e.preventDefault();
+        $('#keyword_submit').attr('disabled', 'disabled');
+        $("#Prod1").val('loading...');
+        $.post(CI.base_url + "member/chemical_fetch", { 'term' : $("#keyword").val() },
+        function(data){
+            $('#keyword_submit').removeAttr('disabled');
+            //$("#results").show().html(data.result);
+            //$("#Prod1").val(data.result);
+            $("#Prod1").html(data.result);
+            $("#FK_ChemicalId").val(data.prod_id);
+            $("#keyword").val('');
+        }, "json");
+    });
+    
+    $("#keyword_submit2").click(function (e) {
+        e.preventDefault();
+        $('#keyword_submit2').attr('disabled', 'disabled');
+        $("#Prod2").val('loading...');
+        $.post(CI.base_url + "member/chemical_fetch", { 'term' : $("#keyword").val() },
+        function(data){
+            $('#keyword_submit2').removeAttr('disabled');
+            //$("#results").show().html(data.result);
+            //$("#Prod1").val(data.result);
+            $("#Prod2").html(data.result);
+            $("#FK_ChemicalId2").val(data.prod_id);
+            $("#keyword").val('');
+        }, "json");
+    });
+    
+    $("#keyword_submit3").click(function (e) {
+        e.preventDefault();
+        $('#keyword_submit3').attr('disabled', 'disabled');
+        $("#Prod3").val('loading...');
+        $.post(CI.base_url + "member/chemical_fetch", { 'term' : $("#keyword").val() },
+        function(data){
+            $('#keyword_submit3').removeAttr('disabled');
+            //$("#results").show().html(data.result);
+            //$("#Prod1").val(data.result);
+            $("#Prod3").html(data.result);
+            $("#FK_ChemicalId3").val(data.prod_id);
+            $("#keyword").val('');
+        }, "json");
+    });
+    
+    $("#keyword_submit4").click(function (e) {
+        e.preventDefault();
+        $('#keyword_submit4').attr('disabled', 'disabled');
+        $("#Prod4").val('loading...');
+        $.post(CI.base_url + "member/chemical_fetch", { 'term' : $("#keyword").val() },
+        function(data){
+            $('#keyword_submit4').removeAttr('disabled');
+            //$("#results").show().html(data.result);
+            //$("#Prod1").val(data.result);
+            $("#Prod4").html(data.result);
+            $("#FK_ChemicalId4").val(data.prod_id);
+            $("#keyword").val('');
+        }, "json");
+    });
+    
 });

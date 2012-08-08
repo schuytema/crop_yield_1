@@ -28,6 +28,65 @@ class m_event extends CI_Model{
         return $events->num_rows();
     }
     
+    function field_done_for_season($field_id=NULL){
+        $done = false;
+        $got_plant = false;
+        $cur_year = date('Y');
+        if(isset($field_id)){
+            $this->db->where('FK_FieldId',db_clean($field_id,20));
+        }
+        $events = $this->db->get('Event');
+        if($events->num_rows())
+        {
+            $result = $events->result();
+            foreach($result AS $row)
+            {
+                if (($row->EventType == 'Plant') || ($row->EventType == 'Replant'))
+                {
+                    $p_year = substr($row->Date,0,4);
+                    if ($p_year == $cur_year)
+                    {
+                        $got_plant = true;
+                    } else {
+                        $got_plant = false;
+                    }
+                }
+                if (($row->EventType == 'Harvest') && ($got_plant))
+                {
+                    $h_year = substr($row->Date,0,4);
+                    if ($h_year == $p_year)
+                    {
+                        $done = true;
+                    } else {
+                        $got_plant = false;
+                        $done = false;
+                    }
+                }
+                
+            }
+        }
+        return $done;
+    }
+    
+    //gets plant/replant event for the current season
+    function get_current_plant_event($field_id)
+    {
+        if (isset($field_id)) {
+            $this->db->limit(1);
+            $this->db->where_in('EventType',array('Plant','Replant'));
+            $this->db->where('YEAR(CURDATE()) = YEAR(Date)');
+            $this->db->where('FK_FieldId',$field_id);
+            $this->db->order_by('Date','desc');
+            $query = $this->db->get('Event');
+            if ($query->num_rows()) {
+                $row = $query->row();
+                return $row->PK_EventId;
+            }
+        }
+        
+        return FALSE;
+    }
+    
     //gets events matching a certain field
     function get_field_events($field_id=NULL){
         if(isset($field_id)){
@@ -51,7 +110,7 @@ class m_event extends CI_Model{
             'FK_FieldId' => $field_id,
             'EventType' => db_clean($this->input->post('EventType'),50),
             'Date' => db_clean(strip_tags($this->input->post('Date')),11),
-            'Notes' => db_clean(strip_tags($this->input->post('Notes')),255)
+            'Notes' => db_clean(strip_tags($this->input->post('Notes')),500)
         );
         
         if(isset($event_id)){ //update

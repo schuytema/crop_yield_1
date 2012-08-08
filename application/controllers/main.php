@@ -164,7 +164,7 @@ class Main extends CI_Controller {
         $data['msg'] = NULL;
         if($this->input->post('username')){
             if($this->auth->login(trim($this->input->post('username')),trim($this->input->post('password')))){
-                redirect('member/farm/','refresh');
+                redirect('member/enterprise/','refresh');
             }
             //error(s) occurred while processing request
             $data['msg'] = $this->auth->get_errors();
@@ -233,7 +233,7 @@ class Main extends CI_Controller {
     {
         if($this->php_session->get('AUTH')){
             //user is logged in; send to member's area
-            redirect('member/farm','refresh');
+            redirect('member/enterprise','refresh');
         }
         
         $data['msg'] = NULL;
@@ -250,7 +250,7 @@ class Main extends CI_Controller {
             $this->form_validation->set_rules('Terms', 'Terms of Use', 'trim|required');
             if($this->form_validation->run()){
                 if($this->auth->create_account()){
-                    redirect('member/farm','refresh');
+                    redirect('member/enterprise','refresh');
                 }
                 //error(s) occurred while processing request
                 $data['msg'] = $this->auth->get_errors();

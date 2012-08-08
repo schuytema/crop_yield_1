@@ -48,7 +48,25 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-if(ENVIRONMENT == 'development'){
+if(ENVIRONMENT == 'local'){
+    $db['default']['hostname'] = "localhost";
+    $db['default']['username'] = "root";
+    $db['default']['password'] = "";
+    $db['default']['database'] = "devgrow_db";
+    $db['default']['dbdriver'] = "mysql";
+    $db['default']['dbprefix'] = "";
+    $db['default']['pconnect'] = TRUE;
+    $db['default']['db_debug'] = TRUE;
+    $db['default']['cache_on'] = FALSE;
+    $db['default']['cachedir'] = "";
+    $db['default']['char_set'] = "utf8";
+    $db['default']['dbcollat'] = "utf8_general_ci";
+    $db['default']['port'] = "";
+    $db['default']['swap_pre'] = '';
+    $db['default']['autoinit'] = TRUE;
+    $db['default']['stricton'] = FALSE;    
+}
+elseif(ENVIRONMENT == 'development'){
     $db['default']['hostname'] = "localhost";
     $db['default']['username'] = "devgrow_appuser";
     $db['default']['password'] = "kdsXpc?8yPJe";

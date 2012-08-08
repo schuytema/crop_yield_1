@@ -1,6 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-
-if ($_SERVER['SERVER_NAME'] == '63.247.138.178') {
+if ($_SERVER['SERVER_NAME'] == 'local.goy') {
+    define('ENVIRONMENT', 'local');
+}elseif ($_SERVER['SERVER_NAME'] == '63.247.138.178') {
     define('ENVIRONMENT', 'development');
 } else {
     define('ENVIRONMENT', 'production');

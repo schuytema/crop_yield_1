@@ -45,7 +45,7 @@
                </tr>
                <tr valign="top">
                   <td align="right">
-                      <b>Size of Field (Calculated from Map):</b>&nbsp;&nbsp;
+                      <b>Size of Field (Calculated):</b>&nbsp;&nbsp;
                   </td>
                   <td align="left">
                       <input type="text" name="CalcSize" id="CalcSize" value="<?php echo set_value('CalcSize',(isset($row->CalcSize)) ? $row->CalcSize : NULL); ?>" readonly="readonly" /> acres
@@ -56,7 +56,31 @@
                       <b>Drainage Effectiveness:</b>&nbsp;&nbsp;
                   </td>
                   <td align="left">
-                      <input type="text" size="3" name="PercentDrainageEffectiveness" value="<?php echo set_value('PercentDrainageEffectiveness',(isset($row->PercentDrainageEffectiveness)) ? $row->PercentDrainageEffectiveness : NULL); ?>">&nbsp;%
+                      <?php echo form_dropdown('PercentDrainageEffectiveness',$this->config->item('drainage'), set_value('PercentDrainageEffectiveness',(isset($row->PercentDrainageEffectiveness)) ? $row->PercentDrainageEffectiveness : NULL));?>               
+                  </td>
+               </tr>
+               <tr valign="top">
+                  <td align="right">
+                      <b>Irrigated?:</b>&nbsp;&nbsp;
+                  </td>
+                  <td align="left">
+                    <?php echo form_dropdown('Irrigated',$this->config->item('no_yes_boolean'), set_value('Irrigated',(isset($row->Irrigated)) ? $row->Irrigated : NULL));?>
+                  </td>
+               </tr>
+               <tr valign="top">
+                  <td align="right">
+                      <b>Tiled?:</b>&nbsp;&nbsp;
+                  </td>
+                  <td align="left">
+                    <?php echo form_dropdown('Tiled',$this->config->item('no_yes_boolean'), set_value('Tiled',(isset($row->Tiled)) ? $row->Tiled : NULL));?>
+                  </td>
+               </tr>
+               <tr valign="top">
+                  <td align="right">
+                      <b>Tillage Practice:</b>&nbsp;&nbsp;
+                  </td>
+                  <td align="left">
+                    <?php echo form_dropdown('TillagePractice',$this->config->item('tillage_practice'), set_value('TillagePractice',(isset($row->TillagePractice)) ? $row->TillagePractice : NULL));?>
                   </td>
                </tr>
           </table>
