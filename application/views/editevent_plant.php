@@ -57,7 +57,7 @@
     }
     foreach($crop_info as $key => $crop) {
         $view_data = array('form_num'=>$key+1,'crop'=>$crop,'crop_types'=>$crop_types,'event_type'=>$event_type);
-        $this->load->view('crop_info',$view_data);
+        $this->load->view('plant_crop_info',$view_data);
     }
     ?>    
 

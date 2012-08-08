@@ -881,6 +881,7 @@ class Member extends CI_Controller {
         $this->load->view('footer',$data);
     }
     
+/*
     public function editevent_harvest($event_id=NULL, $field_id=NULL)
     {
         $auth_data = $this->php_session->get('AUTH');
@@ -1009,6 +1010,233 @@ class Member extends CI_Controller {
         $this->load->view('editevent_harvest',$data);
         $this->load->view('footer',$data);
     }
+ */
+    public function editevent_harvest($event_id=NULL, $field_id=NULL)
+    {
+        $auth_data = $this->php_session->get('AUTH');
+        if(empty($auth_data['FarmId'])){
+            redirect('member/enterprise','refresh');
+        }
+        
+        //$this->load->library('event_manager');
+        $this->load->config('events');
+        
+        if(isset($field_id))
+        {
+            $owning_farm = $this->m_field->get_farm_id_from_field($field_id);
+            if ($owning_farm != $auth_data['FarmId'])
+            {
+                redirect('member/enterprise','refresh');
+            }
+        }  
+        
+        if(isset($event_id))
+        {   //check for event ID matching field & field ownership
+            $redirect = TRUE;
+            $query = $this->m_event->get($event_id);
+            if ($query->num_rows()) {
+                $row = $query->row();
+                //get owning field, according to event ID
+                $owning_field = $row->FK_FieldId;
+                if (isset($field_id)) {
+                    if ($owning_field == $field_id) {
+                        //supplied field is the event's owning field
+                        $redirect = FALSE;
+                    }
+                } else { //field ID not supplied
+                    //get owning farm, according to the field ID supplied from db
+                    $owning_farm = $this->m_field->get_farm_id_from_field($owning_field);
+                    if ($owning_farm == $auth_data['FarmId'])
+                    {
+                        //calculated field is owned by the current farm
+                        $redirect = FALSE;
+                    }
+                }
+            }
+            if ($redirect)
+            {
+                //event ID doesn't match field or field ownership
+                redirect('member/enterprise','refresh');
+            }
+        } else {
+            $query = $this->m_field->get_fields($auth_data['FarmId']);
+            $data['fields'] = $query;
+            if ($query->num_rows()) {
+                $row = $query->row();
+                $field_id = $row->PK_FieldId;
+            }
+        }
+        
+        //submission
+        if($this->input->post('submit')){
+            $this->load->library('Form_validation');
+            //general planting rules
+            $this->form_validation->set_rules(
+                array(
+                    array('field' => 'Date','label' => 'Date','rules' => 'trim|required|max_length[20]'),
+                    array('field' => 'Notes','label' => 'Notes','rules' => 'trim|max_length[500]'),
+                    array('field' => 'EquipmentImplement','label' => 'Implement','rules' => 'trim|required|numeric'),
+                    array('field' => 'EquipmentPower','label' => 'Power','rules' => 'trim|numeric')
+                )
+            );
+            
+            if(!isset($event_id)) {
+                //allow editing of field selection
+                $this->form_validation->set_rules('fields', 'Field', 'trim|required|numeric');
+            }
+            
+            //crop/variety rules
+            $counter = 0;
+            foreach($this->input->post('crop') as $key => $arr) {
+                $counter++;
+                $this->form_validation->set_rules('crop['.$key.'][yield]', 'Crop/Variety #'.$counter.': Yield', 'trim|required|numeric');
+                $this->form_validation->set_rules('crop['.$key.'][grain_test_weight]', 'Crop/Variety #'.$counter.': Grain Test Weight', 'trim|required|numeric');
+                $this->form_validation->set_rules('crop['.$key.'][percent_moisture]', 'Crop/Variety #'.$counter.': Harvest Percent Moisture', 'trim|required|numeric');
+                $this->form_validation->set_rules('crop['.$key.'][aflatoxin]', 'Crop/Variety #'.$counter.': Aflatoxin', 'trim|required|numeric');
+                $this->form_validation->set_rules('crop['.$key.'][crop_instance_id]', 'Crop/Variety #'.$counter.': Crop Instance ID', 'trim|required|numeric');
+            }
+             
+            if($this->form_validation->run()){
+                //send to event table
+                if (isset($event_id)) {
+                    //update
+                    $this->m_event->set($field_id,$event_id);
+                    $new = false;
+                    //send to eventharvest table
+                    $this->m_eventharvest->set($event_id, $new);
+                    $harvest_event_id = $event_id;
+                } else {
+                    $field_id = $this->input->post('fields'); 
+                    //insert
+                    $new_event_id = $this->m_event->set($field_id);
+                    $new = true;
+                    //send to eventharvest table
+                    $this->m_eventharvest->set($new_event_id, $new);
+                    $harvest_event_id = $new_event_id;
+                }
+                
+                //send to cropinstance table
+                foreach($this->input->post('crop') as $key => $arr) {
+                    //existing crop instance record
+                    $this->m_cropinstance->set_harvest($harvest_event_id,$arr['yield'],$arr['grain_test_weight'],$arr['percent_moisture'],$arr['aflatoxin'],$arr['crop_instance_id']);
+                }
+                
+                //redirect to proper overview
+                if($new)
+                {
+                    redirect('member/farm','refresh');
+                } else {
+                    redirect('member/field/'.$field_id,'refresh');
+                }
+            } 
+        }
+        
+        
+        $data['meta_content'] = meta_content(
+            array(
+                array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
+                array('name'=>'keywords','content'=>'grow our yields, yield, crop, corn, beans, soybeans, field, agriculture')
+            )
+        );
+        
+        $data['link_content'] = link_content(
+            array(
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>$this->config->item('jquery_ui_css'))
+            )
+        );
+        
+        //js object builder
+        $data['js_object'] = js_object(
+            array(
+                'CI' => array('base_url' => base_url())
+            )
+        );
+        
+        //js_helper: dynamically build <script> tags
+        $data['js'] = js_load(
+            array(
+                $this->config->item('jquery_js'),
+                $this->config->item('jquery_ui_js'),
+                base_url().'js/event.js',
+                base_url().'js/harvest.js'
+            )
+        );
+        
+        $data['title'] = 'Grow Our Yields - Edit Event Harvest';
+        
+        //load dropdown list
+        $this->load->config('edit_dropdowns');
+ 
+        if(isset($event_id)){ 
+            //existing event
+            $data['new_event'] = false;
+            $data['event_data'] = $this->m_event->get($event_id);
+            $data['harvest_data'] = $this->m_eventharvest->get($event_id);
+            $data['crop_data'] = $this->m_cropinstance->get(NULL,$event_id);
+            $data['field_name'] = $this->m_field->get_field_name($field_id);
+            
+            //get the crop instance details, if available (acres planted & crop ID)
+            if ($data['crop_data']->num_rows()) {
+                $result = $data['crop_data']->result();
+                $data['crop_info'] = array();
+                foreach($result as $row) {
+                    //get the info for the crop if one's picked (type/brand/product)
+                    $crop_detail_array = $this->m_crop->get_product_info($row->FK_CropId);
+                    //attach acres planted
+                    $crop_detail_array['acres_planted'] = $row->AcresPlanted;
+                    //attach yield
+                    $crop_detail_array['yield'] = $row->Yield;
+                    //attach grain test weight
+                    $crop_detail_array['grain_test_weight'] = $row->GrainTestWeight;
+                    //attach harvest percent moisture
+                    $crop_detail_array['percent_moisture'] = $row->PercentMoisture;
+                    //attach aflatoxin
+                    $crop_detail_array['aflatoxin'] = $row->Aflatoxin;
+                    
+                    //attach crop instance id
+                    $crop_detail_array['crop_instance_id'] = $row->PK_CropInstanceId;
+                    
+                    //place into array for view
+                    $data['crop_info'][] = $crop_detail_array;
+                }
+            }
+        } else {
+            $data['new_event'] = true;
+            $plant_event_id = $this->m_event->get_current_plant_event($field_id);
+            $data['crop_data'] = $this->m_cropinstance->get($plant_event_id);
+            
+            //get the crop instance details, if available (acres planted & crop ID)
+            if ($data['crop_data']->num_rows()) {
+                $result = $data['crop_data']->result();
+                $data['crop_info'] = array();
+                foreach($result as $row) {
+                    //get the info for the crop if one's picked (type/brand/product)
+                    $crop_detail_array = $this->m_crop->get_product_info($row->FK_CropId);
+                    //attach acres planted
+                    $crop_detail_array['acres_planted'] = $row->AcresPlanted;
+                    //attach crop instance id
+                    $crop_detail_array['crop_instance_id'] = $row->PK_CropInstanceId;
+                    
+                    //place into array for view
+                    $data['crop_info'][] = $crop_detail_array;
+                }
+            }
+        }
+        
+        $data['event_type'] = 'Harvest';
+        
+        //get implements
+        $data['power'] = $this->m_shed->get_implements($auth_data['UserId'],1);
+        $data['implements'] = $this->m_shed->get_implements($auth_data['UserId'],0);
+        
+        $data['action'] = current_url();
+
+        $this->load->view('header',$data);
+        $this->load->view('editevent_master',$data);
+        $this->load->view('editevent_harvest',$data);
+        $this->load->view('footer',$data);
+    }
     
     public function editevent_plant($type = 'Plant', $event_id=NULL, $field_id=NULL)
     {
@@ -1017,7 +1245,7 @@ class Member extends CI_Controller {
             redirect('member/enterprise','refresh');
         }
         
-        $this->load->library('event_manager');
+        //$this->load->library('event_manager');
         $this->load->config('events');
         
         if(isset($field_id))
@@ -1067,7 +1295,6 @@ class Member extends CI_Controller {
                 array(
                     array('field' => 'Date','label' => 'Date','rules' => 'trim|required|max_length[20]'),
                     array('field' => 'Notes','label' => 'Notes','rules' => 'trim|max_length[500]'),
-                    array('field' => 'fields','label' => 'Field','rules' => 'trim|required|numeric'),
                     array('field' => 'EquipmentImplement','label' => 'Implement','rules' => 'trim|required|numeric'),
                     array('field' => 'EquipmentPower','label' => 'Power','rules' => 'trim|numeric'),
                     array('field' => 'PlantingRate','label' => 'Average Planting Rate','rules' => 'trim|required|numeric'),
@@ -1081,6 +1308,11 @@ class Member extends CI_Controller {
                     array('field' => 'TwinRows','label' => 'Twin Rows','rules' => 'trim|numeric')
                 )
             );
+            
+            if(!isset($event_id)) {
+                //allow editing of field selection
+                $this->form_validation->set_rules('fields', 'Field', 'trim|required|numeric');
+            }
             
             //crop/variety rules
             $counter = 0;
@@ -1111,8 +1343,6 @@ class Member extends CI_Controller {
              
             if($this->form_validation->run()){
                 //send to event table
-                $field_id = $this->input->post('fields'); 
-                
                 if (isset($event_id)) {
                     //update
                     $this->m_event->set($field_id,$event_id);
@@ -1121,6 +1351,7 @@ class Member extends CI_Controller {
                     $this->m_eventplant->set($event_id, $new);
                     $plant_event_id = $event_id;
                 } else {
+                    $field_id = $this->input->post('fields'); 
                     //insert
                     $new_event_id = $this->m_event->set($field_id);
                     $new = true;
@@ -1218,6 +1449,7 @@ class Member extends CI_Controller {
             $data['event_data'] = $this->m_event->get($event_id);
             $data['plant_data'] = $this->m_eventplant->get($event_id);
             $data['crop_data'] = $this->m_cropinstance->get($event_id);
+            $data['field_name'] = $this->m_field->get_field_name($field_id);
             
             //get the crop instance details, if available (acres planted & crop ID)
             if ($data['crop_data']->num_rows()) {
@@ -1791,7 +2023,47 @@ class Member extends CI_Controller {
             $data['crop_types'] = $this->m_crop->get_type(); //get crop types
             $data['event_type'] = trim($this->input->post('event_type')); //event type determines certain form fields
             $data['form_num'] = trim($this->input->post('form_num')); //index the new crop box should have
-            $array['result'] = $this->load->view('crop_info',$data,TRUE);
+            $array['result'] = $this->load->view('plant_crop_info',$data,TRUE);
+            echo json_encode($array);
+        }
+    }
+    
+    function get_harvest_crops(){
+        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+            $array['result'] = FALSE;
+
+            //get requested field
+            $field_id = $this->input->post('field');
+            //check for authorized user of this data
+            $auth_data = $this->php_session->get('AUTH');
+            if(!empty($auth_data['FarmId'])){ //auth data exists
+
+                //get owning farm
+                $owning_farm = $this->m_field->get_farm_id_from_field($field_id);
+                if ($owning_farm == $auth_data['FarmId']) { //user's farm owns this field 
+                    $plant_event_id = $this->m_event->get_current_plant_event($field_id);
+                    $data['crop_data'] = $this->m_cropinstance->get($plant_event_id);
+
+                    //get the crop instance details, if available (acres planted & crop ID)
+                    if ($data['crop_data']->num_rows()) {
+                        $result = $data['crop_data']->result();
+                        $array['result'] = '<h4>Crop Data</h4>';
+                        foreach($result as $key => $row) {
+                            //get the info for the crop if one's picked (type/brand/product)
+                            $crop_detail_array = $this->m_crop->get_product_info($row->FK_CropId);
+                            //attach acres planted
+                            $crop_detail_array['acres_planted'] = $row->AcresPlanted;
+                            //attach crop instance id
+                            $crop_detail_array['crop_instance_id'] = $row->PK_CropInstanceId;
+
+                            //load view data
+                            $view_data = array('form_num'=>$key+1,'crop'=>$crop_detail_array);
+                            $array['result'] .= $this->load->view('harvest_crop_info',$view_data,TRUE);
+                        }
+                    }
+                }
+            }
+            //return result (even if false)
             echo json_encode($array);
         }
     }

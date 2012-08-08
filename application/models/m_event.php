@@ -68,6 +68,25 @@ class m_event extends CI_Model{
         return $done;
     }
     
+    //gets plant/replant event for the current season
+    function get_current_plant_event($field_id)
+    {
+        if (isset($field_id)) {
+            $this->db->limit(1);
+            $this->db->where_in('EventType',array('Plant','Replant'));
+            $this->db->where('YEAR(CURDATE()) = YEAR(Date)');
+            $this->db->where('FK_FieldId',$field_id);
+            $this->db->order_by('Date','desc');
+            $query = $this->db->get('Event');
+            if ($query->num_rows()) {
+                $row = $query->row();
+                return $row->PK_EventId;
+            }
+        }
+        
+        return FALSE;
+    }
+    
     //gets events matching a certain field
     function get_field_events($field_id=NULL){
         if(isset($field_id)){

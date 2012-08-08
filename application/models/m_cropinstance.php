@@ -42,7 +42,7 @@ class m_cropinstance extends CI_Model{
         
         if (isset($crop_instance_id)) { //update
             $this->db->set($data);
-            $this->db->where('PK_CropInstanceId',id_clean($crop_instance_id));
+            $this->db->where('PK_CropInstanceId',id_clean(strip_tags($crop_instance_id)));
             $this->db->update('CropInstance');
         } else { //create record
             $this->db->set($data);
@@ -51,6 +51,42 @@ class m_cropinstance extends CI_Model{
         }        
         return $crop_instance_id;
     }    
+    
+    function set_harvest($event_id=NULL, $yield=NULL, $grain_test_weight=NULL, $percent_moisture=NULL, $aflatoxin=NULL, $crop_instance_id=NULL){
+        $data = array(
+            'FK_HarvestEventId' => id_clean($event_id),
+            'Yield' => db_clean(strip_tags($yield)),
+            'GrainTestWeight' => db_clean(strip_tags($grain_test_weight)),
+            'PercentMoisture' => db_clean(strip_tags($percent_moisture)),
+            'Aflatoxin' => db_clean(strip_tags($aflatoxin))
+        );
+        
+        if (isset($crop_instance_id)) { //update
+            $this->db->set($data);
+            $this->db->where('PK_CropInstanceId',id_clean(strip_tags($crop_instance_id)));
+            $this->db->update('CropInstance');
+        } else { //create record
+            $this->db->set($data);
+            $this->db->insert('CropInstance');
+            $crop_instance_id = $this->db->insert_id();
+        }        
+        return $crop_instance_id;
+    }  
+    
+    function clear_harvest($event_id){
+        if (isset($event_id)) {
+            $data = array(
+                'Yield' => NULL,
+                'GrainTestWeight' => NULL,
+                'PercentMoisture' => NULL,
+                'Aflatoxin' => NULL
+            );
+
+            $this->db->set($data);
+            $this->db->where('FK_HarvestEventId',id_clean($event_id));
+            $this->db->update('CropInstance');
+        }
+    }  
      
     function delete_crop_instance($plantevent_id=NULL,$harvestevent_id=NULL){
         if ((empty($plantevent_id)) && (empty($harvestevent_id))) {

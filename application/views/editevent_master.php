@@ -70,9 +70,11 @@
                   </td>
                   <td align="left" width="310">
                     <?php
-                        if (in_array($event_type,$this->config->item('single_field_events'))) { //single field events
-                            if($fields->num_rows()) {
-                                $result = $fields->result();
+                    if ($new_event)
+                    {
+                        if($fields->num_rows()) {
+                            $result = $fields->result();
+                            if (in_array($event_type,$this->config->item('single_field_events'))) { //single field events
                                 $field_arr = array();
                                 foreach($result AS $item)
                                 {
@@ -80,26 +82,18 @@
                                 }
                                 echo form_dropdown('fields', $field_arr, set_value('fields',(isset($row->FK_FieldId)) ? $row->FK_FieldId : NULL)); 
                             }
-                        }
-                        else
-                        {
-                            if ($new_event)
+                            else
                             {
-                                if($fields->num_rows())
+                                //allowed to pick multiple fields
+                                foreach($result AS $item)
                                 {
-                                    $result = $fields->result();
-                                    {
-                                        //allowed to pick multiple fields
-                                        foreach($result AS $item)
-                                        {
-                                            echo '<input type="checkbox" name="fields[]" value="'.$item->PK_FieldId.'">'.$item->Name.'<br>';
-                                        }
-                                    }
+                                    echo '<input type="checkbox" name="fields[]" value="'.$item->PK_FieldId.'">'.$item->Name.'<br>';
                                 }
-                            } else {
-                                echo $field_name;
                             }
                         }
+                    } else {
+                        echo $field_name;
+                    }
                     ?>
                   </td>
                </tr>
