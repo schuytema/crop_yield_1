@@ -71,6 +71,25 @@ class m_shed extends CI_Model{
         return $results;
     }
     
+    //gets implement counts
+    function get_implement_counts($user_id=NULL, $power=0){
+        $this->db->trans_start();
+        if ($power > 1)
+        {
+            $query =    "SELECT Shed.FK_EquipmentId, Shed.Name, Shed.PK_ShedId FROM Shed ".
+                        "LEFT JOIN Equipment ON Shed.FK_EquipmentId = Equipment.PK_EquipmentId ".
+                        "WHERE (Shed.FK_BossId = $user_id);";
+        } else {
+            $query =    "SELECT Shed.FK_EquipmentId, Shed.Name, Shed.PK_ShedId FROM Shed ".
+                        "LEFT JOIN Equipment ON Shed.FK_EquipmentId = Equipment.PK_EquipmentId ".
+                        "WHERE (Shed.FK_BossId = $user_id) AND (Equipment.Power = $power);";
+        }
+        $results = $this->db->query($query);
+        $count = $results->num_rows();
+        $this->db->trans_complete();
+        return $count;
+    }
+    
     
     function delete_shed($id=NULL)
     {

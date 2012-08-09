@@ -1821,6 +1821,91 @@ class Member extends CI_Controller {
         $this->load->view('help_footer',$data);
     }
     
+    function event_check($event_type){
+        $auth_data = $this->php_session->get('AUTH');
+        $data['title'] = 'Grow Our Yields - Edit Event Weather';
+        $data['meta_content'] = meta_content(
+            array(
+                array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
+                array('name'=>'keywords','content'=>'grow our yields, yield, crop, corn, beans, soybeans, field, agriculture')
+            )
+        );
+        
+        $data['link_content'] = link_content(
+            array(
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>$this->config->item('jquery_ui_css'))
+            )
+        );
+        if (($this->m_shed->get_implement_counts($auth_data['UserId'], 1) >0) && ($this->m_shed->get_implement_counts($auth_data['UserId'], 0) >0))
+        {
+           $has_equipment = true; 
+        } else {
+           $has_equipment = false;  
+        }
+        switch ($event_type) {
+            case 'Application':
+                redirect('member/editevent_application','refresh');
+                break;
+            case 'Chemical':
+                if ($has_equipment)
+                {
+                    redirect('member/editevent_chemical','refresh');
+                } else {
+                    $this->load->view('header',$data);
+                    $this->load->view('emptyshed',$data);
+                    $this->load->view('footer',$data);
+                }
+                break;
+            case 'Fertilizer':
+                redirect('member/editevent_fertilizer','refresh');
+                break;
+            case 'Harvest':
+                if ($has_equipment)
+                {
+                    redirect('member/editevent_harvest','refresh');
+                } else {
+                    $this->load->view('header',$data);
+                    $this->load->view('emptyshed',$data);
+                    $this->load->view('footer',$data);
+                }
+                break;
+            case 'Plant':
+                if ($has_equipment)
+                {
+                    redirect('member/editevent_plant/Plant','refresh');
+                } else {
+                    $this->load->view('header',$data);
+                    $this->load->view('emptyshed',$data);
+                    $this->load->view('footer',$data);
+                }
+                break;
+            case 'Replant':
+                if ($has_equipment)
+                {
+                    redirect('member/editevent_plant/Replant','refresh');
+                } else {
+                    $this->load->view('header',$data);
+                    $this->load->view('emptyshed',$data);
+                    $this->load->view('footer',$data);
+                }
+                break;
+            case 'Tillage':
+                if ($has_equipment)
+                {
+                    redirect('member/editevent_tillage','refresh');
+                } else {
+                    $this->load->view('header',$data);
+                    $this->load->view('emptyshed',$data);
+                    $this->load->view('footer',$data);
+                }
+                break;
+            case 'Weather':
+                redirect('member/editevent_weather','refresh');
+                break;
+        }
+   }
+    
     ////////////////////////////////////////////////////////////////////////////
     /////////////////// EXAMPLES (remove when necessary) ///////////////////////
     ////////////////////////////////////////////////////////////////////////////

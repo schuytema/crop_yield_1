@@ -8,7 +8,8 @@ if ($_SERVER['SERVER_NAME'] == 'local.goy') {
 }
 
 //invitation key
-$config['invitation_key'] = 'CROP_2012';
+//$config['invitation_key'] = 'CROP_2012';
+$config['invitation_key'] = 'GROWIT_2012';
 
 //load site environment config variables
 include(ENVIRONMENT.'/config.php');
