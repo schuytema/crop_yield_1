@@ -739,6 +739,7 @@ class Member extends CI_Controller {
             $data['event_data'] = $this->m_event->get($event_id);
             $data['chemical_data'] = $this->m_eventchemical->get($event_id);
             $data['new_event'] = false;
+            $data['field_name'] = $this->m_field->get_field_name($field_id);
             //get the info for the chemical if one's picked
             //$chemical_details = $data['chemical_data']->row();
             //$data['chemical_info'] = $this->m_chemical->get_product_info($chemical_details->FK_ChemicalId);
@@ -1707,7 +1708,7 @@ class Member extends CI_Controller {
                 array('rel'=>'stylesheet','type'=>'text/css','href'=>$this->config->item('jquery_ui_css'))
             )
         );
-        if (($this->m_shed->get_implement_counts($auth_data['UserId'], 1) >0) && ($this->m_shed->get_implement_counts($auth_data['UserId'], 0) >0))
+        if ($this->m_shed->get_implement_counts($auth_data['UserId'], 1) > 0)
         {
            $has_equipment = true; 
         } else {

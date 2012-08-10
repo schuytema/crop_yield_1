@@ -27,10 +27,11 @@
     <span class="shedhead">Machine Shed</span><br>
     <table  id="table-data" width="670">
         <thead>
-            <th width="200">Implement Nickname</th>
-            <th width="100">Type</th>
-            <th width="100">Brand</th>
-            <th width="200">Product</th>
+            <th width="180">Nickname</th>
+            <th width="70">Type</th>
+            <th width="130">Brand</th>
+            <th width="170">Product</th>
+            <th width="50">Power?</th>
             <th width="70">Action</th>
         </thead>
         <?php
@@ -46,6 +47,12 @@
                     echo '<td>'.$prod_info['Type'].'</td>';
                     echo '<td>'.$prod_info['Brand'].'</td>';
                     echo '<td>'.$prod_info['Product'].'</td>';
+                    if ($prod_info['Power'] == 1)
+                    {
+                        echo '<td>yes</td>';
+                    } else {
+                        echo '<td>no</td>';
+                    }
                     $deleteText = "return confirm('Confirm implement delete: ".$row->Name."')";
                     echo '<td>'.anchor(base_url().'member/delete_shed/'.$row->PK_ShedId,'delete',array('class'=>'delete','onclick'=>$deleteText)).'</td>';
                     echo '</tr>';

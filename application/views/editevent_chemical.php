@@ -67,8 +67,14 @@
 
 
             } else {
-                echo '<tr><td colspan="2"><font color="red>Implement data not found.</font></td></tr>';
+                //echo '<tr><td colspan="2"><font color="red>Implement data not found.</font></td></tr>';
+                $imps = array();
+                $imps['0'] = 'No Implements Defined';
+                echo '<tr valign="top"><td align="right" width="200"><b>Implement:</b>&nbsp;&nbsp;</td><td align="left" width="310">';
+                echo form_dropdown('EquipmentProduct', $imps, set_value('EquipmentProduct',(isset($datarow->FK_EquipmentId)) ? $datarow->FK_EquipmentId : NULL));
+                echo '</td></tr>';
             }
+            
 
         ?>
           </table>

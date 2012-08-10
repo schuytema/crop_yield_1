@@ -67,6 +67,7 @@ class m_equipment extends CI_Model{
         $info['Type'] = $datarow->EquipmentType;
         $info['Brand'] = $datarow->Brand;
         $info['Product'] = $datarow->Product;
+        $info['Power'] = $datarow->Power;
         return $info;
     }
     
