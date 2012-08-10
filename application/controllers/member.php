@@ -1075,7 +1075,7 @@ class Member extends CI_Controller {
                 array(
                     array('field' => 'Date','label' => 'Date','rules' => 'trim|required|max_length[20]'),
                     array('field' => 'Notes','label' => 'Notes','rules' => 'trim|max_length[500]'),
-                    array('field' => 'EquipmentImplement','label' => 'Implement','rules' => 'trim|required|numeric'),
+                    //array('field' => 'EquipmentImplement','label' => 'Implement','rules' => 'trim|required|numeric'),
                     array('field' => 'EquipmentPower','label' => 'Power','rules' => 'trim|numeric')
                 )
             );
@@ -1295,7 +1295,7 @@ class Member extends CI_Controller {
                 array(
                     array('field' => 'Date','label' => 'Date','rules' => 'trim|required|max_length[20]'),
                     array('field' => 'Notes','label' => 'Notes','rules' => 'trim|max_length[500]'),
-                    array('field' => 'EquipmentImplement','label' => 'Implement','rules' => 'trim|required|numeric'),
+                    //array('field' => 'EquipmentImplement','label' => 'Implement','rules' => 'trim|required|numeric'),
                     array('field' => 'EquipmentPower','label' => 'Power','rules' => 'trim|numeric'),
                     array('field' => 'PlantingRate','label' => 'Average Planting Rate','rules' => 'trim|required|numeric'),
                     array('field' => 'PlantingRateUnit','label' => 'Average Planting Rate Unit','rules' => 'trim|required'),
