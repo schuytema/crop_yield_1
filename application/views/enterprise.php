@@ -30,7 +30,7 @@
             <th width="180">Nickname</th>
             <th width="70">Type</th>
             <th width="130">Brand</th>
-            <th width="170">Product</th>
+            <th width="170">Product/Model</th>
             <th width="50">Power?</th>
             <th width="70">Action</th>
         </thead>

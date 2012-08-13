@@ -58,16 +58,22 @@ class m_equipment extends CI_Model{
     
     //return all brands by type
     function get_product_info($id=NULL){
+        $info['Type'] = NULL;
+        $info['Brand'] = NULL;
+        $info['Product'] = NULL;
+        $info['Power'] = NULL;
+        
         $this->db->where('PK_EquipmentId',$id);
         $results = $this->db->get('Equipment');
         if($results->num_rows())
         {
             $datarow = $results->row();
+            $info['Type'] = $datarow->EquipmentType;
+            $info['Brand'] = $datarow->Brand;
+            $info['Product'] = $datarow->Product;
+            $info['Power'] = $datarow->Power;
         }
-        $info['Type'] = $datarow->EquipmentType;
-        $info['Brand'] = $datarow->Brand;
-        $info['Product'] = $datarow->Product;
-        $info['Power'] = $datarow->Power;
+        
         return $info;
     }
     
@@ -78,7 +84,7 @@ class m_equipment extends CI_Model{
             'Brand' => db_clean(strip_tags(($brand)),100),
             'Product' => db_clean(strip_tags(($product)),200),
             'TillageType' => db_clean(strip_tags(($tillage_type)),100),
-            'Power' => db_clean(strip_tags(($power)),4),
+            'Power' => id_clean($power),
             'Verified' => 0
         );
         //print_r($data);

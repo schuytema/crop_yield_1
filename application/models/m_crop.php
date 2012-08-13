@@ -58,15 +58,20 @@ class m_crop extends CI_Model{
     
     //return all brands by type
     function get_product_info($id=NULL){
+        $info['Type'] = NULL;
+        $info['Brand'] = NULL;
+        $info['Product'] = NULL;
+        
         $this->db->where('PK_CropId',$id);
         $results = $this->db->get('Crop');
         if($results->num_rows())
         {
             $datarow = $results->row();
+            $info['Type'] = $datarow->CropType;
+            $info['Brand'] = $datarow->Brand;
+            $info['Product'] = $datarow->Product;
         }
-        $info['Type'] = $datarow->CropType;
-        $info['Brand'] = $datarow->Brand;
-        $info['Product'] = $datarow->Product;
+        
         return $info;
     }
     

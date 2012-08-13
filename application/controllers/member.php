@@ -244,12 +244,17 @@ class Member extends CI_Controller {
         if($this->input->post('submit')){
             $this->load->library('Form_validation');
             $this->form_validation->set_rules('Name', 'Name', 'trim|required');
+            $this->form_validation->set_rules('EquipmentType', 'Equipment Type', 'trim|required');
 
             if (strlen($this->input->post('OtherEquipmentBrand')) == 0 && strlen($this->input->post('OtherEquipmentProduct')) == 0)
             {
                 $this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required|numeric');             
-            }
-
+            } else {
+                //user entered text items
+                $this->form_validation->set_rules('OtherEquipmentBrand', 'Brand', 'trim|required|max_length[100]');
+                $this->form_validation->set_rules('OtherEquipmentProduct', 'Product', 'trim|required|max_length[200]');
+            } 
+            
             if($this->form_validation->run()){
                 //see if other stuff has been entered... if so, create the new equipment row
                 if (strlen($this->input->post('OtherEquipmentBrand')) > 0 && strlen($this->input->post('OtherEquipmentProduct')) > 0)
