@@ -68,7 +68,7 @@
                     
 
                     //products
-                    echo '<tr valign="top"><td align="right" width="200"><b>Product:</b>&nbsp;&nbsp;</td><td align="left" width="310">';
+                    echo '<tr valign="top"><td align="right" width="200"><b>Product/Model:</b>&nbsp;&nbsp;</td><td align="left" width="310">';
 
                     echo '<select id="EquipmentProduct" name="EquipmentProduct"><option value="">select brand...</option></select>';
 
@@ -83,7 +83,7 @@
                         <div id="other_one">
                           <br>Please enter equipment manually (select Type above):<br>
                           Brand:&nbsp;<input type="text" size="40" name="OtherEquipmentBrand"><br>
-                          Product:&nbsp;<input type="text" size="40" name="OtherEquipmentProduct"><br>
+                          Product/Model:&nbsp;<input type="text" size="40" name="OtherEquipmentProduct"><br>
                           Power:&nbsp;
                             <?php
                             echo form_dropdown('Power', $this->config->item('no_yes_boolean'));
