@@ -86,7 +86,7 @@
                           Product/Model:&nbsp;<input type="text" size="40" name="OtherEquipmentProduct"><br>
                           Power:&nbsp;
                             <?php
-                            echo form_dropdown('Power', $this->config->item('no_yes_boolean'));
+                            echo form_dropdown('Power', $this->config->item('no_yes_boolean'), '0', 'id="power"');
                             ?>
                           <br>
                           <div id="other_two">
@@ -125,6 +125,11 @@ function changeToVisible(item)
         obj.style.display = 'inline';
     } else {
         obj.style.display = 'none';
+        if ((item == 'Tractor') || (item == 'Harvester'))
+        {
+            power = document.getElementById('power');
+            power.selectedIndex = 1;
+        }
     }
 }
 
