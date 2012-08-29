@@ -44,7 +44,21 @@ $lang['h_field_title'] = 'Field Overview';
 $lang['h_field_descr'] = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam consectetur, enim ac hendrerit semper, felis erat gravida nulla, suscipit ullamcorper sem justo nec neque. Ut quis ipsum vel magna iaculis tincidunt. Vestibulum ultricies hendrerit enim, eget convallis enim mattis non. Morbi suscipit gravida volutpat. Aenean vel ligula lectus, sit amet ornare urna. Nam libero libero, pellentesque non imperdiet eget, iaculis vel eros. Sed sollicitudin rhoncus tellus a ullamcorper. Fusce feugiat sapien eu mi convallis quis scelerisque mi viverra.
 <br /><br />
 Maecenas at quam eu erat lacinia malesuada. Duis faucibus dapibus dui, non tincidunt tortor fringilla ut. Maecenas fermentum, lectus vitae laoreet sagittis, dui justo blandit nunc, nec fermentum metus ligula at sem. Mauris turpis ligula, laoreet sit amet pretium non, ultricies non orci. Phasellus bibendum, velit at laoreet tempus, lacus leo porta enim, et malesuada quam nibh in arcu. Curabitur dignissim dictum elit id posuere. Praesent sapien nulla, tempus sit amet hendrerit sed, condimentum et lacus.';
+
 $lang['h_event_title'] = 'Event Overview';
 $lang['h_event_descr'] = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam consectetur, enim ac hendrerit semper, felis erat gravida nulla, suscipit ullamcorper sem justo nec neque. Ut quis ipsum vel magna iaculis tincidunt. Vestibulum ultricies hendrerit enim, eget convallis enim mattis non. Morbi suscipit gravida volutpat. Aenean vel ligula lectus, sit amet ornare urna. Nam libero libero, pellentesque non imperdiet eget, iaculis vel eros. Sed sollicitudin rhoncus tellus a ullamcorper. Fusce feugiat sapien eu mi convallis quis scelerisque mi viverra.
 <br /><br />
 Maecenas at quam eu erat lacinia malesuada. Duis faucibus dapibus dui, non tincidunt tortor fringilla ut. Maecenas fermentum, lectus vitae laoreet sagittis, dui justo blandit nunc, nec fermentum metus ligula at sem. Mauris turpis ligula, laoreet sit amet pretium non, ultricies non orci. Phasellus bibendum, velit at laoreet tempus, lacus leo porta enim, et malesuada quam nibh in arcu. Curabitur dignissim dictum elit id posuere. Praesent sapien nulla, tempus sit amet hendrerit sed, condimentum et lacus.';
+
+$lang['h_editmap_title'] = 'Mapping Your Field';
+$lang['h_editmap_descr'] = 'To create a field, you must plot its basic boundaries on the map.
+    <h3>Plotting Coordinates</h3>
+    Using the Polygon Tool button (top-center of map), left-click your mouse to plot a coordinate. Continue to plot coordinates around your field to complete a closed shape. In order to finish your field, you must close the shape by left-clicking on the first coordinate.
+    <h3>Plotting Multiple Tracts</h3>
+    You may plot multiple tracts of land as one field, as long as they are of the same crop, treatments, etc. This is helpful if a stream, farmhouse, or other obstruction segments an otherwise contiguous field.
+    <h3>Editing Fields</h3>
+    Once you have your shapes completed, click on the Hand Tool and left-click on a tract. Once a tract is selected, this tool will let you left-click and drag the vertices of your field to reposition them. You may also click the Undo Button when you have moved a vertex in order to undo the last move.
+    <br/><br/>
+    You may also left-click on a vertex to delete it from the field.
+    <br/><br/>
+    If you need to remove a tract entirely, select the Hand Tool and left-click on a tract. A Delete Button will appear next to the other drawing tools on the map. Clicking this button will delete the selected tract from the map.';

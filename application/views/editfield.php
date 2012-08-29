@@ -14,7 +14,7 @@
       
     echo form_open($action);
     ?>
-    <h3>Field location</h3>
+    <h3>Field location <?php echo help_link('h_editmap'); ?></h3>
     <div id="map_canvas"></div>
     <input type="hidden" name="Coordinates" id="Coordinates" value="<?php echo set_value('Coordinates',(isset($row->Coordinates)) ? $row->Coordinates : NULL); ?>">
     <h3>Basic Field Data</h3>
