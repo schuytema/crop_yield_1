@@ -59,6 +59,6 @@ $lang['h_editmap_descr'] = 'To create a field, you must plot its basic boundarie
     <h3>Editing Fields</h3>
     Once you have your shapes completed, click on the Hand Tool and left-click on a tract. Once a tract is selected, this tool will let you left-click and drag the vertices of your field to reposition them. You may also click the Undo Button when you have moved a vertex in order to undo the last move.
     <br/><br/>
-    You may also left-click on a vertex to delete it from the field.
+    You may also right-click on a vertex to delete it from the field.
     <br/><br/>
     If you need to remove a tract entirely, select the Hand Tool and left-click on a tract. A Delete Button will appear next to the other drawing tools on the map. Clicking this button will delete the selected tract from the map.';
