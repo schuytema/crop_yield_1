@@ -51,7 +51,7 @@ $active_record = TRUE;
 if(ENVIRONMENT == 'local'){
     $db['default']['hostname'] = "localhost";
     $db['default']['username'] = "root";
-    $db['default']['password'] = "";
+    $db['default']['password'] = "root";
     $db['default']['database'] = "devgrow_db";
     $db['default']['dbdriver'] = "mysql";
     $db['default']['dbprefix'] = "";
