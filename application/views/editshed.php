@@ -41,6 +41,10 @@
                         <option value="Tillage">Tillage</option>
                         <option value="Sprayer">Sprayer</option>
                         <option value="Sprayer">Spreader</option>
+                        <option value="Hay">Hay</option>
+                        <option value="Forage">Forage</option>
+                        <option value="Cutter/Shredder">Cutter/Shredder</option>
+                        <option value="Nutrient Applicator">Nutrient Applicator</option>
                       </select>
                   </td>
                </tr>
@@ -77,6 +81,14 @@
 
 
             ?>
+               <tr valign="top">
+                  <td align="right" width="200">
+                      <b>Serial Number (opt.):</b>&nbsp;&nbsp;
+                  </td>
+                  <td align="left" width="310">
+                      <input type="text" size="30" name="SerialNum" value="<?php echo set_value('SerialNum',(isset($row->SerialNum)) ? $row->SerialNum : NULL); ?>">
+                  </td>
+               </tr>
                <tr>
                     <td align="right" colspan="2">
                         <a href="javascript:Void(0);" id="show_other_one">{my equipment isn't in these lists}</a>

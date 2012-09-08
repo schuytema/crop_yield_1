@@ -41,8 +41,12 @@
                 foreach($result AS $row)
                 {
                     echo '<tr valign="top">';
-                    echo '<td>'.$row->Name.'</td>';
-   
+                    echo '<td>'.$row->Name;
+                    if (strlen($row->SerialNum > 5))
+                    {
+                        echo '<br>'.$row->SerialNum;
+                    }
+                    echo '</td>';
                     $prod_info = $this->m_equipment->get_product_info($row->FK_EquipmentId);
                     echo '<td>'.$prod_info['Type'].'</td>';
                     echo '<td>'.$prod_info['Brand'].'</td>';
