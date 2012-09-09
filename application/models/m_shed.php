@@ -17,7 +17,8 @@ class m_shed extends CI_Model{
     function set($user_id=NULL, $new=true, $equipment_id=NULL, $shed_id=NULL){
         $data = array(
             'FK_BossId' => $user_id,
-            'Name' => db_clean(strip_tags($this->input->post('Name')),100)
+            'Name' => db_clean(strip_tags($this->input->post('Name')),100),
+            'SerialNum' => db_clean(strip_tags($this->input->post('SerialNum')),100)
         );
         
         if(!$new){ //update  
@@ -58,11 +59,11 @@ class m_shed extends CI_Model{
         $this->db->trans_start();
         if ($power > 1)
         {
-            $query =    "SELECT Shed.FK_EquipmentId, Shed.Name, Shed.PK_ShedId FROM Shed ".
+            $query =    "SELECT Shed.FK_EquipmentId, Shed.Name, Shed.PK_ShedId, Shed.SerialNum FROM Shed ".
                         "LEFT JOIN Equipment ON Shed.FK_EquipmentId = Equipment.PK_EquipmentId ".
                         "WHERE (Shed.FK_BossId = $user_id);";
         } else {
-            $query =    "SELECT Shed.FK_EquipmentId, Shed.Name, Shed.PK_ShedId FROM Shed ".
+            $query =    "SELECT Shed.FK_EquipmentId, Shed.Name, Shed.PK_ShedId, Shed.SerialNum FROM Shed ".
                         "LEFT JOIN Equipment ON Shed.FK_EquipmentId = Equipment.PK_EquipmentId ".
                         "WHERE (Shed.FK_BossId = $user_id) AND (Equipment.Power = $power);";
         }
