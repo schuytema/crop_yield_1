@@ -44,8 +44,8 @@ class Acl {
      */
     function init($role=NULL){
         if(isset($this->role_hierarchy[$role])){
-            $this->CI->db->where_in('role',$this->role_hierarchy[$role]);
-            $query = $this->CI->db->get('permission');
+            $this->CI->db->where_in('Role',$this->role_hierarchy[$role]);
+            $query = $this->CI->db->get('Permission');
             if($query->num_rows()){
                 $result = $query->result();
                 foreach ($result as $row){
