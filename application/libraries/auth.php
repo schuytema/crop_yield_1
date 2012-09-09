@@ -25,7 +25,7 @@ class Auth {
     * Constructor
     * @access	public
     */
-    function Auth(){
+    function __construct(){
         // Set the super object to a local variable for use throughout the class
         $this->CI =& get_instance();
         
@@ -38,10 +38,11 @@ class Auth {
     * User login: username, password
     * @param string
     * @param string
+    * @param bool
     * @access public
     * @return boolean
     */
-    public function login($user,$pass){
+    public function login($user,$pass,$is_admin=FALSE){
         if((strlen($user) > 0) && (strlen($pass) > 0)){
             $query = $this->CI->m_user->get_by_username($user);
             if($query->num_rows()){
@@ -51,12 +52,23 @@ class Auth {
                     $this->error[] = lang('auth_login_failed'); //Account locked!
                     return FALSE;
                 }
+                
+                //verify user
+                if($is_admin && $row->UserLevel == 'user'){
+                    $this->CI->m_user->failed_login($user,$this->lock_account);
+                    $this->error[] = lang('auth_login_failed');
+                    return FALSE;
+                }
 
                 //verify password
                 if($this->check_password($pass,$row->Password)){
                     //set session for direct access to member's area
                     $this->_set_session(array('PK_UserId' => $row->PK_UserId));
                     $this->CI->m_user->update_visit($row->PK_UserId,$row->VisitCount);
+                    
+                    //initialize access control list (ACL)
+                    $this->CI->acl->init($row->UserLevel);
+                    
                     return TRUE;
                 }
             }

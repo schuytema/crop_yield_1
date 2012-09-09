@@ -13,10 +13,16 @@
 | path to your installation.
 |
 */
-$config['base_url'] = "http://local.goy/";
+if(stristr($_SERVER['SERVER_NAME'], 'admin')){
+    define('SITE', 'admin');
+    $config['base_url'] = "http://local.goy.admin/";
+} else {
+    define('SITE', 'main');
+    $config['base_url'] = "http://local.goy/";
+}
 
 //cookie
-$config['cookie_domain'] = 'local.goy';
+$config['cookie_domain'] = $_SERVER["SERVER_NAME"];
 
 //jquery links
 $config['jquery_js'] = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js';

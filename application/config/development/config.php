@@ -13,10 +13,16 @@
 | path to your installation.
 |
 */
-$config['base_url'] = "http://63.247.138.178/~devgrow/";
+if(stristr($_SERVER['SERVER_NAME'], 'admin')){
+    define('SITE', 'admin');
+    $config['base_url'] = "http://admin.growyourfields.com/";
+} else {
+    define('SITE', 'main');
+    $config['base_url'] = "http://growyourfields.com/";
+}
 
 //cookie
-$config['cookie_domain'] = '63.247.138.178';
+$config['cookie_domain'] = '.growyourfields.com';
 
 //jquery links
 $config['jquery_js'] = 'https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js';

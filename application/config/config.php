@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-if ($_SERVER['SERVER_NAME'] == 'local.goy') {
+if(stristr($_SERVER['SERVER_NAME'], 'local')){
     define('ENVIRONMENT', 'local');
-}elseif ($_SERVER['SERVER_NAME'] == '63.247.138.178') {
+} elseif (stristr($_SERVER['SERVER_NAME'], 'growyourfields')){
     define('ENVIRONMENT', 'development');
 } else {
     define('ENVIRONMENT', 'production');
