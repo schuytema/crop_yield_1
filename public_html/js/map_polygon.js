@@ -185,7 +185,7 @@ var myOptions = { //map options
   mapTypeId: google.maps.MapTypeId.HYBRID
 }
 
-var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions); //create the map
+var map = new google.maps.Map(document.getElementById("map_edit_canvas"), myOptions); //create the map
 
 var DeleteControlDiv = document.createElement('div'); //create custom control container
 var DeleteControl = new deleteControl(DeleteControlDiv, map); //create custom control
