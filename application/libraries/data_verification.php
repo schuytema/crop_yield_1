@@ -68,10 +68,10 @@ class data_verification {
         //place query string (param=val&param2=val2...) into POST array for form validation
         parse_str($this->CI->input->post('form'),$_POST);
         if($this->CI->input->post('val_type') == 'user'){ //user-supplied data
-            $this->CI->form_validation->set_rules('Brand', 'Brand', 'trim|required');
-            $this->CI->form_validation->set_rules('Product', 'Product', 'trim|required');
+            $this->CI->form_validation->set_rules('UserBrand', 'Brand', 'trim|required');
+            $this->CI->form_validation->set_rules('UserProduct', 'Product', 'trim|required');
             if($this->CI->form_validation->run()){
-                $this->CI->m_crop->verify_entry($id,$this->CI->input->post('Brand'),$this->CI->input->post('Product'));
+                $this->CI->m_crop->verify_entry($id,$this->CI->input->post('UserBrand'),$this->CI->input->post('UserProduct'));
                 return TRUE;
             } else {
                 $this->error[] = validation_errors();
@@ -79,10 +79,10 @@ class data_verification {
             }
         } else { //data entry from DB
             //remove entry ($id); replace crop instance w/ new ID (product value)
-            $this->CI->form_validation->set_rules('CropBrand', 'Brand', 'trim|required');
-            $this->CI->form_validation->set_rules('CropProduct', 'Product', 'trim|required|numeric');
+            $this->CI->form_validation->set_rules('Brand', 'Brand', 'trim|required');
+            $this->CI->form_validation->set_rules('Product', 'Product', 'trim|required|numeric');
             if($this->CI->form_validation->run()){
-                $this->CI->m_crop->replace_entry($id,$this->CI->input->post('CropProduct'));
+                $this->CI->m_crop->replace_entry($id,$this->CI->input->post('Product'));
                 return TRUE;
             } else {
                 $this->error[] = validation_errors();
@@ -98,12 +98,12 @@ class data_verification {
         //place query string (param=val&param2=val2...) into POST array for form validation
         parse_str($this->CI->input->post('form'),$_POST);
         if($this->CI->input->post('val_type') == 'user'){ //user-supplied data
-            $this->CI->form_validation->set_rules('Brand', 'Brand', 'trim|required');
-            $this->CI->form_validation->set_rules('Product', 'Product/Model', 'trim|required');
-            $this->CI->form_validation->set_rules('Power', 'Power', 'trim|required');
-            $this->CI->form_validation->set_rules('TillageType', 'Tillage type', 'trim');
+            $this->CI->form_validation->set_rules('UserBrand', 'Brand', 'trim|required');
+            $this->CI->form_validation->set_rules('UserProduct', 'Product/Model', 'trim|required');
+            $this->CI->form_validation->set_rules('UserPower', 'Power', 'trim|required');
+            $this->CI->form_validation->set_rules('UserTillageType', 'Tillage type', 'trim');
             if($this->CI->form_validation->run()){
-                $this->CI->m_equipment->verify_entry($id,$this->CI->input->post('Brand'),$this->CI->input->post('Product'),$this->CI->input->post('Power'),$this->CI->input->post('TillageType'));
+                $this->CI->m_equipment->verify_entry($id,$this->CI->input->post('UserBrand'),$this->CI->input->post('UserProduct'),$this->CI->input->post('UserPower'),$this->CI->input->post('UserTillageType'));
                 return TRUE;
             } else {
                 $this->error[] = validation_errors();
@@ -111,10 +111,10 @@ class data_verification {
             }
         } else { //data entry from DB
             //remove entry ($id); replace crop instance w/ new ID (product value)
-            $this->CI->form_validation->set_rules('EquipBrand', 'Brand', 'trim|required');
-            $this->CI->form_validation->set_rules('EquipProduct', 'Product/Model', 'trim|required|numeric');
+            $this->CI->form_validation->set_rules('Brand', 'Brand', 'trim|required');
+            $this->CI->form_validation->set_rules('Product', 'Product/Model', 'trim|required|numeric');
             if($this->CI->form_validation->run()){
-                $this->CI->m_equipment->replace_entry($id,$this->CI->input->post('EquipProduct'));
+                $this->CI->m_equipment->replace_entry($id,$this->CI->input->post('Product'));
                 return TRUE;
             } else {
                 $this->error[] = validation_errors();

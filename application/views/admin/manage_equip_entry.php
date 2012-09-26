@@ -2,7 +2,7 @@
 if($entry->num_rows()){
     $row = $entry->row();
     
-    $attr = array('class' => 'equip_verification', 'id' => 'equip_verification');
+    $attr = array('class' => 'verification', 'id' => 'verification');
     echo form_open('#',$attr);
     $data = array(
         'name'        => 'val_type',
@@ -15,8 +15,8 @@ if($entry->num_rows()){
     
     echo '<div style="margin:0 0 0 20px;">';
     $data = array(
-        'name'        => 'Type',
-        'id'          => 'Type',
+        'name'        => 'UserType',
+        'id'          => 'UserType',
         'value'       => $row->EquipmentType,
         'maxlength'   => '100',
         'size'        => '30',
@@ -26,8 +26,8 @@ if($entry->num_rows()){
     echo 'Type: '.form_input($data).'<br/>';
      
     $data = array(
-        'name'        => 'Brand',
-        'id'          => 'Brand',
+        'name'        => 'UserBrand',
+        'id'          => 'UserBrand',
         'value'       => $row->Brand,
         'maxlength'   => '100',
         'size'        => '30',
@@ -35,8 +35,8 @@ if($entry->num_rows()){
     );
     echo 'Brand: '.form_input($data).'<br/>';
     $data = array(
-        'name'        => 'Product',
-        'id'          => 'Product',
+        'name'        => 'UserProduct',
+        'id'          => 'UserProduct',
         'value'       => $row->Product,
         'maxlength'   => '200',
         'size'        => '30',
@@ -45,10 +45,10 @@ if($entry->num_rows()){
     echo 'Product/Model: '.form_input($data).'<br/>';
     
     $options = array(0 => 'No',1 => 'Yes');
-    echo 'Power: '.form_dropdown('Power',$options,$row->Power).'<br/>';
+    echo 'Power: '.form_dropdown('UserPower',$options,$row->Power).'<br/>';
     
-    if($row->EquipmentType == 'Tillage'){
-        echo 'Tillage type: '.form_dropdown('TillageType', $this->config->item('tillage_type'),$row->TillageType);
+    if($row->EquipmentType == 'UserTillage'){
+        echo 'Tillage type: '.form_dropdown('UserTillageType', $this->config->item('tillage_type'),$row->TillageType);
     }
     
     echo '</div>';
@@ -63,14 +63,14 @@ if($entry->num_rows()){
         echo '<br>'.form_radio($data).'Replace user-supplied entry with item from database:<br/>';
         echo '<div class="div_db" style="display: none;">';
         echo '<div style="margin:0 0 0 20px;">';
-        echo 'Type: <span class="EquipmentType">'.$row->EquipmentType.'</span><br />';
+        echo 'Type: <span class="Type">'.$row->EquipmentType.'</span><br />';
         $result = $brand->result();
         $items = array(''=>'Select Brand');
         foreach($result AS $row){
             $items[$row->Brand] = $row->Brand;
         }
-        echo 'Brand: '.form_dropdown('EquipBrand',$items,NULL, 'id="EquipBrand"').'<br />';
-        echo 'Product/Model: '.form_dropdown('EquipProduct',array(''=>'Select Brand'), NULL, 'id="EquipProduct"');
+        echo 'Brand: '.form_dropdown('Brand',$items,NULL, 'id="Brand"').'<br />';
+        echo 'Product/Model: '.form_dropdown('Product',array(''=>'Select Brand'), NULL, 'id="Product"');
         echo '</div>';
         echo '</div>';
     }

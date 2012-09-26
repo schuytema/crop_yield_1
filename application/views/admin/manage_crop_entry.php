@@ -2,7 +2,7 @@
 if($entry->num_rows()){
     $row = $entry->row();
     
-    $attr = array('class' => 'crop_verification', 'id' => 'crop_verification');
+    $attr = array('class' => 'verification', 'id' => 'verification');
     echo form_open('#',$attr);
     $data = array(
         'name'        => 'val_type',
@@ -15,8 +15,8 @@ if($entry->num_rows()){
     
     echo '<div style="margin:0 0 0 20px;">';
     $data = array(
-        'name'        => 'Type',
-        'id'          => 'Type',
+        'name'        => 'UserType',
+        'id'          => 'UserType',
         'value'       => $row->CropType,
         'maxlength'   => '100',
         'size'        => '30',
@@ -26,8 +26,8 @@ if($entry->num_rows()){
     echo 'Type: '.form_input($data).'<br/>';
      
     $data = array(
-        'name'        => 'Brand',
-        'id'          => 'Brand',
+        'name'        => 'UserBrand',
+        'id'          => 'UserBrand',
         'value'       => $row->Brand,
         'maxlength'   => '100',
         'size'        => '30',
@@ -35,8 +35,8 @@ if($entry->num_rows()){
     );
     echo 'Brand: '.form_input($data).'<br/>';
     $data = array(
-        'name'        => 'Product',
-        'id'          => 'Product',
+        'name'        => 'UserProduct',
+        'id'          => 'UserProduct',
         'value'       => $row->Product,
         'maxlength'   => '200',
         'size'        => '30',
@@ -55,14 +55,14 @@ if($entry->num_rows()){
         echo '<br>'.form_radio($data).'Replace user-supplied entry with item from database:<br/>';
         echo '<div class="div_db" style="display: none;">';
         echo '<div style="margin:0 0 0 20px;">';
-        echo 'Type: <span class="CropType">'.$row->CropType.'</span><br />';
+        echo 'Type: <span class="Type">'.$row->CropType.'</span><br />';
         $result = $brand->result();
         $items = array(''=>'Select Brand');
         foreach($result AS $row){
             $items[$row->Brand] = $row->Brand;
         }
-        echo 'Brand: '.form_dropdown('CropBrand',$items,NULL, 'id="CropBrand"').'<br />';
-        echo 'Product: '.form_dropdown('CropProduct',array(''=>'Select Brand'), NULL, 'id="CropProduct"');
+        echo 'Brand: '.form_dropdown('Brand',$items,NULL, 'id="Brand"').'<br />';
+        echo 'Product: '.form_dropdown('Product',array(''=>'Select Brand'), NULL, 'id="Product"');
         echo '</div>';
         echo '</div>';
     }
