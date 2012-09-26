@@ -196,13 +196,8 @@ class Member extends CI_Controller {
         if($this->input->post('submit')){
             $this->load->library('Form_validation');
             $this->load->library('MY_form_validation',NULL,'form_validation');
-            $this->form_validation->set_rules('FirstName', 'First Name', 'trim|required|max_length[25]');
-            $this->form_validation->set_rules('LastName', 'Last Name', 'trim|required|max_length[50]');
-            $this->form_validation->set_rules('Email', 'Email', 'trim|max_length[100]|valid_email|check_email');
-            $this->form_validation->set_rules('Username', 'Username', 'trim|min_length[3]|max_length[100]|check_username');
-            $this->form_validation->set_rules('CurrPassword', 'Existing Password', 'trim|verify_password|verify_new_password_exists');
-            $this->form_validation->set_rules('Password', 'New Password', 'trim|min_length[8]|max_length[50]|verify_current_password_exists|is_legal_password|matches[VerifyPassword]');
-            $this->form_validation->set_rules('VerifyPassword', 'New Password (again)', 'trim');
+            $this->load->config('account_validation');
+            $this->form_validation->set_rules($this->config->item('account'));
             if($this->form_validation->run()){
                 //send to db
                 $this->auth->update_account();
@@ -228,6 +223,7 @@ class Member extends CI_Controller {
         $data['title'] = 'Grow Our Yields - Edit Account';
         
         $data['user_info'] = $this->m_user->get_by_userid($auth_data['UserId']);
+        $data['form_url'] = 'member/editaccount';
         
         $this->load->view('header',$data);
         $this->load->view('editaccount');

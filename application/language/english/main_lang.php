@@ -22,6 +22,8 @@ $lang['auth_reset_pass_subject'] = 'Grow Our Yields - Password Reset';
 $lang['auth_reset_pass_success'] = 'Your password has been updated! Please login now to access your account.<br /><br />If you need further assistance, please contact The Grow Our Yields Team.';
 $lang['auth_reset_pass_fail'] = 'An error occurred while updating your password. The allotted time (8 hours) to reset your password has expired.<br /><br />To reset your password, please select the "Login" link, followed by the "Forgot your password?" link and follow the instructions on the screen.<br /><br />If you need further assistance, please contact The Grow Our Yields Team.';
 
+//Data Verification
+$lang['data_ver_general_error'] = 'An error occurred while processing request. Please try again or contact system administrator.';
 
 //Add/Edit Farm
 $lang['farm_new_title'] = 'Add a New Farm';

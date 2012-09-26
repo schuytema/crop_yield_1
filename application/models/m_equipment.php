@@ -14,6 +14,11 @@ class m_equipment extends CI_Model{
         parent::__construct();
     }
     
+    //get by ID
+    function get($id){
+        return $this->db->get_where('Equipment',array('PK_EquipmentId' => id_clean($id)));
+    }
+    
     //return all types
     function get_type($verified=NULL){
         if (isset($verified)) {
@@ -91,6 +96,42 @@ class m_equipment extends CI_Model{
         $this->db->set($data);
         $this->db->insert('Equipment');
         return $this->db->insert_id();
+    }
+    
+    //get unverified (user-submitted) data
+    function get_unverified($limit=NULL){
+        if(isset($limit)){
+            $this->db->limit(id_clean($limit));
+        }
+        return $this->db->get_where('Equipment',array('Verified' => 0));
+    }
+    
+    //verification tool: set Verified to 'true'; update Brand,Product,Power,TillageType to manage text mods
+    function verify_entry($id,$brand,$product,$power,$tillage){
+        $data = array(
+            'Verified' => 1,
+            'Brand' => db_clean($brand,100,FALSE),
+            'Product' => db_clean($product,200,FALSE),
+            'Power' => id_clean($power),
+            'TillageType' => (isset($tillage)) ? db_clean($tillage,50) : NULL
+        );
+        $this->db->set($data);
+        $this->db->where('PK_EquipmentId', id_clean($id));
+        $this->db->update('Equipment');
+    }
+    
+    //verification tool: remove user-input ($id) with existing entry ($replacement_id)
+    function replace_entry($id,$replacement_id){
+        //update records in "m_shed"
+        $data = array(
+            'FK_EquipmentId' => id_clean($replacement_id)
+        );
+        $this->db->set($data);
+        $this->db->where('FK_EquipmentId', id_clean($id));
+        $this->db->update('Shed'); 
+        
+        //remove user-supplied entry from table "equipment"
+        $this->db->delete('Equipment', array('PK_EquipmentId' => id_clean($id))); 
     }
     
 }

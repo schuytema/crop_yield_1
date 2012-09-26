@@ -14,6 +14,11 @@ class m_crop extends CI_Model{
         parent::__construct();
     }
     
+    //get by ID
+    function get($id){
+        return $this->db->get_where('Crop',array('PK_CropId' => id_clean($id)));
+    }
+    
     //return all types
     function get_type($verified=NULL){
         if (isset($verified)) {
@@ -103,6 +108,39 @@ class m_crop extends CI_Model{
         return $this->db->get('Crop');
     }
     
+    //get unverified (user-submitted) data
+    function get_unverified($limit=NULL){
+        if(isset($limit)){
+            $this->db->limit(id_clean($limit));
+        }
+        return $this->db->get_where('Crop',array('Verified' => 0));
+    }
+    
+    //verification tool: set Verified to 'true'; update Brand,Product to manage text mods
+    function verify_entry($id,$brand,$product){
+        $data = array(
+            'Verified' => 1,
+            'Brand' => db_clean($brand,100,FALSE),
+            'Product' => db_clean($product,200,FALSE)
+        );
+        $this->db->set($data);
+        $this->db->where('PK_CropId', id_clean($id));
+        $this->db->update('Crop');
+    }
+    
+    //verification tool: replace user-input ($id) with existing entry ($replacement_id)
+    function replace_entry($id,$replacement_id){
+        //update table "cropinstance"
+        $data = array(
+            'FK_CropId' => id_clean($replacement_id)
+        );
+        $this->db->set($data);
+        $this->db->where('FK_CropId', id_clean($id));
+        $this->db->update('Cropinstance');
+        
+        //remove user-supplied entry from table "crop"
+        $this->db->delete('Crop', array('PK_CropId' => id_clean($id))); 
+    }
 }
 /* End of file m_equipment.php */
 /* Location: ./application/models/m_equipment.php */

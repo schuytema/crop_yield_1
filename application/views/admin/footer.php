@@ -9,7 +9,14 @@
         echo '<h3>Account Access</h3>';
         echo '<ul>';
         echo '<li><a href="'.base_url().'admin/home">Home</a></li>';
+        echo '<li><a href="'.base_url().'admin/account">My Account</a></li>';
         echo '<li><a href="'.base_url().'admin/logout">Logout</a></li>';
+        echo '</ul>';
+        echo '<br />';
+        echo '<h3>Data Verification</h3>';
+        echo '<ul>';
+        echo '<li><a href="'.base_url().'admin/crop_verification">Crop</a></li>';
+        echo '<li><a href="'.base_url().'admin/equip_verification">Equipment</a></li>';
         echo '</ul>';
         echo '<br /><br />';
     }
