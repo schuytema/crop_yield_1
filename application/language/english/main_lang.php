@@ -24,6 +24,10 @@ $lang['auth_reset_pass_fail'] = 'An error occurred while updating your password.
 
 //Data Verification
 $lang['data_ver_general_error'] = 'An error occurred while processing request. Please try again or contact system administrator.';
+$lang['data_crop_verified'] = 'All crop entries have been verified.';
+$lang['data_crop_require_attn'] = 'User-submitted crop data requires verification:';
+$lang['data_equip_verified'] = 'All equipment entries have been verified.';
+$lang['data_equip_require_attn'] = 'User-submitted equipment data requires verification:';
 
 //Add/Edit Farm
 $lang['farm_new_title'] = 'Add a New Farm';
@@ -64,3 +68,14 @@ $lang['h_editmap_descr'] = 'To create a field, you must plot its basic boundarie
     You may also right-click on a vertex to delete it from the field.
     <br/><br/>
     If you need to remove a tract entirely, select the Hand Tool and left-click on a tract. A Delete Button will appear next to the other drawing tools on the map. Clicking this button will delete the selected tract from the map.';
+
+$lang['h_verification_title'] = 'Data Verification';
+$lang['h_verification_descr'] = 'To verify a user-submitted entry, you must first click "Manage" to enable the verification tool.
+    <br/><br/>
+    A small window will display with the following options: <b>Accept or modify user-supplied entry</b> and <b>Replace user-supplied entry with item from database</b>.
+    <h3>Accept or modify user-supplied entry</h3>
+    You may accept or edit the supplied entry. Fields which may be modified include Brand, Product and, in the instance of Equipment Verification, Power and Tillage options.
+    Once all fields have been reviewed, click "Submit" to complete the verification process.
+    <h3>Replace user-supplied entry with item from database</h3>
+    In some cases, user-submitted data may not be valid. You may replace the entry with an item from the database by selecting the appropriate Brand and Product. 
+    Once all fields have been reviewed, click "Submit" to complete the verification process.';

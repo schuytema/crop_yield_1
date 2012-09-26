@@ -1,5 +1,5 @@
 <div class="splitleft">
-    <h1>Crop Verification</h1>
+    <h1>Crop Verification <?php echo help_link('h_verification'); ?></h1>
     <?php
     if($unverified && $unverified->num_rows()){
         $result = $unverified->result();
@@ -10,7 +10,7 @@
         }
         echo '</table>';
     } else {
-        echo '<p>All crop data is validated.</p>';
+        echo '<p>'.lang('data_crop_verified').'</p>';
     }
     ?>
     <br />

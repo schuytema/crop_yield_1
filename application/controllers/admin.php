@@ -7,6 +7,7 @@ class Admin extends CI_Controller {
         $this->load->helper('language');
         $this->load->model('m_user');
         $this->load->library('data_verification');
+        $this->load->helper('help_system');
     }
     
     function index(){
@@ -64,6 +65,10 @@ class Admin extends CI_Controller {
         );
         
         $data['title'] = 'Grow Our Yields - Application Manager';
+        $auth_data = $this->php_session->get('AUTH');
+        $data['user_info'] = $this->m_user->get_by_userid($auth_data['UserId']);
+        $data['unverified_crop'] = $this->data_verification->unverified('crop');
+        $data['unverified_equip'] = $this->data_verification->unverified('equipment');
                 
         $this->load->view('admin/header',$data);
         $this->load->view('admin/home');

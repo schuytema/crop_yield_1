@@ -15,7 +15,7 @@
                                     echo 'Email:&nbsp;'.$row->Email.'<br>';
                                     echo '<a href="'.base_url().'member/editaccount">{edit account information}</a>';
                                 } else {
-                                    echo '<font color="red">No account data found.</font><br><br>';
+                                    echo '<div class="error_msg">No account data found.</div><br><br>';
                                 }
                             ?>
                         </blockquote>

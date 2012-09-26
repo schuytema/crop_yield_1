@@ -1,5 +1,5 @@
 <div class="splitleft">
-    <h1>Equipment Verification</h1>
+    <h1>Equipment Verification <?php echo help_link('h_verification'); ?></h1>
     <?php
     if($unverified->num_rows()){
         $result = $unverified->result();
@@ -10,7 +10,7 @@
         }
         echo '</table>';
     } else {
-        echo '<p>All equipment data is validated.</p>';
+        echo '<p>'.lang('data_equip_verified').'</p>';
     }
     ?>
     <br />

@@ -18,5 +18,6 @@
 $config['help'] = array(
     'h_field' => array('title' => 'h_field_title','descr' => 'h_field_descr'),
     'h_event' => array('title' => 'h_event_title','descr' => 'h_event_descr'),
-    'h_editmap' => array('title' => 'h_editmap_title','descr' => 'h_editmap_descr')
+    'h_editmap' => array('title' => 'h_editmap_title','descr' => 'h_editmap_descr'),
+    'h_verification' => array('title' => 'h_verification_title','descr' => 'h_verification_descr')
 );
