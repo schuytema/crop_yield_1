@@ -1,5 +1,5 @@
 <div class="splitleft">
-    <p><span class="style4">Grow Your Fields 0.1a Password Reset</span></p>
+    <h1>Password Reset</h1>
     <?php
     if(validation_errors()){
         echo '<div class="error_msg">'.validation_errors().'</div>';
@@ -8,7 +8,7 @@
     if(!isset($reset)){
     ?>
     <p>Forgot your password? Please enter an email address to help locate your account.</p>
-    <form class="box lost" action="<?php echo base_url(); ?>main/lost" method="POST">
+    <form class="box lost" action="<?php echo base_url().$url; ?>" method="POST">
 	<fieldset class="boxBody">
 	  <label>Email</label>
 	  <input type="text" tabindex="1" placeholder="Enter Your Email Address" required name="Email">

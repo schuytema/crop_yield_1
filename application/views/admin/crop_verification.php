@@ -1,7 +1,7 @@
 <div class="splitleft">
     <h1>Crop Verification <?php echo help_link('h_verification'); ?></h1>
     <?php
-    if($unverified && $unverified->num_rows()){
+    if($unverified->num_rows()){
         $result = $unverified->result();
         echo '<table id="table-data" width="670">';
         echo '<thead><th width="20%">Type</th><th width="30%">Brand</th><th width="40%">Product</th><th width="10%">Action</th></thead>';

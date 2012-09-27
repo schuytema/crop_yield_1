@@ -124,7 +124,8 @@ class Auth {
             'LastName' => db_clean(strip_tags($this->CI->input->post('LastName')),50),
             'Email' => db_clean(strip_tags($this->CI->input->post('Email')),100),
             'Username' => db_clean(strip_tags($this->CI->input->post('Username')),100),
-            'Password' => $pass
+            'Password' => $pass,
+            'UserLevel' => 'user'
         );
         
         if($val = $this->CI->m_user->create_user($data)){

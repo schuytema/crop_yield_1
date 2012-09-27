@@ -1,5 +1,5 @@
 <div class="splitleft">
-    <p><span class="style4">Login to Grow Your Fields 0.1a</span></p>
+    <p><span class="style4">Login to Grow Our Yields</span></p>
     <?php
     if($msg){
         echo '<div class="error_msg">'.$msg.'</div>';

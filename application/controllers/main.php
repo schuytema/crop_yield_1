@@ -223,6 +223,7 @@ class Main extends CI_Controller {
         );
         
         $data['title'] = 'Grow Our Yields - Password Reset';
+        $data['url'] = 'main/lost';
         
         $this->load->view('header',$data);
         $this->load->view('lost');

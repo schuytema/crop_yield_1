@@ -180,6 +180,37 @@ class Admin extends CI_Controller {
         $this->load->view('admin/equip_verification',$data);
         $this->load->view('admin/footer',$data);
     }
+    
+    function lost(){
+        if($this->php_session->get('AUTH')){
+            //user is logged in; send to member's area
+            redirect('admin/home','refresh');
+        }
+        
+        $data['reset'] = NULL;
+        if($this->input->post('submit')){
+            $this->load->library('Form_validation');
+            $this->form_validation->set_rules('Email', 'Email', 'trim|required|max_length[100]|valid_email');
+            if($this->form_validation->run()){
+                $this->auth->forgot_password(trim($this->input->post('Email')));
+                $data['reset'] = TRUE;
+            }
+        }
+                
+        $data['link_content'] = link_content(
+            array(
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/reset.css')
+            )
+        );
+        
+        $data['title'] = 'Grow Our Yields - Password Reset';
+        $data['url'] = 'admin/lost';
+        
+        $this->load->view('admin/header',$data);
+        $this->load->view('lost');
+        $this->load->view('admin/footer',$data);
+    }
         
     ////////////////////////////////////////////////////////////////////////////
     //////////////////////////// AJAX REQUESTS /////////////////////////////////

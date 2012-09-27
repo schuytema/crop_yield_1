@@ -16,7 +16,7 @@
             <input type="password" tabindex="1" required name="VerifyPassword">
             </fieldset>
             <footer>
-            <input type="submit" name="submit" class="btnLogin" value="Login" tabindex="4">
+            <input type="submit" name="submit" class="btnLogin" value="Submit" tabindex="4">
             </footer>
         <?php
         echo form_close();
