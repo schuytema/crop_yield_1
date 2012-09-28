@@ -1,11 +1,6 @@
 RewriteEngine On
-RewriteBase /
-
-#<if "%{HTTP_HOST} == 'growouryields.com'">
-    # Enforce SSL  
-    #RewriteCond %{HTTPS} !=on
-    #RewriteRule ^.*$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-#</if>
+RewriteBase /~devgrow/
 
 RewriteCond $1 !^(index\.php|css|js|favicon\.ico|robots\.txt)
 RewriteRule ^(.*)$ index.php?/$1 [L]
+
