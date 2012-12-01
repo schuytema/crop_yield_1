@@ -32,6 +32,9 @@ $config['jquery_ui_css'] = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1
 //system email
 $config['sys_email'] = 'paul@schuytema.com';
 
+//member URL
+$config['member_url'] = "http://local.goy/";
+
 /*
 |---------------------------------------------------------------
 | PHP ERROR REPORTING LEVEL

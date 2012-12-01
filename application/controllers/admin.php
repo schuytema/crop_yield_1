@@ -192,7 +192,7 @@ class Admin extends CI_Controller {
             $this->load->library('Form_validation');
             $this->form_validation->set_rules('Email', 'Email', 'trim|required|max_length[100]|valid_email');
             if($this->form_validation->run()){
-                $this->auth->forgot_password(trim($this->input->post('Email')));
+                $this->auth->recover_password_by_email(trim($this->input->post('Email')));
                 $data['reset'] = TRUE;
             }
         }
@@ -209,6 +209,73 @@ class Admin extends CI_Controller {
         
         $this->load->view('admin/header',$data);
         $this->load->view('lost');
+        $this->load->view('admin/footer',$data);
+    }
+    
+    function users(){
+        if(!$this->acl->is_allowed('admin_tool')){
+            redirect('/','refresh');
+        }
+        
+        $data['link_content'] = link_content(
+            array(
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
+            )
+        );
+        $this->load->library('pagination');
+        $config['base_url'] = base_url().'admin/users/';
+        $config['total_rows'] = $this->m_user->record_count();
+        $config['per_page'] = 20; 
+        $config['uri_segment'] = 3;
+        $this->pagination->initialize($config);
+
+        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $data['results'] = $this->m_user->get_all($config['per_page'],$page);
+        $data['links'] = $this->pagination->create_links();
+        $data['title'] = 'Grow Our Yields - User Management';
+        
+        $this->load->view('admin/header',$data);
+        $this->load->view('admin/users',$data);
+        $this->load->view('admin/footer',$data);
+    }
+    
+    function user_details(){
+        if(!$this->acl->is_allowed('admin_tool')){
+            redirect('/','refresh');
+        }
+        
+        $data['link_content'] = link_content(
+            array(
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css')
+            )
+        );
+        
+        //process
+        if($this->input->post('disable')){ //disable account
+            $this->m_user->update_user($this->input->post('id'),array('IsEnabled' => 0));
+            $data['acct_status'] = 'The account has been locked.';
+        }
+
+        if($this->input->post('enable')){ //enable account
+            $this->m_user->update_user($this->input->post('id'),array('IsEnabled' => 1,'FailedLoginCount' => 0));
+            $data['acct_status'] = 'The account has been enabled.';
+        }
+        
+        if($this->input->post('reset_password')){ //reset password
+            if($this->auth->recover_password_by_id($this->input->post('id'))){
+                $data['reset_status'] = 'A password reset link has been sent to the user.';
+            } else{
+                $data['reset_status'] = 'The password reset request failed.';
+                log_message('error','Admin User Tool: Password reset request failed for user ID: '.$this->input->post('id'));
+            }
+        }
+        
+        $data['results'] = $this->m_user->get_by_userid($this->uri->segment(3));
+        $data['id'] = trim($this->uri->segment(3));
+        $data['title'] = 'Grow Our Yields - User Details';
+        
+        $this->load->view('admin/header',$data);
+        $this->load->view('admin/user_details',$data);
         $this->load->view('admin/footer',$data);
     }
         

@@ -146,22 +146,45 @@ class Auth {
     }
     
     // ------------------------------------------------------------------------
+        
+    function recover_password_by_email($email){
+        //get user data
+        $query = $this->CI->m_user->get_by_email($email);
+        if($query->num_rows()){
+            $row = $query->row();
+            return $this->_forgot_password($row->PK_UserId,$row->Email);
+        }
+        return FALSE;
+    }
     
-    function forgot_password($email){
+    // ------------------------------------------------------------------------
+    
+    function recover_password_by_id($id){
+        //get user data
+        $query = $this->CI->m_user->get_by_userid($id);
+        if($query->num_rows()){
+            $row = $query->row();
+            return $this->_forgot_password($row->PK_UserId,$row->Email);
+        }
+        return FALSE;
+    }
+    
+    // ------------------------------------------------------------------------
+    
+    private function _forgot_password($id,$email){
         //create password reset key
         $key = md5(rand().microtime());
         
-        $user_id = $this->CI->m_user->set_new_password_key($email,$key);
+        //set secret key
+        $this->CI->m_user->set_new_password_key($id,$key);
         
-        //if email exists, continue
-        if($user_id){
-            $link = base_url().'main/pwr/'.$user_id.'/'.$key;
-
-            //send message
-            $this->CI->load->library('mail');
-            $msg = sprintf(lang('auth_forgot_pass_msg'),$link);
-            $this->CI->mail->send_mail(array('message' => $msg,'subject' => lang('auth_forgot_pass_subject'),'to_address' => $email));
-        }  
+        //send message
+        $link = $this->CI->config->item('member_url').'main/pwr/'.$id.'/'.$key;
+        $this->CI->load->library('mail');
+        $msg = sprintf(lang('auth_forgot_pass_msg'),$link);
+        $this->CI->mail->send_mail(array('message' => $msg,'subject' => lang('auth_forgot_pass_subject'),'to_address' => $email));
+        
+        return TRUE;
     }
     
     // ------------------------------------------------------------------------

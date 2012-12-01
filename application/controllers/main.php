@@ -203,7 +203,7 @@ class Main extends CI_Controller {
             $this->load->library('Form_validation');
             $this->form_validation->set_rules('Email', 'Email', 'trim|required|max_length[100]|valid_email');
             if($this->form_validation->run()){
-                $this->auth->forgot_password(trim($this->input->post('Email')));
+                $this->auth->recover_password_by_email(trim($this->input->post('Email')));
                 $data['reset'] = TRUE;
             }
         }

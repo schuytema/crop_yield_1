@@ -15,6 +15,19 @@ class m_user extends CI_Model{
         parent::__construct();
     }
     
+    //get all user data
+    function get_all($limit,$start){
+        $this->db->limit($limit, $start);
+        $this->db->order_by('LastName');
+        return $this->db->get('User');
+    }
+    
+    //count all records
+    function record_count() {
+        return $this->db->count_all('User');
+    }
+
+    
     //get record by username
     function get_by_username($user){
         $this->db->where('LOWER(Username)=',strtolower(db_clean($user,100)));
@@ -24,6 +37,12 @@ class m_user extends CI_Model{
     //get record by user id
     function get_by_userid($id){
         $this->db->where('PK_UserId',id_clean($id));
+        return $this->db->get('User');
+    }
+    
+    //get record by email
+    function get_by_email($email){
+        $this->db->where('LOWER(Email)=', strtolower(db_clean($email,100)));
         return $this->db->get('User');
     }
     
@@ -89,24 +108,14 @@ class m_user extends CI_Model{
         $this->db->update('User');
     }
     
-    function set_new_password_key($email,$key){
-        //verify email address exists
-        $this->db->select('PK_UserId');
-        $this->db->where('LOWER(Email)=', strtolower(db_clean($email,100)));
-        $query = $this->db->get('User');
-        if(($query->num_rows())){
-            $row = $query->row();
-            //update record
-            $data = array(
-                'NewPasswordKey' => $key,
-                'NewPasswordRequest' => date('Y-m-d H:i:s')
-            );
-            $this->db->set($data);
-            $this->db->where('PK_UserId',$row->PK_UserId);
-            $this->db->update('User');
-            return $row->PK_UserId;
-        }
-        return FALSE;
+    function set_new_password_key($id,$key){
+        $data = array(
+            'NewPasswordKey' => $key,
+            'NewPasswordRequest' => date('Y-m-d H:i:s')
+        );
+        $this->db->set($data);
+        $this->db->where('PK_UserId',id_clean($id));
+        $this->db->update('User');
     }
         
     //verify password recovery params
@@ -132,14 +141,11 @@ class m_user extends CI_Model{
     }
     
     //reset password system
-    //@TODO: when admin backend exists, remove FailedLoginCount, IsEnabled from query
     function reset_password($id,$key,$password){
         $data = array(
             'Password' => $password,
             'NewPasswordKey' => NULL,
-            'NewPasswordRequest' => NULL,
-            'FailedLoginCount' => 0,
-            'IsEnabled' => 1
+            'NewPasswordRequest' => NULL
         );
         $this->db->set($data);
         $this->db->where('PK_UserId',id_clean($id));

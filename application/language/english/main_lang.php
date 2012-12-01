@@ -42,6 +42,9 @@ $lang['field_new_desc'] = 'You can now create your new field\'s polygon and ente
 $lang['field_edit_title'] = 'Edit Existing Field Information';
 $lang['field_edit_desc'] = 'Use this form to update this field\'s information.';
 
+//Users
+$lang['users_not_found'] = 'User records not found.';
+
 //Footer
 $lang['footer_copyright'] = '&copy; 2012 GrowOurYields, LLC (all rights reserved)';
 
