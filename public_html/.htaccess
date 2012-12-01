@@ -1,6 +1,11 @@
 RewriteEngine On
 RewriteBase /
 
+# Force SSL (production)
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP_HOST} ^(.*)growouryields.com$ [NC]
+RewriteRule ^.*$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
 RewriteCond $1 !^(index\.php|css|js|favicon\.ico|robots\.txt)
 RewriteRule ^(.*)$ index.php?/$1 [L]
 
