@@ -196,13 +196,8 @@ class Member extends CI_Controller {
         if($this->input->post('submit')){
             $this->load->library('Form_validation');
             $this->load->library('MY_form_validation',NULL,'form_validation');
-            $this->form_validation->set_rules('FirstName', 'First Name', 'trim|required|max_length[25]');
-            $this->form_validation->set_rules('LastName', 'Last Name', 'trim|required|max_length[50]');
-            $this->form_validation->set_rules('Email', 'Email', 'trim|max_length[100]|valid_email|check_email');
-            $this->form_validation->set_rules('Username', 'Username', 'trim|min_length[3]|max_length[100]|check_username');
-            $this->form_validation->set_rules('CurrPassword', 'Existing Password', 'trim|verify_password|verify_new_password_exists');
-            $this->form_validation->set_rules('Password', 'New Password', 'trim|min_length[8]|max_length[50]|verify_current_password_exists|is_legal_password|matches[VerifyPassword]');
-            $this->form_validation->set_rules('VerifyPassword', 'New Password (again)', 'trim');
+            $this->load->config('account_validation');
+            $this->form_validation->set_rules($this->config->item('account'));
             if($this->form_validation->run()){
                 //send to db
                 $this->auth->update_account();
@@ -228,6 +223,7 @@ class Member extends CI_Controller {
         $data['title'] = 'Grow Our Yields - Edit Account';
         
         $data['user_info'] = $this->m_user->get_by_userid($auth_data['UserId']);
+        $data['form_url'] = 'member/editaccount';
         
         $this->load->view('header',$data);
         $this->load->view('editaccount');
@@ -244,12 +240,17 @@ class Member extends CI_Controller {
         if($this->input->post('submit')){
             $this->load->library('Form_validation');
             $this->form_validation->set_rules('Name', 'Name', 'trim|required');
+            $this->form_validation->set_rules('EquipmentType', 'Equipment Type', 'trim|required');
 
             if (strlen($this->input->post('OtherEquipmentBrand')) == 0 && strlen($this->input->post('OtherEquipmentProduct')) == 0)
             {
                 $this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required|numeric');             
-            }
-
+            } else {
+                //user entered text items
+                $this->form_validation->set_rules('OtherEquipmentBrand', 'Brand', 'trim|required|max_length[100]');
+                $this->form_validation->set_rules('OtherEquipmentProduct', 'Product', 'trim|required|max_length[200]');
+            } 
+            
             if($this->form_validation->run()){
                 //see if other stuff has been entered... if so, create the new equipment row
                 if (strlen($this->input->post('OtherEquipmentBrand')) > 0 && strlen($this->input->post('OtherEquipmentProduct')) > 0)
@@ -739,6 +740,7 @@ class Member extends CI_Controller {
             $data['event_data'] = $this->m_event->get($event_id);
             $data['chemical_data'] = $this->m_eventchemical->get($event_id);
             $data['new_event'] = false;
+            $data['field_name'] = $this->m_field->get_field_name($field_id);
             //get the info for the chemical if one's picked
             //$chemical_details = $data['chemical_data']->row();
             //$data['chemical_info'] = $this->m_chemical->get_product_info($chemical_details->FK_ChemicalId);
@@ -880,137 +882,7 @@ class Member extends CI_Controller {
         $this->load->view('editevent_fertilizer',$data);
         $this->load->view('footer',$data);
     }
-    
-/*
-    public function editevent_harvest($event_id=NULL, $field_id=NULL)
-    {
-        $auth_data = $this->php_session->get('AUTH');
-        if(empty($auth_data['FarmId'])){
-            redirect('member/enterprise','refresh');
-        }
-        
-        $this->load->library('event_manager');
-        $this->load->config('events');
-        
-        if(isset($field_id))
-        {
-            $owning_farm = $this->m_field->get_farm_id_from_field($field_id);
-            if ($owning_farm != $auth_data['FarmId'])
-            {
-                redirect('member/farm','refresh');
-            }
-        }      
-        
-        if($this->input->post('submit')){
-            $this->load->library('Form_validation');
-            //first, set up for master event data
-            $this->form_validation->set_rules('Date', 'Date', 'trim|required|max_length[20]');
-            //then, set up for harvest data
-            $this->form_validation->set_rules('Yield', 'Yield', 'trim|required|numeric');
-            if (strlen($this->input->post('OtherEquipmentBrand')) == 0 && strlen($this->input->post('OtherEquipmentProduct')) == 0)
-            {
-                $this->form_validation->set_rules('EquipmentProduct', 'Equipment Product', 'trim|required|numeric');             
-            }
-            if(!isset($event_id))
-            {
-                $this->form_validation->set_rules('fields', 'Fields', 'required');
-            }
 
-            if($this->form_validation->run()){
-                //see if other stuff has been entered... if so, create the new equipment row
-                if (strlen($this->input->post('OtherEquipmentBrand')) > 0 && strlen($this->input->post('OtherEquipmentProduct')) > 0)
-                {
-                    $equipment_id = $this->m_equipment->set_equipment_manually('Harvet', $this->input->post('OtherEquipmentBrand'), $this->input->post('OtherEquipmentProduct'));
-                } else {
-                    $equipment_id = NULL;
-                }
-                
-                if(isset($event_id))
-                {
-                    $this->m_event->set($field_id, $event_id);
-                    $new = false;
-                    $this->m_eventharvest->set($event_id, $new, $equipment_id);
-                } else {
-                    $fields = $this->event_manager->get_fields_from_event_form();
-                    foreach ($fields as $field_id)
-                    { 
-                        $new_event_id = $this->m_event->set($field_id);
-                        $new = true;
-                        $this->m_eventharvest->set($new_event_id, $new, $equipment_id);
-                    }
-                }
-                //redirect to overview
-                redirect('member/farm','refresh');
-            } 
-        } 
-        
-        $data['meta_content'] = meta_content(
-            array(
-                array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
-                array('name'=>'keywords','content'=>'grow our yields, yield, crop, corn, beans, soybeans, field, agriculture')
-            )
-        );
-        
-        $data['link_content'] = link_content(
-            array(
-                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
-                array('rel'=>'stylesheet','type'=>'text/css','href'=>$this->config->item('jquery_ui_css'))
-            )
-        );
-        
-        //js object builder
-        $data['js_object'] = js_object(
-            array(
-                'CI' => array('base_url' => base_url())
-            )
-        );
-        
-        //js_helper: dynamically build <script> tags
-        $data['js'] = js_load(
-            array(
-                $this->config->item('jquery_js'),
-                $this->config->item('jquery_ui_js'),
-                base_url().'js/event.js',
-                base_url().'js/harvest.js'
-            )
-        );
-        
-        $data['title'] = 'Grow Our Yields - Edit Event Harvest';
-        
-        //load dropdown list
-        $this->load->config('edit_dropdowns');
-        
-        
-        if(isset($event_id)){ 
-            $data['event_data'] = $this->m_event->get($event_id);
-            $data['harvest_data'] = $this->m_eventharvest->get($event_id);
-            $data['field_name'] = $this->m_field->get_field_name($field_id);
-            $data['new_event'] = false;
-            //get the info for the equipment if one's picked
-            $harvest_details = $data['harvest_data']->row();
-            $data['equipment_info'] = $this->m_equipment->get_product_info($harvest_details->FK_EquipmentId);
-        } else {
-            $data['new_event'] = true;
-        }
-        
-        $data['event_type'] = 'Harvest';
-        
-        
-        
-
-        //get equipment brand
-        $data['equipment_brands'] = $this->m_equipment->get_brand('Harvester');
-        
-        $data['fields'] = $this->m_field->get_fields($auth_data['FarmId']);
-        
-        $data['action'] = current_url();
-
-        $this->load->view('header',$data);
-        $this->load->view('editevent_master',$data);
-        $this->load->view('editevent_harvest',$data);
-        $this->load->view('footer',$data);
-    }
- */
     public function editevent_harvest($event_id=NULL, $field_id=NULL)
     {
         $auth_data = $this->php_session->get('AUTH');
@@ -1075,8 +947,8 @@ class Member extends CI_Controller {
                 array(
                     array('field' => 'Date','label' => 'Date','rules' => 'trim|required|max_length[20]'),
                     array('field' => 'Notes','label' => 'Notes','rules' => 'trim|max_length[500]'),
-                    array('field' => 'EquipmentImplement','label' => 'Implement','rules' => 'trim|required|numeric'),
-                    array('field' => 'EquipmentPower','label' => 'Power','rules' => 'trim|numeric')
+                    array('field' => 'EquipmentImplement','label' => 'Implement','rules' => 'trim|numeric'),
+                    array('field' => 'EquipmentPower','label' => 'Power','rules' => 'trim|required|numeric')
                 )
             );
             
@@ -1295,8 +1167,8 @@ class Member extends CI_Controller {
                 array(
                     array('field' => 'Date','label' => 'Date','rules' => 'trim|required|max_length[20]'),
                     array('field' => 'Notes','label' => 'Notes','rules' => 'trim|max_length[500]'),
-                    array('field' => 'EquipmentImplement','label' => 'Implement','rules' => 'trim|required|numeric'),
-                    array('field' => 'EquipmentPower','label' => 'Power','rules' => 'trim|numeric'),
+                    array('field' => 'EquipmentImplement','label' => 'Implement','rules' => 'trim|numeric'),
+                    array('field' => 'EquipmentPower','label' => 'Power','rules' => 'trim|required|numeric'),
                     array('field' => 'PlantingRate','label' => 'Average Planting Rate','rules' => 'trim|required|numeric'),
                     array('field' => 'PlantingRateUnit','label' => 'Average Planting Rate Unit','rules' => 'trim|required'),
                     array('field' => 'RowSpacing','label' => 'Row Spacing','rules' => 'trim|required|numeric'),
@@ -1820,6 +1692,91 @@ class Member extends CI_Controller {
         $this->load->view('help');
         $this->load->view('help_footer',$data);
     }
+    
+    function event_check($event_type){
+        $auth_data = $this->php_session->get('AUTH');
+        $data['title'] = 'Grow Our Yields - Edit Event Weather';
+        $data['meta_content'] = meta_content(
+            array(
+                array('name'=>'description','content'=>'Helping America\'s farmers make better decisions, one field at a time.'),
+                array('name'=>'keywords','content'=>'grow our yields, yield, crop, corn, beans, soybeans, field, agriculture')
+            )
+        );
+        
+        $data['link_content'] = link_content(
+            array(
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>base_url().'css/style.css'),
+                array('rel'=>'stylesheet','type'=>'text/css','href'=>$this->config->item('jquery_ui_css'))
+            )
+        );
+        if ($this->m_shed->get_implement_counts($auth_data['UserId'], 1) > 0)
+        {
+           $has_equipment = true; 
+        } else {
+           $has_equipment = false;  
+        }
+        switch ($event_type) {
+            case 'Application':
+                redirect('member/editevent_application','refresh');
+                break;
+            case 'Chemical':
+                if ($has_equipment)
+                {
+                    redirect('member/editevent_chemical','refresh');
+                } else {
+                    $this->load->view('header',$data);
+                    $this->load->view('emptyshed',$data);
+                    $this->load->view('footer',$data);
+                }
+                break;
+            case 'Fertilizer':
+                redirect('member/editevent_fertilizer','refresh');
+                break;
+            case 'Harvest':
+                if ($has_equipment)
+                {
+                    redirect('member/editevent_harvest','refresh');
+                } else {
+                    $this->load->view('header',$data);
+                    $this->load->view('emptyshed',$data);
+                    $this->load->view('footer',$data);
+                }
+                break;
+            case 'Plant':
+                if ($has_equipment)
+                {
+                    redirect('member/editevent_plant/Plant','refresh');
+                } else {
+                    $this->load->view('header',$data);
+                    $this->load->view('emptyshed',$data);
+                    $this->load->view('footer',$data);
+                }
+                break;
+            case 'Replant':
+                if ($has_equipment)
+                {
+                    redirect('member/editevent_plant/Replant','refresh');
+                } else {
+                    $this->load->view('header',$data);
+                    $this->load->view('emptyshed',$data);
+                    $this->load->view('footer',$data);
+                }
+                break;
+            case 'Tillage':
+                if ($has_equipment)
+                {
+                    redirect('member/editevent_tillage','refresh');
+                } else {
+                    $this->load->view('header',$data);
+                    $this->load->view('emptyshed',$data);
+                    $this->load->view('footer',$data);
+                }
+                break;
+            case 'Weather':
+                redirect('member/editevent_weather','refresh');
+                break;
+        }
+   }
     
     ////////////////////////////////////////////////////////////////////////////
     /////////////////// EXAMPLES (remove when necessary) ///////////////////////

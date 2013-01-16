@@ -1,14 +1,16 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-if ($_SERVER['SERVER_NAME'] == 'local.goy') {
+if(stristr($_SERVER['SERVER_NAME'], 'local')){
     define('ENVIRONMENT', 'local');
-}elseif ($_SERVER['SERVER_NAME'] == '63.247.138.178') {
+} elseif (stristr($_SERVER['SERVER_NAME'], 'growyourfields')){
     define('ENVIRONMENT', 'development');
 } else {
     define('ENVIRONMENT', 'production');
 }
 
 //invitation key
-$config['invitation_key'] = 'CROP_2012';
+//$config['invitation_key'] = 'CROP_2012'; July/2012 through 8/4/2012
+//$config['invitation_key'] = 'GROWIT_2012'; // 8/5/2012 through 8/17/2012
+$config['invitation_key'] = 'YIELD_2012'; // 8/18/2012 through 
 
 //load site environment config variables
 include(ENVIRONMENT.'/config.php');

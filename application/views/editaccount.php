@@ -8,7 +8,7 @@
     //get user data
     if(isset($user_info) && $user_info->num_rows()){
         $row = $user_info->row();
-        echo form_open('member/editaccount','class="box update"');
+        echo form_open($form_url,'class="box update"');
         ?>
         <fieldset class="boxBody">
             <label>Name</label>

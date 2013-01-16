@@ -17,14 +17,14 @@
                   <td align="left" width="310">
                       <select name="EventPick" onchange="window.location=this.value;">
                         <option value="<?php echo base_url(); ?>member/editevent">Select Event Type</option>
-                        <option value="<?php echo base_url(); ?>member/editevent_application">Lime Application</option>
-                        <option value="<?php echo base_url(); ?>member/editevent_chemical">Chemical</option>
-                        <option value="<?php echo base_url(); ?>member/editevent_fertilizer">Fertilizer</option>
-                        <option value="<?php echo base_url(); ?>member/editevent_harvest">Harvest</option>
-                        <option value="<?php echo base_url(); ?>member/editevent_plant/Plant">Plant</option>
-                        <option value="<?php echo base_url(); ?>member/editevent_plant/Replant">Replant</option>
-                        <option value="<?php echo base_url(); ?>member/editevent_tillage">Tillage</option>
-                        <option value="<?php echo base_url(); ?>member/editevent_weather">Weather</option>
+                        <option value="<?php echo base_url(); ?>member/event_check/Application">Lime Application</option>
+                        <option value="<?php echo base_url(); ?>member/event_check/Chemical">Chemical</option>
+                        <option value="<?php echo base_url(); ?>member/event_check/Fertilizer">Fertilizer</option>
+                        <option value="<?php echo base_url(); ?>member/event_check/Harvest">Harvest</option>
+                        <option value="<?php echo base_url(); ?>member/event_check/Plant">Plant</option>
+                        <option value="<?php echo base_url(); ?>member/event_check/Replant">Replant</option>
+                        <option value="<?php echo base_url(); ?>member/event_check/Tillage">Tillage</option>
+                        <option value="<?php echo base_url(); ?>member/event_check/Weather">Weather</option>
                       </select>
                   </td>
                </tr>

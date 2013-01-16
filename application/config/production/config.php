@@ -13,7 +13,13 @@
 | path to your installation.
 |
 */
-$config['base_url'] = "https://".$_SERVER["SERVER_NAME"].'/';
+if(stristr($_SERVER['SERVER_NAME'], 'admin')){
+    define('SITE', 'admin');
+    $config['base_url'] = "https://admin.growouryields.com/";
+} else {
+    define('SITE', 'main');
+    $config['base_url'] = "https://growouryields.com/";
+}
 
 //cookie
 $config['cookie_domain'] = '.growouryields.com';
@@ -25,6 +31,9 @@ $config['jquery_ui_css'] = 'https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1
 
 //system email
 $config['sys_email'] = 'noreply@growouryields.com';
+
+//member URL
+$config['member_url'] = "https://growouryields.com/";
 
 /*
 |---------------------------------------------------------------

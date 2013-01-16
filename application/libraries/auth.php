@@ -25,7 +25,7 @@ class Auth {
     * Constructor
     * @access	public
     */
-    function Auth(){
+    function __construct(){
         // Set the super object to a local variable for use throughout the class
         $this->CI =& get_instance();
         
@@ -38,10 +38,11 @@ class Auth {
     * User login: username, password
     * @param string
     * @param string
+    * @param bool
     * @access public
     * @return boolean
     */
-    public function login($user,$pass){
+    public function login($user,$pass,$is_admin=FALSE){
         if((strlen($user) > 0) && (strlen($pass) > 0)){
             $query = $this->CI->m_user->get_by_username($user);
             if($query->num_rows()){
@@ -51,12 +52,23 @@ class Auth {
                     $this->error[] = lang('auth_login_failed'); //Account locked!
                     return FALSE;
                 }
+                
+                //verify user
+                if($is_admin && $row->UserLevel == 'user'){
+                    $this->CI->m_user->failed_login($user,$this->lock_account);
+                    $this->error[] = lang('auth_login_failed');
+                    return FALSE;
+                }
 
                 //verify password
                 if($this->check_password($pass,$row->Password)){
                     //set session for direct access to member's area
                     $this->_set_session(array('PK_UserId' => $row->PK_UserId));
                     $this->CI->m_user->update_visit($row->PK_UserId,$row->VisitCount);
+                    
+                    //initialize access control list (ACL)
+                    $this->CI->acl->init($row->UserLevel);
+                    
                     return TRUE;
                 }
             }
@@ -112,7 +124,8 @@ class Auth {
             'LastName' => db_clean(strip_tags($this->CI->input->post('LastName')),50),
             'Email' => db_clean(strip_tags($this->CI->input->post('Email')),100),
             'Username' => db_clean(strip_tags($this->CI->input->post('Username')),100),
-            'Password' => $pass
+            'Password' => $pass,
+            'UserLevel' => 'user'
         );
         
         if($val = $this->CI->m_user->create_user($data)){
@@ -133,22 +146,45 @@ class Auth {
     }
     
     // ------------------------------------------------------------------------
+        
+    function recover_password_by_email($email){
+        //get user data
+        $query = $this->CI->m_user->get_by_email($email);
+        if($query->num_rows()){
+            $row = $query->row();
+            return $this->_forgot_password($row->PK_UserId,$row->Email);
+        }
+        return FALSE;
+    }
     
-    function forgot_password($email){
+    // ------------------------------------------------------------------------
+    
+    function recover_password_by_id($id){
+        //get user data
+        $query = $this->CI->m_user->get_by_userid($id);
+        if($query->num_rows()){
+            $row = $query->row();
+            return $this->_forgot_password($row->PK_UserId,$row->Email);
+        }
+        return FALSE;
+    }
+    
+    // ------------------------------------------------------------------------
+    
+    private function _forgot_password($id,$email){
         //create password reset key
         $key = md5(rand().microtime());
         
-        $user_id = $this->CI->m_user->set_new_password_key($email,$key);
+        //set secret key
+        $this->CI->m_user->set_new_password_key($id,$key);
         
-        //if email exists, continue
-        if($user_id){
-            $link = base_url().'main/pwr/'.$user_id.'/'.$key;
-
-            //send message
-            $this->CI->load->library('mail');
-            $msg = sprintf(lang('auth_forgot_pass_msg'),$link);
-            $this->CI->mail->send_mail(array('message' => $msg,'subject' => lang('auth_forgot_pass_subject'),'to_address' => $email));
-        }  
+        //send message
+        $link = $this->CI->config->item('member_url').'main/pwr/'.$id.'/'.$key;
+        $this->CI->load->library('mail');
+        $msg = sprintf(lang('auth_forgot_pass_msg'),$link);
+        $this->CI->mail->send_mail(array('message' => $msg,'subject' => lang('auth_forgot_pass_subject'),'to_address' => $email));
+        
+        return TRUE;
     }
     
     // ------------------------------------------------------------------------

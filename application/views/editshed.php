@@ -41,6 +41,10 @@
                         <option value="Tillage">Tillage</option>
                         <option value="Sprayer">Sprayer</option>
                         <option value="Sprayer">Spreader</option>
+                        <option value="Hay">Hay</option>
+                        <option value="Forage">Forage</option>
+                        <option value="Cutter/Shredder">Cutter/Shredder</option>
+                        <option value="Nutrient Applicator">Nutrient Applicator</option>
                       </select>
                   </td>
                </tr>
@@ -68,7 +72,7 @@
                     
 
                     //products
-                    echo '<tr valign="top"><td align="right" width="200"><b>Product:</b>&nbsp;&nbsp;</td><td align="left" width="310">';
+                    echo '<tr valign="top"><td align="right" width="200"><b>Product/Model:</b>&nbsp;&nbsp;</td><td align="left" width="310">';
 
                     echo '<select id="EquipmentProduct" name="EquipmentProduct"><option value="">select brand...</option></select>';
 
@@ -77,16 +81,24 @@
 
 
             ?>
+               <tr valign="top">
+                  <td align="right" width="200">
+                      <b>Serial Number (opt.):</b>&nbsp;&nbsp;
+                  </td>
+                  <td align="left" width="310">
+                      <input type="text" size="30" name="SerialNum" value="<?php echo set_value('SerialNum',(isset($row->SerialNum)) ? $row->SerialNum : NULL); ?>">
+                  </td>
+               </tr>
                <tr>
                     <td align="right" colspan="2">
                         <a href="javascript:Void(0);" id="show_other_one">{my equipment isn't in these lists}</a>
                         <div id="other_one">
                           <br>Please enter equipment manually (select Type above):<br>
                           Brand:&nbsp;<input type="text" size="40" name="OtherEquipmentBrand"><br>
-                          Product:&nbsp;<input type="text" size="40" name="OtherEquipmentProduct"><br>
+                          Product/Model:&nbsp;<input type="text" size="40" name="OtherEquipmentProduct"><br>
                           Power:&nbsp;
                             <?php
-                            echo form_dropdown('Power', $this->config->item('no_yes_boolean'));
+                            echo form_dropdown('Power', $this->config->item('no_yes_boolean'), '0', 'id="power"');
                             ?>
                           <br>
                           <div id="other_two">
@@ -125,6 +137,11 @@ function changeToVisible(item)
         obj.style.display = 'inline';
     } else {
         obj.style.display = 'none';
+        if ((item == 'Tractor') || (item == 'Harvester'))
+        {
+            power = document.getElementById('power');
+            power.selectedIndex = 1;
+        }
     }
 }
 

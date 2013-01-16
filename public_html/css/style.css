@@ -441,7 +441,10 @@ background: #f5f5f5;
     width:100%;
 }
 
-
+#map_edit_canvas {
+    height:690px;
+    width:100%;
+}
 
 /* --------- divs for the "Other" entries -------------*/
 #other_one {

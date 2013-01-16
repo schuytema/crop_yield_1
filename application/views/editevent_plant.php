@@ -43,7 +43,10 @@
                 echo form_dropdown('EquipmentImplement', $imps, set_value('EquipmentImplement',(isset($row->FK_EquipmentId)) ? $row->FK_EquipmentId : NULL));
                 echo '</td></tr>';
             } else {
-                echo '<tr><td colspan="2"><font color="red>Implement data not found.</font></td></tr>';
+                $imps = array('' => 'No Implements Defined');
+                echo '<tr valign="top"><td align="right" width="200"><b>Implement:</b>&nbsp;&nbsp;</td><td align="left" width="310">';
+                echo form_dropdown('EquipmentImplement', $imps, set_value('EquipmentImplement',(isset($row->FK_EquipmentId)) ? $row->FK_EquipmentId : NULL));
+                echo '</td></tr>';
             }            
             ?>
     </table>   

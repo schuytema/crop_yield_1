@@ -22,9 +22,9 @@ class m_eventfertilizer extends CI_Model{
     
     function set($event_id=NULL, $new=true){
         $data = array(
-            'PercentN' => db_clean(strip_tags($this->input->post('PercentN')),3),
-            'PercentP' => db_clean(strip_tags($this->input->post('PercentP')),3),
-            'PercentK' => db_clean(strip_tags($this->input->post('PercentK')),3),
+            'PercentN' => db_clean(strip_tags($this->input->post('PercentN')),6, false),
+            'PercentP' => db_clean(strip_tags($this->input->post('PercentP')),6, false),
+            'PercentK' => db_clean(strip_tags($this->input->post('PercentK')),6, false),
             'ApplicationRate' => db_clean(strip_tags($this->input->post('ApplicationRate')),9),
             'ApplicationRateUnit' => db_clean($this->input->post('ApplicationRateUnit'),25),
             'VariableRate' => db_clean($this->input->post('VariableRate'),3, false),
